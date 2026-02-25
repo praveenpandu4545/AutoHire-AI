@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/AllDrives.css";
+import "../../css/AllDrives.css";
 
 const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;

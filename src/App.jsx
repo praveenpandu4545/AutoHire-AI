@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import Opening from "./components/Opening";
-import StudentLogin from "./components/StudentLogin";
-import StudentRegister from "./components/StudentRegister";
-import StudentDashboard from "./components/StudentDashboard";
-import HrDashboard from "./components/HrDashboard";
-import PanelDashboard from "./components/PanelDashboard";
-import PanelRegister from "./components/PanelRegister";
-import PanelLogin from "./components/PanelLogin";
+import StudentLogin from "./components/STUDENT/StudentLogin";
+import StudentRegister from "./components/STUDENT/StudentRegister";
+import StudentDashboard from "./components/STUDENT/StudentDashboard";
+import HrDashboard from "./components/HR/HrDashboard";
+import PanelDashboard from "./components/PANEL/PanelDashboard";
+import PanelRegister from "./components/PANEL/PanelRegister";
+import PanelLogin from "./components/PANEL/PanelLogin";
 
 function App() {
   return (

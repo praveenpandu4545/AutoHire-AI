@@ -1,0 +1,105 @@
+.student-dashboard-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Sidebar */
+.student-sidebar {
+  width: 260px;
+  background-color: #7fb3b5;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.student-sidebar h2 {
+  margin-bottom: 30px;
+  color: black;
+}
+
+.student-sidebar button {
+  background-color: #5d4037;
+  color: white;
+  border: none;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.student-sidebar button:hover {
+  opacity: 0.8;
+}
+
+.active-btn {
+  background-color: #3e2723 !important;
+}
+
+/* Main Content */
+.student-main-content {
+  flex: 1;
+  background-color: #f2f2f2;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Card */
+.profile-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  width: 500px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card h2 {
+  margin-bottom: 20px;
+}
+
+.profile-card p {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* Buttons */
+.button-group {
+  margin-top: 20px;
+}
+
+.reset-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.logout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.upload-btn {
+  margin-top: 15px;
+  background-color: #5d4037;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.resume-input {
+  margin-top: 15px;
+}

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "../css/StudentLogin.css";
+import "../../css/StudentLogin.css";
 
-function PanelLogin() {
+function StudentLogin() {
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;
 
@@ -14,26 +14,23 @@ function PanelLogin() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ✅ Prevent going back to login if already logged in
+  // ✅ Auto-redirect if already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        const role = payload.role;
+    if (!token || token.split(".").length !== 3) return;
 
-        if (role === "HR") {
-          navigate("/hr-dashboard", { replace: true });
-        } else if (role === "PANEL") {
-          navigate("/panel-dashboard", { replace: true });
-        }
-      } catch (err) {
-        // If token is invalid, remove it
-        localStorage.removeItem("token");
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      const role = payload.role;
+
+      if (role === "STUDENT") {
+        navigate("/student-dashboard");
       }
+    } catch (err) {
+      localStorage.clear();
     }
-  }, [navigate]);
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -63,18 +60,27 @@ function PanelLogin() {
         throw new Error(token);
       }
 
-      localStorage.setItem("token", token);
+      // ✅ Validate JWT format
+      if (!token || token.split(".").length !== 3) {
+        throw new Error("Invalid token received from server");
+      }
 
+      // ✅ Store token AND email
+      localStorage.setItem("token", token);
+      localStorage.setItem("email", formData.email);
+
+      // ✅ Decode safely
       const payload = JSON.parse(atob(token.split(".")[1]));
       const role = payload.role;
 
-      if (role === "HR") {
-        navigate("/hr-dashboard", { replace: true });   // ✅ replace
+      if (role === "STUDENT") {
+        navigate("/student-dashboard");
       } else if (role === "PANEL") {
-        navigate("/panel-dashboard", { replace: true }); // ✅ replace
+        navigate("/panel-dashboard");
+      } else if (role === "HR") {
+        navigate("/hr-dashboard");
       } else {
-        setError("You are not authorized as Panel/HR");
-        localStorage.removeItem("token");
+        navigate("/");
       }
 
     } catch (err) {
@@ -86,13 +92,14 @@ function PanelLogin() {
 
   return (
     <div className="login-container">
-      <h2>Panel / HR Login</h2>
+      <h2>Student Login</h2>
 
       <form onSubmit={handleLogin}>
         <input
           type="email"
           name="email"
           placeholder="Enter Email"
+          value={formData.email}
           onChange={handleChange}
           required
         />
@@ -101,6 +108,7 @@ function PanelLogin() {
           type="password"
           name="password"
           placeholder="Enter Password"
+          value={formData.password}
           onChange={handleChange}
           required
         />
@@ -112,12 +120,12 @@ function PanelLogin() {
         {error && <p className="error-text">{error}</p>}
       </form>
 
-      <p>
-        New employee?{" "}
-        <Link to="/panel-register">Register here</Link>
+      <p className="register-link">
+        Don’t have an account?{" "}
+        <Link to="/student-register">Create Account</Link>
       </p>
     </div>
   );
 }
 
-export default PanelLogin;
+export default StudentLogin;

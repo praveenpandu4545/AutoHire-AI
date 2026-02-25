@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/AllColleges.css";
+import "../../css/AllColleges.css";
 
 const AllColleges = () => {
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;

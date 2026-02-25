@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StudentsByDrive from "./StudentsByDrive";
-import "../css/AllDrives.css";
+import "../../css/AllDrives.css";
 
 const AllDrives = () => {
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;
@@ -8,7 +8,7 @@ const AllDrives = () => {
   const [drives, setDrives] = useState([]);
   const [expandedDrive, setExpandedDrive] = useState(null);
   const [showDetails, setShowDetails] = useState(null);
-  const [selectedDriveId, setSelectedDriveId] = useState(null);
+  const [selectedDrive, setSelectedDrive] = useState(null);
 
   useEffect(() => {
     fetchDrives();
@@ -27,11 +27,11 @@ const AllDrives = () => {
   };
 
   // Navigate to Students Page
-  if (selectedDriveId) {
+  if (selectedDrive) {
     return (
       <StudentsByDrive
-        driveId={selectedDriveId}
-        onBack={() => setSelectedDriveId(null)}
+        driveId={selectedDrive.id}
+        onBack={() => setSelectedDrive(null)}
       />
     );
   }
@@ -67,7 +67,7 @@ const AllDrives = () => {
                 <div className="students-section">
                   <button
                     className="registered-btn"
-                    onClick={() => setSelectedDriveId(drive.id)}
+                    onClick={() => setSelectedDrive(drive)}
                   >
                     Registered Students
                   </button>

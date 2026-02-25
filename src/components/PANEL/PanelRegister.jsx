@@ -1,24 +1,23 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/StudentRegister.css";
+import "../../css/PanelRegister.css";
 
-function StudentRegister() {
+function PanelRegister() {
   const navigate = useNavigate();
-
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;
 
   const [formData, setFormData] = useState({
-    studentId: "",
     name: "",
     department: "",
     phone: "",
     email: "",
     password: "",
+    role: "PANEL",
   });
 
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -27,59 +26,49 @@ function StudentRegister() {
     });
   };
 
-const handleRegister = async (e) => {
-  e.preventDefault();
+  const handleRegister = async (e) => {
+    e.preventDefault();
 
-  setLoading(true);
-  setError("");
-  setSuccess("");
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
-  try {
-    const response = await fetch(
-      `${BASE_URL}/auth/register/student`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    try {
+      const response = await fetch(
+        `${BASE_URL}/auth/register/employee`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const message = await response.text();
+
+      if (!response.ok) {
+        throw new Error(message);
       }
-    );
 
-    const message = await response.text(); // 👈 FIX HERE
+      setSuccess(message);
 
-    if (!response.ok) {
-      throw new Error(message);
+      setTimeout(() => {
+        navigate("/panel-login");
+      }, 1500);
+
+    } catch (err) {
+      setError(err.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
-
-    console.log("Registration Success:", message);
-    setSuccess(message);
-
-    setTimeout(() => {
-      navigate("/student-login");
-    }, 1500);
-
-  } catch (err) {
-    console.error(err);
-    setError(err.message || "Something went wrong");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
-    <div className="register-container">
-      <h2>Create Student Account</h2>
+    <div className="panel-register-container">
+      <h2>Employee Registration</h2>
 
       <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          name="studentId"
-          placeholder="Student ID"
-          onChange={handleChange}
-          required
-        />
-
         <input
           type="text"
           name="name"
@@ -120,6 +109,16 @@ const handleRegister = async (e) => {
           required
         />
 
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          required
+        >
+          <option value="PANEL">Panel</option>
+          <option value="HR">HR</option>
+        </select>
+
         <button type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
@@ -131,4 +130,4 @@ const handleRegister = async (e) => {
   );
 }
 
-export default StudentRegister;
+export default PanelRegister;

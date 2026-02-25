@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import UserProfile from "./UserProfile";
+import UserProfile from "../UserProfile";
 import CreateDrive from "./CreateDrive";
 import AddCollege from "./AddCollege";
 import AllColleges from "./AllColleges";
 import AllDrives from "./AllDrives";
-import "../css/Dashboard.css";
+import "../../css/Dashboard.css";
 
 const HrDashboard = () => {
   const [activeTab, setActiveTab] = useState("profile");
