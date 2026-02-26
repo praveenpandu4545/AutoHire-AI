@@ -1,0 +1,33 @@
+.add-college-container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-college-container input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.add-college-container button {
+  padding: 8px 15px;
+  border-radius: 6px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.add-college-container button:hover {
+  background-color: #45a049;
+}
+
+.message {
+  margin-top: 10px;
+  font-weight: bold;
+}
