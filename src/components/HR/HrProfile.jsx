@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/UserProfile.css";
+import "../../css/UserProfile.css";
 
-const UserProfile = () => {
+const HrProfile = () => {
   const [user, setUser] = useState(null);
   const [showReset, setShowReset] = useState(false);
   const [form, setForm] = useState({
@@ -166,4 +166,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default HrProfile;

@@ -152,6 +152,7 @@ const fetchColleges = async () => {
       <input
         type="number"
         name="noOfRounds"
+        placeholder="NO.Of Rounds"
         min="1"
         value={form.noOfRounds}
         onChange={handleRoundsChange}
@@ -172,7 +173,7 @@ const fetchColleges = async () => {
         </div>
       ))}
 
-      <h3>Required Skills</h3>
+      <h3>Required Qualifications or Skills</h3>
       <div className="skill-section">
         <input
           type="text"

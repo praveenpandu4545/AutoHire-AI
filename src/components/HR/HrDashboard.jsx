@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import UserProfile from "../UserProfile";
+import UserProfile from "./HrProfile";
 import CreateDrive from "./CreateDrive";
 import AddCollege from "./AddCollege";
 import AllColleges from "./AllColleges";
