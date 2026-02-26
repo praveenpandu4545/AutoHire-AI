@@ -1,9 +1,319 @@
 Java
-Spring Boot
-MySQL
 Python
+C
+C++
+C#
+Go
+Rust
+Kotlin
+Swift
+PHP
+Ruby
+Scala
+Groovy
+Dart
+TypeScript
+JavaScript
+Shell Scripting
+Bash
+PowerShell
+R
+MATLAB
+Objective-C
+Assembly
+COBOL
+Haskell
+Elixir
+F#
+Scratch
+SQL
+NoSQL
+HTML
+CSS
+SASS
+SCSS
+Bootstrap
+Tailwind CSS
+Material UI
+Chakra UI
+Ant Design
+React
+React.js
+Next.js
+Redux
+Context API
+Angular
+Vue
+Nuxt.js
+Svelte
+jQuery
+Node.js
+Express.js
+NestJS
+Spring
+Spring Boot
+Spring MVC
+Spring Security
+Hibernate
+JPA
+Struts
+ASP.NET
+ASP.NET Core
 Django
+Flask
+FastAPI
+Laravel
+CodeIgniter
+Ruby on Rails
+GraphQL
+REST API
+RESTful Services
+SOAP
+Microservices
+WebSockets
+gRPC
+JWT
+OAuth
+OpenID
+MySQL
+PostgreSQL
+MongoDB
+Oracle
+SQL Server
+SQLite
+Redis
+Cassandra
+Firebase
+DynamoDB
+MariaDB
+CouchDB
+Neo4j
+Elasticsearch
+Apache Kafka
+RabbitMQ
+ActiveMQ
+Docker
+Kubernetes
+OpenShift
+Jenkins
+Git
+GitHub
+GitLab
+Bitbucket
+CI/CD
+Terraform
+Ansible
+Chef
+Puppet
+AWS
+Amazon EC2
+Amazon S3
+Amazon RDS
+AWS Lambda
+Azure
+Azure DevOps
+Google Cloud
+GCP
+Cloud Functions
+Cloud Run
+Heroku
+DigitalOcean
+Linux
+Unix
+Windows Server
+Networking
+TCP/IP
+DNS
+HTTP
+HTTPS
+SSL
+Cybersecurity
+Ethical Hacking
+Penetration Testing
+Cryptography
+OWASP
 Data Structures
 Algorithms
-RESTful Services
-Communication
+Object-Oriented Programming
+Functional Programming
+Operating Systems
+DBMS
+Computer Networks
+System Design
+Low Level Design
+High Level Design
+Multithreading
+Concurrency
+Parallel Programming
+Design Patterns
+MVC
+MVVM
+MVP
+Unit Testing
+JUnit
+Mockito
+Selenium
+Cypress
+TestNG
+Postman
+Swagger
+Jira
+Agile
+Scrum
+Kanban
+TDD
+BDD
+Android
+Android Studio
+iOS
+Flutter
+React Native
+Xamarin
+Unity
+ARKit
+ARCore
+Machine Learning
+Deep Learning
+Artificial Intelligence
+Neural Networks
+CNN
+RNN
+LSTM
+Transformers
+NLP
+Computer Vision
+OpenCV
+TensorFlow
+Keras
+PyTorch
+Scikit-learn
+Pandas
+NumPy
+Matplotlib
+Seaborn
+Power BI
+Tableau
+Data Analytics
+Data Science
+Big Data
+Hadoop
+Spark
+PySpark
+Hive
+Pig
+Airflow
+Snowflake
+ETL
+Data Warehousing
+Business Intelligence
+Excel
+DAX
+Power Query
+Blockchain
+Solidity
+Web3
+Smart Contracts
+Ethereum
+Hyperledger
+IoT
+Embedded Systems
+Robotics
+Automation
+Performance Optimization
+Debugging
+Refactoring
+Code Review
+Version Control
+Software Architecture
+API Development
+Backend Development
+Frontend Development
+Full Stack Development
+DevOps
+Cloud Computing
+Virtualization
+Microcontrollers
+Raspberry Pi
+Arduino
+Game Development
+Unreal Engine
+Testing Automation
+Quality Assurance
+Technical Documentation
+Requirement Analysis
+Problem Solving
+Critical Thinking
+Communication Skills
+Teamwork
+Leadership
+Time Management
+Adaptability
+Creativity
+Decision Making
+Public Speaking
+Presentation Skills
+Customer Handling
+Stakeholder Management
+Project Management
+Risk Management
+Resource Planning
+Strategic Thinking
+Conflict Resolution
+Negotiation
+Mentoring
+Research Skills
+Analytical Thinking
+Continuous Integration
+Continuous Deployment
+Containerization
+Load Balancing
+Monitoring
+Logging
+Prometheus
+Grafana
+ELK Stack
+API Gateway
+Service Mesh
+Serverless Architecture
+Event Driven Architecture
+Domain Driven Design
+Clean Architecture
+Secure Coding
+Authentication
+Authorization
+Session Management
+Caching
+Redis Cache
+Web Security
+Pen Testing
+Code Optimization
+Scalability
+Reliability
+Availability
+High Performance Computing
+Edge Computing
+Quantum Computing
+SaaS
+PaaS
+IaaS
+CRM
+ERP
+SAP
+Salesforce
+WordPress
+Shopify
+Magento
+SEO
+Digital Marketing
+Content Management
+UI Design
+UX Design
+Figma
+Adobe XD
+Photoshop
+Illustrator
+Wireframing
+Prototyping
+Accessibility
+Responsive Design
+Cross Browser Compatibility
