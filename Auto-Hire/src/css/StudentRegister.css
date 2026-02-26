@@ -1,0 +1,21 @@
+.register-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #1f2937;
+  color: white;
+}
+
+.error-text {
+  color: #ef4444;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.success-text {
+  color: #22c55e;
+  margin-top: 10px;
+  text-align: center;
+}

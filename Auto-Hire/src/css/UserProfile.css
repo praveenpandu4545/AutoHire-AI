@@ -1,0 +1,96 @@
+.profile-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 420px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-detail {
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.profile-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.reset-btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.reset-btn:hover {
+  background-color: #45a049;
+}
+
+.logout-btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  background-color: #f44336;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #d32f2f;
+}
+
+.profile-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.reset-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reset-section input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.confirm-btn {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background-color: #1976d2;
+}
+
+.message {
+  margin-top: 10px;
+  color: red;
+}
+
+.message {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.message.success {
+  color: green;
+}
+
+.message.error {
+  color: red;
+}

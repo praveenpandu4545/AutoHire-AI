@@ -1,0 +1,73 @@
+.profile-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  width: 600px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card h2 {
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+.profile-card p {
+  margin-bottom: 12px;
+  font-size: 17px;
+}
+
+.button-group {
+  margin-top: 25px;
+}
+
+.reset-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-right: 12px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.logout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.reset-btn:hover,
+.logout-btn:hover,
+.submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* Reset Password Section */
+.reset-section {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.reset-section input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.submit-btn {
+  width: 150px;
+  background-color: #5d4037;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
