@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import StudentRounds from "./StudentRounds";
 import "../../css/AllDrives.css";
 
@@ -8,8 +8,13 @@ const StudentsByDrive = ({ driveId, onBack }) => {
   const [students, setStudents] = useState([]);
   const [loadingStudents, setLoadingStudents] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [bulkUploading, setBulkUploading] = useState(false); // ✅ NEW
+  const [bulkUploading, setBulkUploading] = useState(false);
   const [selectedStudentId, setSelectedStudentId] = useState(null);
+
+  // ✅ FILTER STATES
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("");
 
   useEffect(() => {
     fetchStudents();
@@ -51,7 +56,6 @@ const StudentsByDrive = ({ driveId, onBack }) => {
 
       setStudents(updatedStudents);
       setLoadingStudents(false);
-
     } catch (error) {
       console.error(error);
       setLoadingStudents(false);
@@ -59,7 +63,44 @@ const StudentsByDrive = ({ driveId, onBack }) => {
   };
 
   // =============================
-  // EXISTING STUDENT EXCEL UPLOAD
+  // UNIQUE DEPARTMENTS (Dynamic)
+  // =============================
+  const uniqueDepartments = useMemo(() => {
+    return [...new Set(students.map((s) => s.department))];
+  }, [students]);
+
+  // =============================
+  // UNIQUE STATUSES (Dynamic)
+  // =============================
+  const uniqueStatuses = useMemo(() => {
+    return [...new Set(students.map((s) => s.finalStatus))];
+  }, [students]);
+
+  // =============================
+  // FILTER LOGIC (All Combined)
+  // =============================
+  const filteredStudents = students.filter((student) => {
+  const search = searchTerm.toLowerCase();
+
+  const matchesSearch =
+    String(student.studentId || "").toLowerCase().includes(search) ||
+    String(student.name || "").toLowerCase().includes(search) ||
+    String(student.department || "").toLowerCase().includes(search) ||
+    String(student.email || "").toLowerCase().includes(search) ||
+    String(student.finalStatus || "").toLowerCase().includes(search) ||
+    String(student.phone || "").includes(search); // ✅ FIXED
+
+  const matchesStatus =
+    statusFilter === "" || student.finalStatus === statusFilter;
+
+  const matchesDepartment =
+    departmentFilter === "" || student.department === departmentFilter;
+
+  return matchesSearch && matchesStatus && matchesDepartment;
+});
+
+  // =============================
+  // EXCEL UPLOAD
   // =============================
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -91,7 +132,6 @@ const StudentsByDrive = ({ driveId, onBack }) => {
       alert("Students uploaded successfully ✅");
       await fetchStudents();
       setUploading(false);
-
     } catch (error) {
       console.error(error);
       setUploading(false);
@@ -99,7 +139,7 @@ const StudentsByDrive = ({ driveId, onBack }) => {
   };
 
   // =============================
-  // ✅ NEW BULK STATUS UPDATE
+  // BULK STATUS UPDATE
   // =============================
   const handleBulkStatusUpload = async (event) => {
     const file = event.target.files[0];
@@ -136,13 +176,8 @@ Success: ${data.successCount}
 Failed: ${data.failedCount}
       `);
 
-      if (data.failedMessages && data.failedMessages.length > 0) {
-        console.log("Failed Rows:", data.failedMessages);
-      }
-
       await fetchStudents();
       setBulkUploading(false);
-
     } catch (error) {
       console.error(error);
       setBulkUploading(false);
@@ -150,7 +185,7 @@ Failed: ${data.failedCount}
   };
 
   // =============================
-  // NAVIGATION TO ROUNDS VIEW
+  // NAVIGATION
   // =============================
   if (selectedStudentId) {
     return (
@@ -168,12 +203,49 @@ Failed: ${data.failedCount}
       <div className="students-header">
         <h2>Registered Students</h2>
 
+        {/* 🔎 SEARCH */}
+        <input
+          type="text"
+          placeholder="Search..."
+          className="drive-search-input"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        {/* 🎯 FILTERS */}
+        <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="drive-search-input"
+          >
+            <option value="">All Status</option>
+            {uniqueStatuses.map((status, index) => (
+              <option key={index} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={departmentFilter}
+            onChange={(e) => setDepartmentFilter(e.target.value)}
+            className="drive-search-input"
+          >
+            <option value="">All Departments</option>
+            {uniqueDepartments.map((dept, index) => (
+              <option key={index} value={dept}>
+                {dept}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="students-actions">
           <button className="back-btn" onClick={onBack}>
             ← Back to Drives
           </button>
 
-          {/* EXISTING STUDENT UPLOAD */}
           <button
             className="upload-btn"
             disabled={uploading}
@@ -182,7 +254,6 @@ Failed: ${data.failedCount}
             {uploading ? "Uploading..." : "Upload Students (Excel)"}
           </button>
 
-          {/* ✅ NEW BULK STATUS UPDATE BUTTON */}
           <button
             className="upload-btn"
             disabled={bulkUploading}
@@ -191,7 +262,6 @@ Failed: ${data.failedCount}
             {bulkUploading ? "Updating..." : "Update Status (Excel)"}
           </button>
 
-          {/* EXISTING INPUT */}
           <input
             type="file"
             id="excelUpload"
@@ -200,7 +270,6 @@ Failed: ${data.failedCount}
             onChange={handleFileUpload}
           />
 
-          {/* ✅ NEW INPUT */}
           <input
             type="file"
             id="statusUpload"
@@ -213,6 +282,8 @@ Failed: ${data.failedCount}
 
       {loadingStudents ? (
         <p>Loading students...</p>
+      ) : filteredStudents.length === 0 ? (
+        <p>No students found.</p>
       ) : (
         <table className="students-table">
           <thead>
@@ -228,7 +299,7 @@ Failed: ${data.failedCount}
             </tr>
           </thead>
           <tbody>
-            {students.map((student, index) => (
+            {filteredStudents.map((student, index) => (
               <tr key={student.id}>
                 <td>{index + 1}</td>
                 <td>{student.studentId}</td>

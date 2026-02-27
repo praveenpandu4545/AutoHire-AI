@@ -9,6 +9,7 @@ const AllDrives = () => {
   const [expandedDrive, setExpandedDrive] = useState(null);
   const [showDetails, setShowDetails] = useState(null);
   const [selectedDrive, setSelectedDrive] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // ✅ NEW STATE
 
   useEffect(() => {
     fetchDrives();
@@ -36,7 +37,14 @@ const AllDrives = () => {
     );
   }
 
-  const groupedDrives = drives.reduce((acc, drive) => {
+  // ✅ FILTER DRIVES BASED ON SEARCH
+  const filteredDrives = drives.filter((drive) =>
+    drive.collegeName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    drive.driveName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // ✅ GROUP AFTER FILTERING
+  const groupedDrives = filteredDrives.reduce((acc, drive) => {
     if (!acc[drive.collegeName]) acc[drive.collegeName] = [];
     acc[drive.collegeName].push(drive);
     return acc;
@@ -45,6 +53,19 @@ const AllDrives = () => {
   return (
     <div className="all-drives-container">
       <h2>All Drives</h2>
+
+      {/* ✅ SEARCH BOX */}
+      <input
+        type="text"
+        placeholder="Search by College or Drive Name..."
+        className="drive-search-input"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      {Object.keys(groupedDrives).length === 0 && (
+        <p style={{ marginTop: "20px" }}>No drives found.</p>
+      )}
 
       {Object.keys(groupedDrives).map((college) => (
         <div key={college} className="college-section">
