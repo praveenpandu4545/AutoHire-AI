@@ -1,10 +1,10 @@
-Java
-Python
-C
-C++
-C#
-Go
-Rust
+Java Programming
+Python Programming
+C Programming
+C++ Programming
+C# Programming
+Go Programming
+Rust Programming
 Kotlin
 Swift
 PHP
@@ -17,7 +17,7 @@ JavaScript
 Shell Scripting
 Bash
 PowerShell
-R
+R Programming
 MATLAB
 Objective-C
 Assembly

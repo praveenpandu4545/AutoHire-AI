@@ -11,6 +11,7 @@ function StudentLogin() {
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false); // ✅ NEW
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +31,7 @@ function StudentLogin() {
     } catch (err) {
       localStorage.clear();
     }
-  }, []);
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -60,16 +61,13 @@ function StudentLogin() {
         throw new Error(token);
       }
 
-      // ✅ Validate JWT format
       if (!token || token.split(".").length !== 3) {
         throw new Error("Invalid token received from server");
       }
 
-      // ✅ Store token AND email
       localStorage.setItem("token", token);
       localStorage.setItem("email", formData.email);
 
-      // ✅ Decode safely
       const payload = JSON.parse(atob(token.split(".")[1]));
       const role = payload.role;
 
@@ -104,14 +102,23 @@ function StudentLogin() {
           required
         />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+        {/* ✅ Password with Eye Toggle */}
+        <div className="password-wrapper">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Enter Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <span
+            className="eye-icon"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </span>
+        </div>
 
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}

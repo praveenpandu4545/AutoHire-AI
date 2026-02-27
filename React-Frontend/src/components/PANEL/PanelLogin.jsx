@@ -11,10 +11,10 @@ function PanelLogin() {
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false); // ✅ NEW
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ✅ Prevent going back to login if already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -29,7 +29,6 @@ function PanelLogin() {
           navigate("/panel-dashboard", { replace: true });
         }
       } catch (err) {
-        // If token is invalid, remove it
         localStorage.removeItem("token");
       }
     }
@@ -69,9 +68,9 @@ function PanelLogin() {
       const role = payload.role;
 
       if (role === "HR") {
-        navigate("/hr-dashboard", { replace: true });   // ✅ replace
+        navigate("/hr-dashboard", { replace: true });
       } else if (role === "PANEL") {
-        navigate("/panel-dashboard", { replace: true }); // ✅ replace
+        navigate("/panel-dashboard", { replace: true });
       } else {
         setError("You are not authorized as Panel/HR");
         localStorage.removeItem("token");
@@ -97,13 +96,22 @@ function PanelLogin() {
           required
         />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Password"
-          onChange={handleChange}
-          required
-        />
+        {/* ✅ Password with Eye Toggle */}
+        <div className="password-wrapper">
+          <input
+            type={showPassword ? "text" : "password"} // 👈 toggle
+            name="password"
+            placeholder="Enter Password"
+            onChange={handleChange}
+            required
+          />
+          <span
+            className="eye-icon"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </span>
+        </div>
 
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}

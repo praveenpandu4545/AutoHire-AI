@@ -12,6 +12,7 @@ function PanelRegister() {
     phone: "",
     email: "",
     password: "",
+    confirmPassword: "",   // ✅ Added
     role: "PANEL",
   });
 
@@ -29,9 +30,16 @@ function PanelRegister() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
     setError("");
     setSuccess("");
+
+    // ✅ Password match validation
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -41,7 +49,14 @@ function PanelRegister() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            name: formData.name,
+            department: formData.department,
+            phone: formData.phone,
+            email: formData.email,
+            password: formData.password,
+            role: formData.role,
+          }), // ✅ Do NOT send confirmPassword to backend
         }
       );
 
@@ -105,6 +120,15 @@ function PanelRegister() {
           type="password"
           name="password"
           placeholder="Password"
+          onChange={handleChange}
+          required
+        />
+
+        {/* ✅ Confirm Password Field */}
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
           onChange={handleChange}
           required
         />

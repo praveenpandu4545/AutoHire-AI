@@ -19,3 +19,24 @@
   margin-top: 10px;
   text-align: center;
 }
+
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  outline: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+}
+
+.select:hover {
+  border-color: #4a90e2;
+}

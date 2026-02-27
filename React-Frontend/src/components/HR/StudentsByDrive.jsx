@@ -8,6 +8,7 @@ const StudentsByDrive = ({ driveId, onBack }) => {
   const [students, setStudents] = useState([]);
   const [loadingStudents, setLoadingStudents] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [bulkUploading, setBulkUploading] = useState(false); // ✅ NEW
   const [selectedStudentId, setSelectedStudentId] = useState(null);
 
   useEffect(() => {
@@ -57,6 +58,9 @@ const StudentsByDrive = ({ driveId, onBack }) => {
     }
   };
 
+  // =============================
+  // EXISTING STUDENT EXCEL UPLOAD
+  // =============================
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -94,6 +98,60 @@ const StudentsByDrive = ({ driveId, onBack }) => {
     }
   };
 
+  // =============================
+  // ✅ NEW BULK STATUS UPDATE
+  // =============================
+  const handleBulkStatusUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      setBulkUploading(true);
+      const token = localStorage.getItem("token");
+
+      const formData = new FormData();
+      formData.append("driveId", driveId);
+      formData.append("file", file);
+
+      const response = await fetch(
+        `${BASE_URL}/springApi/student-round-status/bulk-update`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        alert(await response.text());
+        setBulkUploading(false);
+        return;
+      }
+
+      const data = await response.json();
+
+      alert(`
+Total Rows: ${data.totalRows}
+Success: ${data.successCount}
+Failed: ${data.failedCount}
+      `);
+
+      if (data.failedMessages && data.failedMessages.length > 0) {
+        console.log("Failed Rows:", data.failedMessages);
+      }
+
+      await fetchStudents();
+      setBulkUploading(false);
+
+    } catch (error) {
+      console.error(error);
+      setBulkUploading(false);
+    }
+  };
+
+  // =============================
+  // NAVIGATION TO ROUNDS VIEW
+  // =============================
   if (selectedStudentId) {
     return (
       <StudentRounds
@@ -115,6 +173,7 @@ const StudentsByDrive = ({ driveId, onBack }) => {
             ← Back to Drives
           </button>
 
+          {/* EXISTING STUDENT UPLOAD */}
           <button
             className="upload-btn"
             disabled={uploading}
@@ -123,12 +182,31 @@ const StudentsByDrive = ({ driveId, onBack }) => {
             {uploading ? "Uploading..." : "Upload Students (Excel)"}
           </button>
 
+          {/* ✅ NEW BULK STATUS UPDATE BUTTON */}
+          <button
+            className="upload-btn"
+            disabled={bulkUploading}
+            onClick={() => document.getElementById("statusUpload").click()}
+          >
+            {bulkUploading ? "Updating..." : "Update Status (Excel)"}
+          </button>
+
+          {/* EXISTING INPUT */}
           <input
             type="file"
             id="excelUpload"
             accept=".xlsx,.xls"
             style={{ display: "none" }}
             onChange={handleFileUpload}
+          />
+
+          {/* ✅ NEW INPUT */}
+          <input
+            type="file"
+            id="statusUpload"
+            accept=".xlsx,.xls"
+            style={{ display: "none" }}
+            onChange={handleBulkStatusUpload}
           />
         </div>
       </div>

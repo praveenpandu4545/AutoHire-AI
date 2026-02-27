@@ -93,3 +93,17 @@ button:hover {
   margin-bottom: 20px;
   font-weight: 500;
 }
+
+.ai-button-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.ai-button-group .back-button {
+  background-color: #6b7280;
+}
+
+.ai-button-group .back-button:hover {
+  background-color: #4b5563;
+}

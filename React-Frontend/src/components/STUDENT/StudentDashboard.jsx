@@ -1,7 +1,7 @@
 import { useState } from "react";
 import StudentProfile from "./StudentProfile";
 import StudentResume from "./StudentResume";
-import StudentDrives from "./StudentDrives";
+import StudentDrives from "./StudentDrives/StudentDrives";
 import "../../css/StudentDashboard.css";
 
 function StudentDashboard() {

@@ -94,13 +94,8 @@ def check_eligibility(request: EligibilityRequest):
 
     resume_lower = resume_text.lower()
 
-    # Remove numbering
     drive_cleaned = re.sub(r'\b\d+\.\s*', '', drive_requirements)
     drive_lower = drive_cleaned.lower()
-
-    # ========================
-    # STRICT CHECK
-    # ========================
 
     student_gpa = extract_gpa(resume_text)
     required_gpa = extract_gpa(drive_cleaned)
@@ -110,22 +105,36 @@ def check_eligibility(request: EligibilityRequest):
 
     eligible = True
     reasons = []
+    strengths = []
+    weaknesses = []
+    improvements = []
+
+    # ========================
+    # STRICT CHECK
+    # ========================
 
     if required_gpa is not None:
         if student_gpa is None or student_gpa < required_gpa:
             eligible = False
             reasons.append("GPA requirement not satisfied.")
+        else:
+            strengths.append(f"Meets GPA requirement ({student_gpa} CGPA).")
 
     if required_branch is not None:
         if student_branch != required_branch:
             eligible = False
             reasons.append("Branch requirement not satisfied.")
+        else:
+            strengths.append(f"Belongs to required branch ({student_branch}).")
 
     if not eligible:
         return {
             "eligible": False,
             "percentage": 0,
-            "reasons": reasons
+            "analysis": {
+                "reasons": reasons,
+                "conclusion": "The candidate does not meet the mandatory eligibility criteria for this drive."
+            }
         }
 
     # ========================
@@ -144,7 +153,12 @@ def check_eligibility(request: EligibilityRequest):
         return {
             "eligible": True,
             "percentage": 100,
-            "missing_skills": []
+            "analysis": {
+                "strengths": strengths,
+                "weaknesses": [],
+                "improvements": [],
+                "conclusion": "The candidate satisfies all eligibility conditions and matches the drive requirements."
+            }
         }
 
     resume_sentences = re.split(r'[.\n]', resume_text)
@@ -152,11 +166,13 @@ def check_eligibility(request: EligibilityRequest):
 
     skill_scores = []
     missing_skills = []
+    strong_skills = []
 
     for skill in detected_skills:
 
         if skill.lower() in resume_lower:
             skill_scores.append(1.0)
+            strong_skills.append(skill)
             continue
 
         skill_embedding = model.encode(skill)
@@ -165,13 +181,35 @@ def check_eligibility(request: EligibilityRequest):
 
         skill_scores.append(max_sim)
 
-        if max_sim < 0.40:
+        if max_sim >= 0.75:
+            strong_skills.append(skill)
+        elif max_sim < 0.40:
             missing_skills.append(skill)
 
     overall_score = round(np.mean(skill_scores) * 100, 2)
 
+    # Build strengths
+    for skill in strong_skills:
+        strengths.append(f"Strong match in {skill}.")
+
+    # Build weaknesses
+    for skill in missing_skills:
+        weaknesses.append(f"Limited exposure to {skill}.")
+        improvements.append(f"Improve practical knowledge in {skill} by working on real-world projects.")
+
+    conclusion = (
+        f"The candidate demonstrates a suitability score of {overall_score}%. "
+        "Based on the analysis of skills and academic eligibility, "
+        "the candidate shows a good alignment with the drive requirements."
+    )
+
     return {
         "eligible": True,
         "percentage": overall_score,
-        "missing_skills": missing_skills
+        "analysis": {
+            "strengths": strengths,
+            "weaknesses": weaknesses,
+            "improvements": improvements,
+            "conclusion": conclusion
+        }
     }

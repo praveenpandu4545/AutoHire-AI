@@ -13,7 +13,8 @@ function StudentRegister() {
     phone: "",
     email: "",
     password: "",
-    collegeName: "", // ✅ Added
+    confirmPassword: "",   // ✅ Added
+    collegeName: "",
   });
 
   const [colleges, setColleges] = useState([]);
@@ -57,9 +58,16 @@ function StudentRegister() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
     setError("");
     setSuccess("");
+
+    // ✅ Password Match Validation
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -69,7 +77,15 @@ function StudentRegister() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            studentId: formData.studentId,
+            name: formData.name,
+            department: formData.department,
+            phone: formData.phone,
+            email: formData.email,
+            password: formData.password,
+            collegeName: formData.collegeName,
+          }), // ✅ Do NOT send confirmPassword
         }
       );
 
@@ -81,7 +97,6 @@ function StudentRegister() {
 
       setSuccess(message);
 
-      // Redirect after success
       setTimeout(() => {
         navigate("/student-login");
       }, 1500);
@@ -137,21 +152,22 @@ function StudentRegister() {
 
         {/* ✅ College Dropdown */}
         <select
-            name="collegeName"
-            value={formData.collegeName}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select College</option>
+          name="collegeName"
+          value={formData.collegeName}
+          onChange={handleChange}
+          className="select" 
+          required
+        >
+          <option value="">Select College</option>
 
-            {colleges.map((college, index) => (
-              <option
-                key={`${college}-${index}`}   // ✅ Unique key
-                value={college}               // ✅ Direct string
-              >
-                {college}
-              </option>
-            ))}
+          {colleges.map((college, index) => (
+            <option
+              key={`${college}-${index}`}
+              value={college}
+            >
+              {college}
+            </option>
+          ))}
         </select>
 
         <input
@@ -168,6 +184,16 @@ function StudentRegister() {
           name="password"
           placeholder="Password"
           value={formData.password}
+          onChange={handleChange}
+          required
+        />
+
+        {/* ✅ Confirm Password Field */}
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
           onChange={handleChange}
           required
         />
