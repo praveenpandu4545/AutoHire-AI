@@ -1,94 +1,101 @@
-/* AllColleges.css */
+/* ScheduledInterviews.css */
 
-.all-colleges-container {
+.scheduled-container {
   padding: 40px;
   background: #f5f7fa;
   min-height: 100vh;
   font-family: "Inter", sans-serif;
 }
 
-.colleges-header {
+.scheduled-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
 }
 
-.colleges-header h2 {
+.scheduled-header h2 {
   font-size: 24px;
   font-weight: 600;
   color: #1e293b;
 }
 
-.college-search-input {
-  padding: 10px 14px;
+.global-search {
+  padding: 10px 15px;
   border-radius: 8px;
   border: 1px solid #cbd5e1;
-  width: 260px;
+  width: 280px;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
 }
 
-.college-search-input:focus {
-  outline: none;
+.global-search:focus {
   border-color: #2563eb;
+  outline: none;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
+.date-filter-bar {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.date-filter-bar input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
+
 .table-wrapper {
+  overflow-x: auto;
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-  overflow-x: auto;
 }
 
-.colleges-table {
+.scheduled-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.colleges-table thead {
+.scheduled-table thead {
   background: #f1f5f9;
-  position: sticky;
-  top: 0;
 }
 
-.colleges-table th {
+.scheduled-table th {
   padding: 14px;
-  text-align: left;
   font-size: 14px;
+  text-align: left;
   color: #334155;
   border-bottom: 1px solid #e2e8f0;
 }
 
-.colleges-table td {
-  padding: 14px;
-  font-size: 14px;
-  color: #475569;
-  border-bottom: 1px solid #f1f5f9;
+.scheduled-table th select {
+  margin-top: 6px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  width: 100%;
 }
 
-.colleges-table tbody tr:hover {
+.scheduled-table td {
+  padding: 14px;
+  font-size: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #475569;
+}
+
+.scheduled-table tbody tr:hover {
   background: #f8fafc;
   transition: 0.2s ease;
 }
 
-.loading-box {
-  padding: 40px;
+.no-data {
   text-align: center;
-  font-size: 16px;
+  padding: 20px;
   font-weight: 500;
-}
-
-.error-message {
-  color: #dc2626;
-  font-weight: 500;
-  margin-bottom: 15px;
-}
-
-.empty-state {
-  padding: 40px;
-  text-align: center;
   color: #64748b;
-  font-weight: 500;
 }

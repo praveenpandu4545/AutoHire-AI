@@ -5,6 +5,7 @@ import CreateDrive from "./CreateDrive";
 import AddCollege from "./AddCollege";
 import AllColleges from "./AllColleges";
 import AllDrives from "./AllDrives";
+import ScheduledInterviews from "./ScheduledInterviews";
 import "../../css/Dashboard.css";
 
 const HrDashboard = () => {
@@ -30,6 +31,8 @@ const HrDashboard = () => {
         return <AllColleges/>;  
       case "showDrives":
         return <AllDrives/>;  
+      case "scheduledInterviews":
+        return <ScheduledInterviews/>  
       default:
         return <div>Select an option</div>;
     }
@@ -58,6 +61,10 @@ const HrDashboard = () => {
 
         <button onClick={() => setActiveTab("showClgs")}>
           College's
+        </button>
+
+        <button onClick={() => setActiveTab("scheduledInterviews")}>
+          Scheduled Interviews
         </button>
 
         

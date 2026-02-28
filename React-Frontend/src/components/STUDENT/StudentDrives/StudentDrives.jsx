@@ -33,6 +33,9 @@ const StudentDrives = () => {
         `${BASE_URL}/springApi/drive/student`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      if (!response.ok) throw new Error("Failed to fetch drives");
+
       const data = await response.json();
       setDrives(data);
     } catch (err) {
@@ -53,6 +56,9 @@ const StudentDrives = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      if (!checkResponse.ok)
+        throw new Error("Registration check failed");
+
       const checkData = await checkResponse.json();
 
       setSelectedDrive(drive);
@@ -63,13 +69,27 @@ const StudentDrives = () => {
           `${BASE_URL}/springApi/student/getAllRounds/${drive.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
+
+        if (!roundsResponse.ok) {
+          const text = await roundsResponse.text();
+          throw new Error(text);
+        }
+
         const roundsData = await roundsResponse.json();
-        setRounds(roundsData);
+
+        // 🔥 Important: Ensure interviewScheduled default false if missing
+        const enhancedRounds = roundsData.map((r) => ({
+          ...r,
+          interviewScheduled: r.interviewScheduled || false,
+        }));
+
+        setRounds(enhancedRounds);
       }
 
       setMode("application");
     } catch (error) {
       console.error(error);
+      alert(error.message);
     }
   };
 
@@ -90,25 +110,32 @@ const StudentDrives = () => {
   };
 
   const handleAiCheck = async () => {
-    try {
-      setAiLoading(true);
+  try {
+    setAiLoading(true);
 
-      const response = await fetch(
-        `${BASE_URL}/springApi/ai/check/${selectedDrive.id}`,
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+    const response = await fetch(
+      `${BASE_URL}/springApi/ai/check/${selectedDrive.id}`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
-      const data = await response.json();
-      setAiResult(data);
-      setAiLoading(false);
-    } catch (error) {
-      console.error(error);
-      setAiLoading(false);
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(data.message || "AI check failed");
     }
-  };
+
+    setAiResult(data.data);
+
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  } finally {
+    setAiLoading(false);
+  }
+};
 
   const handleFinalRegister = async () => {
     try {
@@ -127,8 +154,13 @@ const StudentDrives = () => {
 
       const roundsData = await roundsResponse.json();
 
+      const enhancedRounds = roundsData.map((r) => ({
+        ...r,
+        interviewScheduled: r.interviewScheduled || false,
+      }));
+
       setIsRegistered(true);
-      setRounds(roundsData);
+      setRounds(enhancedRounds);
       setMode("application");
       setAiResult(null);
     } catch (error) {

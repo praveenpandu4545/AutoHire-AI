@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+// src/components/admin/AllColleges.jsx
+
+import React, { useEffect, useMemo, useState } from "react";
 import "../../css/AllColleges.css";
 
 const AllColleges = () => {
@@ -7,6 +9,7 @@ const AllColleges = () => {
   const [colleges, setColleges] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchColleges();
@@ -31,42 +34,72 @@ const AllColleges = () => {
 
       const data = await response.json();
       setColleges(data);
-      setLoading(false);
-
     } catch (error) {
       console.error(error);
       setMessage("Error fetching colleges");
+    } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div>Loading colleges...</div>;
+  // 🔥 Enterprise Safe Search
+  const filteredColleges = useMemo(() => {
+    const searchLower = search.toLowerCase().trim();
+
+    return colleges.filter((college) =>
+      String(college || "")
+        .toLowerCase()
+        .includes(searchLower)
+    );
+  }, [colleges, search]);
+
+  if (loading) {
+    return (
+      <div className="all-colleges-container">
+        <div className="loading-box">Loading colleges...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="all-colleges-container">
-      <h2>All Colleges</h2>
+      <div className="colleges-header">
+        <h2>All Colleges</h2>
 
-      {message && <p className="error">{message}</p>}
+        <input
+          type="text"
+          placeholder="Search colleges..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="college-search-input"
+        />
+      </div>
 
-      {colleges.length === 0 ? (
-        <p>No colleges found.</p>
+      {message && <p className="error-message">{message}</p>}
+
+      {filteredColleges.length === 0 ? (
+        <div className="empty-state">
+          No colleges found.
+        </div>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>College Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {colleges.map((college, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{college}</td>
+        <div className="table-wrapper">
+          <table className="colleges-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>College Name</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredColleges.map((college, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{college}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

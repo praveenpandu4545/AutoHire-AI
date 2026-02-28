@@ -1,109 +1,192 @@
+/* ===============================
+   GLOBAL CONTAINER
+================================= */
 .container {
-  padding: 30px;
-  max-width: 800px;
+  padding: 40px;
+  max-width: 900px;
   margin: auto;
+  font-family: "Inter", sans-serif;
 }
 
+/* ===============================
+   DRIVE CARD
+================================= */
 .drive-card {
-  background: #f8fafc;
-  padding: 18px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  padding: 22px;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid #eef2f7;
+}
+
+.drive-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
 }
 
 .drive-title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: 0.3px;
 }
 
+/* ===============================
+   BUTTONS
+================================= */
 .button-group {
-  margin-top: 12px;
+  margin-top: 16px;
   display: flex;
-  gap: 12px;
+  gap: 14px;
 }
 
 button {
-  padding: 8px 15px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  background-color: #2563eb;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
   color: white;
-  transition: 0.3s;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
 }
 
 button:hover {
-  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.4);
 }
 
-.details-box {
-  margin-top: 12px;
-  background: #eef2ff;
-  padding: 12px;
-  border-radius: 6px;
-}
-
-.round-box {
-  background: #e0f2fe;
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 6px;
-}
-
+/* Secondary Button */
 .back-button {
-  margin-top: 20px;
-  background-color: #6b7280;
+  margin-top: 25px;
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  box-shadow: 0 6px 18px rgba(75, 85, 99, 0.3);
 }
 
+.back-button:hover {
+  box-shadow: 0 8px 22px rgba(75, 85, 99, 0.4);
+}
+
+/* ===============================
+   DETAILS BOX
+================================= */
+.details-box {
+  margin-top: 16px;
+  background: #f1f5f9;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ===============================
+   ROUND BOX
+================================= */
 .round-box {
-  background: #f3f4f6;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  background: white;
+  padding: 16px 18px;
+  border-radius: 14px;
+  margin-bottom: 16px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  border-left: 4px solid #3b82f6;
+  transition: 0.3s ease;
 }
 
+.round-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+}
+
+/* ===============================
+   STATUS BADGES
+================================= */
 .status {
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
 
+/* Selected */
 .status.SELECTED {
-  color: green;
+  background: #dcfce7;
+  color: #15803d;
 }
 
+/* Rejected */
 .status.REJECTED {
-  color: red;
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
+/* In Progress */
+.status.IN.PROGRESS,
 .status.IN-PROGRESS {
-  color: orange;
+  background: #fff7ed;
+  color: #c2410c;
 }
 
+/* ===============================
+   INTERVIEW INFO BOX
+================================= */
+.interview-box {
+  background: linear-gradient(145deg, #ecfdf5, #d1fae5);
+  padding: 14px 16px;
+  border-radius: 12px;
+  border-left: 4px solid #10b981;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.interview-box strong {
+  color: #065f46;
+}
+
+.interview-title {
+  font-weight: 700;
+  color: #047857;
+  margin-bottom: 4px;
+}
+
+/* ===============================
+   NOT REGISTERED TEXT
+================================= */
 .not-registered {
   color: #d97706;
   font-weight: 600;
 }
 
+/* ===============================
+   AI CONFIRM SECTION
+================================= */
 .ai-confirm-box {
-  background: #eef2ff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  background: linear-gradient(145deg, #eef2ff, #e0e7ff);
+  padding: 22px;
+  border-radius: 16px;
+  margin-bottom: 24px;
   font-weight: 500;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.15);
 }
 
 .ai-button-group {
-  margin-top: 20px;
+  margin-top: 24px;
   display: flex;
-  gap: 12px;
+  gap: 16px;
 }
 
 .ai-button-group .back-button {
-  background-color: #6b7280;
+  background: linear-gradient(135deg, #6b7280, #4b5563);
 }
 
 .ai-button-group .back-button:hover {
-  background-color: #4b5563;
+  background: linear-gradient(135deg, #4b5563, #374151);
 }
