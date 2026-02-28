@@ -7,10 +7,21 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
   const [rounds, setRounds] = useState([]);
   const [loadingRounds, setLoadingRounds] = useState(false);
 
+  // Scheduling States
+  const [panelMembers, setPanelMembers] = useState([]);
+  const [selectedRoundId, setSelectedRoundId] = useState(null);
+  const [panelMemberId, setPanelMemberId] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+
   useEffect(() => {
     fetchRounds();
+    fetchPanelMembers();
   }, [studentId]);
 
+  // =============================
+  // FETCH ROUNDS
+  // =============================
   const fetchRounds = async () => {
     try {
       setLoadingRounds(true);
@@ -22,7 +33,13 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
       );
 
       const data = await response.json();
-      setRounds(data);
+
+      // Remove duplicate rounds (temporary safety)
+      const uniqueRounds = Array.from(
+        new Map(data.map(r => [r.roundNumber, r])).values()
+      );
+
+      setRounds(uniqueRounds);
       setLoadingRounds(false);
 
     } catch (error) {
@@ -31,6 +48,29 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
     }
   };
 
+  // =============================
+  // FETCH PANEL MEMBERS
+  // =============================
+  const fetchPanelMembers = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${BASE_URL}/springApi/employees/panel-members`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const data = await response.json();
+      setPanelMembers(data);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // =============================
+  // UPDATE ROUND STATUS
+  // =============================
   const updateStatus = async (roundId, status) => {
     try {
       const token = localStorage.getItem("token");
@@ -55,6 +95,54 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
     }
   };
 
+  // =============================
+  // SCHEDULE INTERVIEW
+  // =============================
+  const scheduleInterview = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${BASE_URL}/springApi/interviews/schedule`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            studentId,
+            roundId: selectedRoundId,
+            panelMemberId,
+            startTime,
+            endTime,
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        alert(result.message || "Scheduling failed ❌");
+        return;
+      }
+
+      alert("Interview Scheduled Successfully ✅");
+
+      // Reset form
+      setSelectedRoundId(null);
+      setPanelMemberId("");
+      setStartTime("");
+      setEndTime("");
+
+      // 🔥 IMPORTANT: Fetch fresh data from backend
+      fetchRounds();
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="all-drives-container">
       <h2>Student Round Details</h2>
@@ -73,27 +161,110 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
               <th>Round Name</th>
               <th>Status</th>
               <th>Update</th>
+              <th>Interview</th>
             </tr>
           </thead>
           <tbody>
             {rounds.map((round) => (
-              <tr key={round.id}>
-                <td>{round.roundNumber}</td>
-                <td>{round.roundName}</td>
-                <td>{round.status}</td>
-                <td>
-                  <select
-                    value={round.status}
-                    onChange={(e) =>
-                      updateStatus(round.id, e.target.value)
-                    }
-                  >
-                    <option value="IN PROGRESS">IN PROGRESS</option>
-                    <option value="SELECTED">SELECTED</option>
-                    <option value="REJECTED">REJECTED</option>
-                  </select>
-                </td>
-              </tr>
+              <React.Fragment key={round.id}>
+                <tr>
+                  <td>{round.roundNumber}</td>
+                  <td>{round.roundName}</td>
+                  <td>{round.status}</td>
+
+                  {/* STATUS UPDATE */}
+                  <td>
+                    <select
+                      value={round.status}
+                      onChange={(e) =>
+                        updateStatus(round.id, e.target.value)
+                      }
+                    >
+                      <option value="IN PROGRESS">IN PROGRESS</option>
+                      <option value="SELECTED">SELECTED</option>
+                      <option value="REJECTED">REJECTED</option>
+                    </select>
+                  </td>
+
+                  {/* INTERVIEW COLUMN */}
+                  <td>
+                    {round.interviewScheduled ? (
+                      <div style={{ color: "green", fontWeight: "bold" }}>
+                        Scheduled
+                        <div style={{ fontSize: "12px", color: "#555" }}>
+                          {round.panelName && <>Panel: {round.panelName} <br /></>}
+                          {round.interviewStartTime &&
+                            round.interviewStartTime.replace("T", " ")}
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        className="details-btn"
+                        onClick={() => setSelectedRoundId(round.id)}
+                      >
+                        Schedule
+                      </button>
+                    )}
+                  </td>
+                </tr>
+
+                {/* INLINE SCHEDULE FORM */}
+                {selectedRoundId === round.id && !round.interviewScheduled && (
+                  <tr>
+                    <td colSpan="5">
+                      <div
+                        style={{
+                          padding: "15px",
+                          background: "#f4f6f9",
+                          borderRadius: "8px",
+                          display: "flex",
+                          gap: "10px",
+                          alignItems: "center",
+                          flexWrap: "wrap"
+                        }}
+                      >
+                        <select
+                          value={panelMemberId}
+                          onChange={(e) => setPanelMemberId(e.target.value)}
+                        >
+                          <option value="">Select Panel</option>
+                          {panelMembers.map((panel) => (
+                            <option key={panel.id} value={panel.id}>
+                              {panel.name}
+                            </option>
+                          ))}
+                        </select>
+
+                        <input
+                          type="datetime-local"
+                          value={startTime}
+                          onChange={(e) => setStartTime(e.target.value)}
+                        />
+
+                        <input
+                          type="datetime-local"
+                          value={endTime}
+                          onChange={(e) => setEndTime(e.target.value)}
+                        />
+
+                        <button
+                          className="upload-btn"
+                          onClick={scheduleInterview}
+                        >
+                          Confirm
+                        </button>
+
+                        <button
+                          className="back-btn"
+                          onClick={() => setSelectedRoundId(null)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             ))}
           </tbody>
         </table>
