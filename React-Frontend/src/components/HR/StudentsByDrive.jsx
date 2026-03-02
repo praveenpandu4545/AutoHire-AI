@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import StudentRounds from "./StudentRounds";
+import ScheduleAutomatedInterviews from "./ScheduleAutomatedInterviews";
 import "../../css/AllDrives.css";
+
 
 const StudentsByDrive = ({ driveId, onBack }) => {
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;
@@ -10,6 +12,7 @@ const StudentsByDrive = ({ driveId, onBack }) => {
   const [uploading, setUploading] = useState(false);
   const [bulkUploading, setBulkUploading] = useState(false);
   const [selectedStudentId, setSelectedStudentId] = useState(null);
+  const [showAutomation, setShowAutomation] = useState(false);
 
   // ✅ FILTER STATES
   const [searchTerm, setSearchTerm] = useState("");
@@ -187,6 +190,19 @@ Failed: ${data.failedCount}
   // =============================
   // NAVIGATION
   // =============================
+  // =============================
+// AUTOMATION NAVIGATION
+// =============================
+if (showAutomation) {
+  return (
+    <ScheduleAutomatedInterviews
+      driveId={driveId}
+      students={students} 
+      onBack={() => setShowAutomation(false)}
+      refreshStudents={fetchStudents}
+    />
+  );
+}
   if (selectedStudentId) {
     return (
       <StudentRounds
@@ -260,6 +276,12 @@ Failed: ${data.failedCount}
             onClick={() => document.getElementById("statusUpload").click()}
           >
             {bulkUploading ? "Updating..." : "Update Status (Excel)"}
+          </button>
+          <button
+            className="upload-btn"
+            onClick={() => setShowAutomation(true)}
+          >
+            Smart Schedule
           </button>
 
           <input

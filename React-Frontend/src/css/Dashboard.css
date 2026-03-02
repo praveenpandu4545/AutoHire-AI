@@ -6,7 +6,7 @@
 
 .sidebar {
   width: 250px;
-  background-color: #8cc6cc;
+  background-color: #d2e5e8;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -23,12 +23,12 @@
   border: none;
   cursor: pointer;
   font-size: 16px;
-  background-color: rgb(65, 44, 44);
+  background-color: rgb(176, 27, 27);
   transition: 0.3s;
 }
 
 .sidebar button:hover {
-  background-color: #121f21;
+  background-color: #ffffff;
 }
 
 .content {

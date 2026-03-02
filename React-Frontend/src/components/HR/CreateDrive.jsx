@@ -148,7 +148,7 @@ const fetchColleges = async () => {
         value={form.driveName}
         onChange={handleChange}
       />
-
+      <h3>No.Of Rounds</h3>
       <input
         type="number"
         name="noOfRounds"
@@ -156,7 +156,7 @@ const fetchColleges = async () => {
         min="1"
         value={form.noOfRounds}
         onChange={handleRoundsChange}
-      />
+      />  
 
       <h3>Rounds</h3>
       {form.rounds.map((round, index) => (

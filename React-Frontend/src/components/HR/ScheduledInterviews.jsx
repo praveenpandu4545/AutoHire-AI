@@ -17,15 +17,27 @@ const ScheduledInterviews = () => {
   const [collegeFilter, setCollegeFilter] = useState("");
   const [driveFilter, setDriveFilter] = useState("");
   const [panelFilter, setPanelFilter] = useState("");
+  const [roundFilter, setRoundFilter] = useState("");
 
   // 📅 Date Range Filter
   const [startRange, setStartRange] = useState("");
   const [endRange, setEndRange] = useState("");
 
+  // 🔁 Reschedule States
+  const [panelMembers, setPanelMembers] = useState([]);
+  const [rescheduleId, setRescheduleId] = useState(null);
+  const [newPanelMemberId, setNewPanelMemberId] = useState("");
+  const [newStartTime, setNewStartTime] = useState("");
+  const [newEndTime, setNewEndTime] = useState("");
+
   useEffect(() => {
     fetchInterviews();
+    fetchPanelMembers();
   }, []);
 
+  // =============================
+  // FETCH INTERVIEWS
+  // =============================
   const fetchInterviews = async () => {
     try {
       const response = await fetch(
@@ -47,6 +59,70 @@ const ScheduledInterviews = () => {
     }
   };
 
+  // =============================
+  // FETCH PANEL MEMBERS
+  // =============================
+  const fetchPanelMembers = async () => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/springApi/employees/panel-members`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const data = await response.json();
+      setPanelMembers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // =============================
+  // RESCHEDULE
+  // =============================
+  const rescheduleInterview = async (interviewId) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/springApi/interviews/${interviewId}/reschedule`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            panelMemberId: newPanelMemberId,
+            startTime: newStartTime,
+            endTime: newEndTime,
+          }),
+        }
+      );
+
+      const text = await response.text();
+      let result;
+
+      try {
+        result = JSON.parse(text);
+      } catch {
+        result = { message: text };
+      }
+
+      if (!response.ok) {
+        alert(result.message || "Rescheduling failed ❌");
+        return;
+      }
+
+      alert("Interview Rescheduled Successfully ✅");
+
+      setRescheduleId(null);
+      setNewPanelMemberId("");
+      setNewStartTime("");
+      setNewEndTime("");
+
+      fetchInterviews();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const formatDateTime = (dateTime) => {
     if (!dateTime) return "";
     return new Date(dateTime).toLocaleString("en-IN", {
@@ -56,6 +132,11 @@ const ScheduledInterviews = () => {
       hour: "2-digit",
       minute: "2-digit",
     });
+  };
+
+  const formatForInput = (dateTime) => {
+    if (!dateTime) return "";
+    return dateTime.slice(0, 16);
   };
 
   // 🔥 Unique dropdown values
@@ -77,27 +158,24 @@ const ScheduledInterviews = () => {
     [interviews]
   );
 
-  // 🔥 Enterprise-safe filtering logic
+  const uniqueRounds = useMemo(
+    () =>
+      [...new Set(interviews.map((i) => i.roundNumber))].filter(
+        (r) => r !== undefined && r !== null
+      ),
+    [interviews]
+  );
+
+  // 🔥 Enterprise filtering logic
   const filteredInterviews = interviews.filter((interview) => {
     const searchLower = search.toLowerCase().trim();
 
-    const studentName = String(interview.studentName || "")
-      .toLowerCase()
-      .trim();
-    const studentEmail = String(interview.studentEmail || "")
-      .toLowerCase()
-      .trim();
-    const driveName = String(interview.driveName || "")
-      .toLowerCase()
-      .trim();
-    const collegeName = String(interview.collegeName || "")
-      .toLowerCase()
-      .trim();
-    const panelName = String(interview.panelMemberName || "")
-      .toLowerCase()
-      .trim();
+    const studentName = interview.studentName?.toLowerCase().trim() || "";
+    const studentEmail = interview.studentEmail?.toLowerCase().trim() || "";
+    const driveName = interview.driveName?.toLowerCase().trim() || "";
+    const collegeName = interview.collegeName?.toLowerCase().trim() || "";
+    const panelName = interview.panelMemberName?.toLowerCase().trim() || "";
 
-    // 🔍 Global Search (numbers safe)
     const matchesSearch =
       studentName.includes(searchLower) ||
       studentEmail.includes(searchLower) ||
@@ -105,7 +183,6 @@ const ScheduledInterviews = () => {
       collegeName.includes(searchLower) ||
       panelName.includes(searchLower);
 
-    // 🎯 Filters (case-insensitive)
     const matchesCollege =
       !collegeFilter ||
       collegeName === collegeFilter.toLowerCase().trim();
@@ -118,7 +195,10 @@ const ScheduledInterviews = () => {
       !panelFilter ||
       panelName === panelFilter.toLowerCase().trim();
 
-    // 📅 Date filtering
+    const matchesRound =
+      !roundFilter ||
+      String(interview.roundNumber) === String(roundFilter);  
+
     const interviewDate = new Date(interview.startTime);
 
     const matchesStartRange =
@@ -132,9 +212,11 @@ const ScheduledInterviews = () => {
       matchesCollege &&
       matchesDrive &&
       matchesPanel &&
+      matchesRound &&
       matchesStartRange &&
       matchesEndRange
     );
+
   });
 
   if (loading) {
@@ -155,7 +237,6 @@ const ScheduledInterviews = () => {
         />
       </div>
 
-      {/* 📅 Date Range */}
       <div className="date-filter-bar">
         <label>From:</label>
         <input
@@ -183,8 +264,8 @@ const ScheduledInterviews = () => {
                   onChange={(e) => setCollegeFilter(e.target.value)}
                 >
                   <option value="">All</option>
-                  {uniqueColleges.map((c, i) => (
-                    <option key={i} value={c}>
+                  {uniqueColleges.map((c) => (
+                    <option key={c} value={c}>
                       {c}
                     </option>
                   ))}
@@ -198,8 +279,8 @@ const ScheduledInterviews = () => {
                   onChange={(e) => setDriveFilter(e.target.value)}
                 >
                   <option value="">All</option>
-                  {uniqueDrives.map((d, i) => (
-                    <option key={i} value={d}>
+                  {uniqueDrives.map((d) => (
+                    <option key={d} value={d}>
                       {d}
                     </option>
                   ))}
@@ -208,7 +289,20 @@ const ScheduledInterviews = () => {
 
               <th>Student</th>
               <th>Email</th>
-              <th>Round</th>
+              <th>
+                  Round
+                  <select
+                    value={roundFilter}
+                    onChange={(e) => setRoundFilter(e.target.value)}
+                  >
+                    <option value="">All</option>
+                    {uniqueRounds.map((r) => (
+                      <option key={r} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </select>
+                </th>
 
               <th>
                 Panel
@@ -217,8 +311,8 @@ const ScheduledInterviews = () => {
                   onChange={(e) => setPanelFilter(e.target.value)}
                 >
                   <option value="">All</option>
-                  {uniquePanels.map((p, i) => (
-                    <option key={i} value={p}>
+                  {uniquePanels.map((p) => (
+                    <option key={p} value={p}>
                       {p}
                     </option>
                   ))}
@@ -226,27 +320,96 @@ const ScheduledInterviews = () => {
               </th>
 
               <th>Date & Time</th>
+              <th>Action</th>
             </tr>
           </thead>
 
           <tbody>
             {filteredInterviews.length === 0 ? (
               <tr>
-                <td colSpan="7" className="no-data">
+                <td colSpan="8" className="no-data">
                   No interviews found.
                 </td>
               </tr>
             ) : (
-              filteredInterviews.map((interview, index) => (
-                <tr key={index}>
-                  <td>{interview.collegeName}</td>
-                  <td>{interview.driveName}</td>
-                  <td>{interview.studentName}</td>
-                  <td>{interview.studentEmail}</td>
-                  <td>{interview.roundNumber}</td>
-                  <td>{interview.panelMemberName}</td>
-                  <td>{formatDateTime(interview.startTime)}</td>
-                </tr>
+              filteredInterviews.map((interview) => (
+                <React.Fragment key={interview.interviewId}>
+                  <tr>
+                    <td>{interview.collegeName}</td>
+                    <td>{interview.driveName}</td>
+                    <td>{interview.studentName}</td>
+                    <td>{interview.studentEmail}</td>
+                    <td>{interview.roundNumber}</td>
+                    <td>{interview.panelMemberName}</td>
+                    <td>{formatDateTime(interview.startTime)}</td>
+                    <td>
+                      <button
+                        className="reschedule-btn"
+                        onClick={() => {
+                          if (rescheduleId === interview.interviewId) {
+                            setRescheduleId(null);
+                          } else {
+                            setRescheduleId(interview.interviewId);
+                            setNewStartTime(formatForInput(interview.startTime));
+                            setNewEndTime(formatForInput(interview.endTime));
+                          }
+                        }}
+                      >
+                        {rescheduleId === interview.interviewId
+                          ? "Close"
+                          : "Reschedule"}
+                      </button>
+                    </td>
+                  </tr>
+
+                  {rescheduleId === interview.interviewId && (
+                    <tr>
+                      <td colSpan="8">
+                        <div className="reschedule-form">
+                          <select
+                            value={newPanelMemberId}
+                            onChange={(e) => setNewPanelMemberId(e.target.value)}
+                          >
+                            <option value="">Select Panel</option>
+                            {panelMembers.map((panel) => (
+                              <option key={panel.id} value={panel.id}>
+                                {panel.name}
+                              </option>
+                            ))}
+                          </select>
+
+                          <input
+                            type="datetime-local"
+                            value={newStartTime}
+                            onChange={(e) => setNewStartTime(e.target.value)}
+                          />
+
+                          <input
+                            type="datetime-local"
+                            value={newEndTime}
+                            onChange={(e) => setNewEndTime(e.target.value)}
+                          />
+
+                          <button
+                            className="confirm-btn"
+                            onClick={() =>
+                              rescheduleInterview(interview.interviewId)
+                            }
+                          >
+                            Confirm
+                          </button>
+
+                          <button
+                            className="cancel-btn"
+                            onClick={() => setRescheduleId(null)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
               ))
             )}
           </tbody>

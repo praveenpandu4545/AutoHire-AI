@@ -9,6 +9,9 @@ function StudentResume() {
   const [resumeURL, setResumeURL] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [showATS, setShowATS] = useState(false);
+  const [atsResult, setAtsResult] = useState("");
+
   useEffect(() => {
     checkResume();
   }, []);
@@ -92,6 +95,34 @@ function StudentResume() {
     setResumeURL(null);
   };
 
+  /* ================= ATS FEATURE ================= */
+
+  const handleCheckATS = async () => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/springApi/ai/checkATS`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.text();
+      setAtsResult(data);
+      setShowATS(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleBackToResume = () => {
+    setShowATS(false);
+  };
+
+  /* ================================================= */
+
   if (loading) return <div>Loading...</div>;
 
   return (
@@ -113,33 +144,63 @@ function StudentResume() {
         </div>
       ) : (
         <>
-          {/* PDF Viewer */}
-          <div className="viewer-container">
-            {resumeURL && (
-              <iframe
-                src={resumeURL}
-                title="Resume Viewer"
-                width="100%"
-                height="500px"
-              />
-            )}
-          </div>
+          {/* ===== ATS SCREEN ===== */}
+          {showATS ? (
+            <div className="ats-result-container">
+              <h3>ATS Analysis Result</h3>
+              <p className="ats-result-text">{atsResult}</p>
 
-          <div className="resume-buttons">
-            <label className="replace-btn">
-              Replace
-              <input
-                type="file"
-                accept="application/pdf"
-                hidden
-                onChange={(e) => handleUpload(e.target.files[0])}
-              />
-            </label>
+              <button
+                className="back-btn"
+                onClick={handleBackToResume}
+              >
+                Back to Resume
+              </button>
+            </div>
+          ) : (
+            <>
+              {/* ===== PDF Viewer ===== */}
+              <div className="viewer-container">
+                {resumeURL && (
+                  <iframe
+                    src={resumeURL}
+                    title="Resume Viewer"
+                    width="100%"
+                    height="500px"
+                  />
+                )}
+              </div>
 
-            <button className="delete-btn" onClick={handleDelete}>
-              Delete
-            </button>
-          </div>
+              <div className="resume-buttons">
+                <label className="replace-btn">
+                  Replace
+                  <input
+                    type="file"
+                    accept="application/pdf"
+                    hidden
+                    onChange={(e) =>
+                      handleUpload(e.target.files[0])
+                    }
+                  />
+                </label>
+
+                <button
+                  className="delete-btn"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+
+                {/* NEW CHECK ATS BUTTON */}
+                <button
+                  className="ats-btn"
+                  onClick={handleCheckATS}
+                >
+                  Check ATS
+                </button>
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
