@@ -1,222 +1,233 @@
-/* ===============================
-   MAIN CONTAINER
-=================================*/
+/* =============================== */
+/* MAIN CONTAINER */
+/* =============================== */
+
 .all-drives-container {
   background: #ffffff;
-  padding: 35px;
-  border-radius: 16px;
+  padding: 22px;
+  border-radius: 10px;
   width: 100%;
-  max-width: 1100px;
-  margin: 20px auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  font-family: "Segoe UI", sans-serif;
+  max-width: 1050px;
+  margin: 10px auto;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  font-family: "Inter", "Segoe UI", sans-serif;
 }
 
-/* ===============================
-   HEADER SECTION
-=================================*/
+
+/* =============================== */
+/* HEADER */
+/* =============================== */
+
 .students-header {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .students-header h2 {
-  font-size: 26px;
+  font-size: 18px;
   font-weight: 600;
   color: #222;
+  margin: 0;
 }
 
-/* ===============================
-   SEARCH + FILTER SECTION
-=================================*/
+
+/* =============================== */
+/* SEARCH INPUT */
+/* =============================== */
+
 .drive-search-input {
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  background: #f9fafb;
-  transition: 0.3s ease;
-  min-width: 200px;
-  color: #333;
+  padding: 7px 12px;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  font-size: 13px;
+  background: #fafafa;
+  min-width: 220px;
+  transition: 0.2s;
 }
 
 .drive-search-input::placeholder {
-  color: #888;
+  color: #999;
 }
 
 .drive-search-input:focus {
-  border-color: #00b4d8;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
   outline: none;
+  border-color: #2196f3;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(33,150,243,0.12);
 }
 
-/* Fix dropdown visibility */
-select.drive-search-input {
-  color: #333;
-  background-color: #f9fafb;
-}
 
-/* ===============================
-   ACTION BUTTONS
-=================================*/
+/* =============================== */
+/* ACTION BUTTONS */
+/* =============================== */
+
 .students-actions {
   display: flex;
+  gap: 8px;
   flex-wrap: wrap;
-  gap: 10px;
 }
 
-button {
-  transition: all 0.2s ease-in-out;
+.back-btn,
+.upload-btn {
+  padding: 6px 12px;
+  font-size: 12.5px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }
 
 .back-btn {
-  padding: 8px 14px;
-  border-radius: 10px;
-  border: none;
   background: #444;
   color: white;
-  font-weight: 500;
-  cursor: pointer;
 }
 
 .back-btn:hover {
-  background: #222;
-  transform: translateY(-1px);
+  background: #2e2e2e;
 }
 
 .upload-btn {
-  padding: 8px 14px;
-  border-radius: 10px;
-  border: none;
-  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  background: #2ecc71;
   color: white;
-  font-weight: 500;
-  cursor: pointer;
 }
 
 .upload-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+  background: #27ae60;
 }
 
 .upload-btn:disabled {
-  background: #aaa;
+  background: #b5b5b5;
   cursor: not-allowed;
 }
 
-/* ===============================
-   TABLE DESIGN
-=================================*/
+
+/* =============================== */
+/* COLLEGE SECTION */
+/* =============================== */
+
+.college-name {
+  background: #f1f5f9;
+  padding: 9px 14px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-top: 12px;
+  border-left: 4px solid #3498db;
+}
+
+
+/* =============================== */
+/* DRIVE TITLES */
+/* =============================== */
+
+.drive-title {
+  cursor: pointer;
+  padding: 6px 4px;
+  font-size: 13px;
+  color: #333;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.drive-title:hover {
+  color: #1976d2;
+  background: #f8fbff;
+}
+
+
+/* =============================== */
+/* DETAILS SECTION */
+/* =============================== */
+
+.details-section {
+  margin-top: 8px;
+  background: #fafafa;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+
+/* =============================== */
+/* TABLE */
+/* =============================== */
+
 .students-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  border-radius: 12px;
-  overflow: hidden;
+  margin-top: 15px;
+  font-size: 13px;
 }
 
 .students-table thead {
-  background: linear-gradient(90deg, #00b4d8, #0077b6);
-  color: white;
+  background: #f5f7fa;
+  border-bottom: 1px solid #e2e6ea;
 }
 
 .students-table th {
-  padding: 14px;
-  font-weight: 500;
+  padding: 10px;
+  font-weight: 600;
+  color: #444;
   text-align: left;
-  font-size: 14px;
 }
 
 .students-table td {
-  padding: 12px;
-  font-size: 14px;
-  border-bottom: 1px solid #eee;
+  padding: 9px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #555;
 }
 
 .students-table tbody tr:hover {
-  background-color: #f3f9ff;
-  transition: 0.2s ease;
+  background: #fafcff;
 }
 
-/* ===============================
-   STATUS BADGES
-=================================*/
-.students-table td:nth-child(7) {
+
+/* =============================== */
+/* STATUS BADGES */
+/* =============================== */
+
+.status-selected {
+  color: #2ecc71;
   font-weight: 600;
 }
 
-.students-table td:nth-child(7):contains("SELECTED") {
-  color: #27ae60;
-}
-
-.students-table td:nth-child(7):contains("REJECTED") {
+.status-rejected {
   color: #e74c3c;
+  font-weight: 600;
 }
 
-/* ===============================
-   DETAILS BUTTON
-=================================*/
+
+/* =============================== */
+/* DETAILS BUTTON */
+/* =============================== */
+
 .details-btn {
-  padding: 6px 12px;
-  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 6px;
   border: none;
   background: #3498db;
   color: white;
   cursor: pointer;
-  font-size: 13px;
 }
 
 .details-btn:hover {
-  background: #217dbb;
-  transform: scale(1.05);
+  background: #2d83c5;
 }
 
-/* ===============================
-   COLLEGE SECTION (All Drives Page)
-=================================*/
-.college-name {
-  background: linear-gradient(135deg, #8ecae6, #219ebc);
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: 600;
-  color: white;
-  margin-bottom: 10px;
-}
 
-.drive-title {
-  cursor: pointer;
-  padding: 6px 0;
-  font-weight: 500;
-  color: #333;
-}
+/* =============================== */
+/* LOADER */
+/* =============================== */
 
-.drive-title:hover {
-  color: #0077b6;
-}
-
-/* ===============================
-   DETAILS SECTION
-=================================*/
-.details-section {
-  margin-top: 10px;
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 10px;
-}
-
-/* ===============================
-   LOADER
-=================================*/
 .loader {
-  margin-top: 15px;
-  border: 4px solid #eee;
-  border-top: 4px solid #00b4d8;
+  margin-top: 12px;
+  border: 3px solid #eee;
+  border-top: 3px solid #3498db;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   animation: spin 1s linear infinite;
 }
 

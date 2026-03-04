@@ -1,38 +1,82 @@
+/* ================================ */
+/* DASHBOARD LAYOUT */
+/* ================================ */
 
 .dashboard-container {
   display: flex;
   height: 100vh;
+  background: #f4f7fb;
+  font-family: "Inter", "Segoe UI", sans-serif;
 }
+
+
+/* ================================ */
+/* SIDEBAR */
+/* ================================ */
 
 .sidebar {
-  width: 250px;
-  background-color: #d2e5e8;
-  padding: 20px;
+  width: 240px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 26px 18px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 8px;
 }
+
+
+/* ================================ */
+/* LOGO */
+/* ================================ */
 
 .logo {
-  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 28px;
+  letter-spacing: 0.4px;
 }
+
+
+/* ================================ */
+/* MENU BUTTONS */
+/* ================================ */
 
 .sidebar button {
-  padding: 12px;
-  border-radius: 6px;
+  padding: 11px 14px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
-  font-size: 16px;
-  background-color: rgb(176, 27, 27);
-  transition: 0.3s;
+  font-size: 13.5px;
+  font-weight: 500;
+  background: #3358a3;   /* soft blue background */
+  color: rgb(252, 251, 251);
+  transition: all 0.25s ease;
 }
 
+/* Hover */
+
 .sidebar button:hover {
-  background-color: #ffffff;
+  background: #dbeafe;
+  transform: translateX(4px);
 }
+
+/* Active button */
+
+.sidebar button.active {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+}
+
+
+/* ================================ */
+/* CONTENT AREA */
+/* ================================ */
 
 .content {
   flex: 1;
-  background-color: #f5f5f5;
-  padding: 40px;
+  padding: 28px 32px;
+  overflow-y: auto;
+  background: #f4f7fb;
 }

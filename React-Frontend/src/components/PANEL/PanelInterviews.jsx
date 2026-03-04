@@ -11,8 +11,12 @@ const PanelInterviews = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDrive, setSelectedDrive] = useState("All");
   const [selectedRound, setSelectedRound] = useState("All");
+  const [selectedStatus, setSelectedStatus] = useState("All");   // NEW
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+
+  const [selectedInterview, setSelectedInterview] = useState(null);
+  const [reviewText, setReviewText] = useState("");
 
   useEffect(() => {
     fetchInterviews();
@@ -44,18 +48,20 @@ const PanelInterviews = () => {
     }
   };
 
-  // Unique values for filters
-  const drives = ["All", ...new Set(interviews.map(i => i.driveName))];
-  const rounds = ["All", ...new Set(interviews.map(i => i.roundNumber))];
+  const drives = ["All", ...new Set(interviews.map((i) => i.driveName))];
+  const rounds = ["All", ...new Set(interviews.map((i) => i.roundNumber))];
 
-  // Filtering Logic
   const filteredInterviews = useMemo(() => {
     return interviews.filter((interview) => {
       const interviewDate = new Date(interview.startTime);
 
       const matchesSearch =
-        interview.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        interview.studentEmail.toLowerCase().includes(searchTerm.toLowerCase());
+        interview.studentName
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        interview.studentEmail
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
 
       const matchesDrive =
         selectedDrive === "All" || interview.driveName === selectedDrive;
@@ -64,26 +70,31 @@ const PanelInterviews = () => {
         selectedRound === "All" ||
         interview.roundNumber === Number(selectedRound);
 
+      const status = interview.review ? "Completed" : "Pending";
+
+      const matchesStatus =
+        selectedStatus === "All" || status === selectedStatus;
+
       let matchesDateRange = true;
 
       if (fromDate) {
         matchesDateRange =
-          matchesDateRange &&
-          interviewDate >= new Date(fromDate);
+          matchesDateRange && interviewDate >= new Date(fromDate);
       }
 
       if (toDate) {
         const endOfDay = new Date(toDate);
         endOfDay.setHours(23, 59, 59, 999);
+
         matchesDateRange =
-          matchesDateRange &&
-          interviewDate <= endOfDay;
+          matchesDateRange && interviewDate <= endOfDay;
       }
 
       return (
         matchesSearch &&
         matchesDrive &&
         matchesRound &&
+        matchesStatus &&
         matchesDateRange
       );
     });
@@ -92,21 +103,54 @@ const PanelInterviews = () => {
     searchTerm,
     selectedDrive,
     selectedRound,
+    selectedStatus,
     fromDate,
     toDate,
   ]);
 
   const handleReview = (interview) => {
-    console.log("Review interview:", interview);
-    // You can navigate to review page here
+    setSelectedInterview(interview);
+    setReviewText(interview.review || "");
   };
 
-  const clearFilters = () => {
-    setSearchTerm("");
-    setSelectedDrive("All");
-    setSelectedRound("All");
-    setFromDate("");
-    setToDate("");
+  const submitReview = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${BASE_URL}/springApi/interviews/review`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            interviewScheduleId: selectedInterview.id,
+            review: reviewText,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to submit review");
+      }
+
+      alert("Review submitted successfully");
+
+      setInterviews((prev) =>
+        prev.map((i) =>
+          i.id === selectedInterview.id
+            ? { ...i, review: reviewText }
+            : i
+        )
+      );
+
+      setSelectedInterview(null);
+      setReviewText("");
+    } catch (err) {
+      alert("Error submitting review");
+    }
   };
 
   return (
@@ -147,6 +191,19 @@ const PanelInterviews = () => {
           </select>
         </div>
 
+        {/* NEW STATUS FILTER */}
+        <div className="filter-group">
+          <label>Status</label>
+          <select
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value)}
+          >
+            <option value="All">All</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </div>
+
         <div className="filter-group">
           <label>From</label>
           <input
@@ -174,10 +231,6 @@ const PanelInterviews = () => {
           />
         </div>
 
-        <button className="clear-btn" onClick={clearFilters}>
-          Clear
-        </button>
-
       </div>
 
       {/* TABLE */}
@@ -190,6 +243,7 @@ const PanelInterviews = () => {
           <div className="no-data">No interviews found</div>
         ) : (
           <table className="interview-table">
+
             <thead>
               <tr>
                 <th>Drive</th>
@@ -197,34 +251,99 @@ const PanelInterviews = () => {
                 <th>Email</th>
                 <th>Round</th>
                 <th>Date & Time</th>
-                <th>Action</th>
+                <th>Status</th>
+                <th>Drop Your Review</th>
               </tr>
             </thead>
 
             <tbody>
-              {filteredInterviews.map((interview, index) => (
-                <tr key={index}>
-                  <td>{interview.driveName}</td>
-                  <td>{interview.studentName}</td>
-                  <td>{interview.studentEmail}</td>
-                  <td>Round {interview.roundNumber}</td>
-                  <td>
-                    {new Date(interview.startTime).toLocaleString()}
-                  </td>
-                  <td>
-                    <button
-                      className="review-btn"
-                      onClick={() => handleReview(interview)}
-                    >
-                      Review
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {filteredInterviews.map((interview) => {
+                const status = interview.review ? "Completed" : "Pending";
+
+                return (
+                  <tr key={interview.id}>
+                    <td>{interview.driveName}</td>
+                    <td>{interview.studentName}</td>
+                    <td>{interview.studentEmail}</td>
+                    <td>Round {interview.roundNumber}</td>
+                    <td>{new Date(interview.startTime).toLocaleString()}</td>
+
+                    {/* STATUS COLUMN */}
+                    <td>
+                      <span
+                        style={{
+                          color: status === "Completed" ? "green" : "#999",
+                          fontWeight: "600"
+                        }}
+                      >
+                        {status}
+                      </span>
+                    </td>
+
+                    <td>
+                      <button
+                        className="review-btn"
+                        onClick={() => handleReview(interview)}
+                      >
+                        {interview.review ? "Update" : "Review"}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
+
           </table>
         )}
       </div>
+
+      {/* REVIEW POPUP */}
+      {selectedInterview && (
+        <div className="review-popup">
+
+          <div className="review-card">
+
+            <h3>Interview Review</h3>
+
+            <p><b>Student:</b> {selectedInterview.studentName}</p>
+            <p><b>Drive:</b> {selectedInterview.driveName}</p>
+
+            {selectedInterview.review && (
+              <div className="previous-review">
+                <b>Previous Review:</b>
+                <p>{selectedInterview.review}</p>
+              </div>
+            )}
+
+            <textarea
+              rows="5"
+              placeholder="Write your feedback..."
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+            />
+
+            <div className="review-actions">
+
+              <button
+                className="submit-review-btn"
+                onClick={submitReview}
+              >
+                Submit
+              </button>
+
+              <button
+                className="cancel-btn"
+                onClick={() => setSelectedInterview(null)}
+              >
+                Cancel
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
 
     </div>
   );

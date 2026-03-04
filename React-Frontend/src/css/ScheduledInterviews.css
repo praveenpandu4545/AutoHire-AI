@@ -1,144 +1,195 @@
-/* ScheduledInterviews.css */
+/* ================================= */
+/* PAGE CONTAINER */
+/* ================================= */
 
 .scheduled-container {
-  padding: 40px;
-  background: #f5f7fa;
+  padding: 20px;
+  background: #f6f8fb;
   min-height: 100vh;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", "Segoe UI", sans-serif;
 }
+
+
+/* ================================= */
+/* HEADER */
+/* ================================= */
 
 .scheduled-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 16px;
 }
 
 .scheduled-header h2 {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: #1f2937;
 }
 
+
+/* ================================= */
+/* GLOBAL SEARCH */
+/* ================================= */
+
 .global-search {
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #cbd5e1;
-  width: 280px;
-  font-size: 14px;
-  transition: 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  width: 220px;
+  font-size: 13px;
+  background: #fff;
 }
 
 .global-search:focus {
-  border-color: #2563eb;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
 }
+
+
+/* ================================= */
+/* DATE FILTER BAR */
+/* ================================= */
 
 .date-filter-bar {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   align-items: center;
-  margin-bottom: 20px;
-  font-size: 14px;
+  margin-bottom: 14px;
+  font-size: 12px;
 }
 
 .date-filter-bar input {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #cbd5e1;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
 }
+
+
+/* ================================= */
+/* TABLE WRAPPER */
+/* ================================= */
 
 .table-wrapper {
   overflow-x: auto;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
 }
+
+
+/* ================================= */
+/* TABLE */
+/* ================================= */
 
 .scheduled-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 13px;
 }
 
+/* TABLE HEADER */
+
 .scheduled-table thead {
-  background: #f1f5f9;
+  background: #f3f6fa;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .scheduled-table th {
-  padding: 14px;
-  font-size: 14px;
+  padding: 10px;
+  font-size: 12.5px;
   text-align: left;
-  color: #334155;
-  border-bottom: 1px solid #e2e8f0;
+  color: #374151;
+  font-weight: 600;
 }
 
 .scheduled-table th select {
-  margin-top: 6px;
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #cbd5e1;
+  margin-top: 4px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #d1d5db;
+  font-size: 12px;
   width: 100%;
 }
 
+/* TABLE BODY */
+
 .scheduled-table td {
-  padding: 14px;
-  font-size: 14px;
-  border-bottom: 1px solid #f1f5f9;
-  color: #475569;
+  padding: 9px 10px;
+  font-size: 13px;
+  border-bottom: 1px solid #f1f1f1;
+  color: #4b5563;
 }
 
 .scheduled-table tbody tr:hover {
-  background: #f8fafc;
-  transition: 0.2s ease;
+  background: #f9fbff;
 }
+
+
+/* ================================= */
+/* NO DATA */
+/* ================================= */
 
 .no-data {
   text-align: center;
-  padding: 20px;
-  font-weight: 500;
-  color: #64748b;
+  padding: 16px;
+  font-size: 13px;
+  color: #6b7280;
 }
 
+
+/* ================================= */
+/* BUTTONS */
+/* ================================= */
+
 .reschedule-btn {
-  background: #6366f1;
+  background: #4f46e5;
   color: white;
   border: none;
-  padding: 6px 12px;
+  padding: 5px 12px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 13px;
-  transition: 0.2s ease;
+  font-size: 12.5px;
+  transition: 0.2s;
 }
 
 .reschedule-btn:hover {
-  background: #4f46e5;
-}
-
-.reschedule-form {
-  padding: 15px;
-  background: #f4f6f9;
-  border-radius: 8px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
+  background: #4338ca;
 }
 
 .confirm-btn {
   background: #10b981;
   color: white;
   border: none;
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 12.5px;
 }
 
 .cancel-btn {
   background: #ef4444;
   color: white;
   border: none;
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 12.5px;
+}
+
+
+/* ================================= */
+/* RESCHEDULE FORM */
+/* ================================= */
+
+.reschedule-form {
+  padding: 10px;
+  background: #f8fafc;
+  border-radius: 6px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
 }

@@ -7,12 +7,14 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
   const [rounds, setRounds] = useState([]);
   const [loadingRounds, setLoadingRounds] = useState(false);
 
-  // Scheduling States
   const [panelMembers, setPanelMembers] = useState([]);
   const [selectedRoundId, setSelectedRoundId] = useState(null);
   const [panelMemberId, setPanelMemberId] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+
+  // NEW STATE FOR REVIEW MODAL
+  const [selectedReview, setSelectedReview] = useState(null);
 
   useEffect(() => {
     fetchRounds();
@@ -34,14 +36,12 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
 
       const data = await response.json();
 
-      // Remove duplicate rounds (temporary safety)
       const uniqueRounds = Array.from(
-        new Map(data.map(r => [r.roundNumber, r])).values()
+        new Map(data.map((r) => [r.roundNumber, r])).values()
       );
 
       setRounds(uniqueRounds);
       setLoadingRounds(false);
-
     } catch (error) {
       console.error(error);
       setLoadingRounds(false);
@@ -62,7 +62,6 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
 
       const data = await response.json();
       setPanelMembers(data);
-
     } catch (error) {
       console.error(error);
     }
@@ -89,7 +88,6 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
 
       fetchRounds();
       refreshStudents();
-
     } catch (error) {
       console.error(error);
     }
@@ -129,15 +127,12 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
 
       alert("Interview Scheduled Successfully ✅");
 
-      // Reset form
       setSelectedRoundId(null);
       setPanelMemberId("");
       setStartTime("");
       setEndTime("");
 
-      // 🔥 IMPORTANT: Fetch fresh data from backend
       fetchRounds();
-
     } catch (error) {
       console.error(error);
     }
@@ -162,8 +157,10 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
               <th>Status</th>
               <th>Update</th>
               <th>Interview</th>
+              <th>Panel Review</th>
             </tr>
           </thead>
+
           <tbody>
             {rounds.map((round) => (
               <React.Fragment key={round.id}>
@@ -186,13 +183,17 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                     </select>
                   </td>
 
-                  {/* INTERVIEW COLUMN */}
+                  {/* INTERVIEW */}
                   <td>
                     {round.interviewScheduled ? (
                       <div style={{ color: "green", fontWeight: "bold" }}>
                         Scheduled
                         <div style={{ fontSize: "12px", color: "#555" }}>
-                          {round.panelName && <>Panel: {round.panelName} <br /></>}
+                          {round.panelName && (
+                            <>
+                              Panel: {round.panelName} <br />
+                            </>
+                          )}
                           {round.interviewStartTime &&
                             round.interviewStartTime.replace("T", " ")}
                         </div>
@@ -206,12 +207,26 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                       </button>
                     )}
                   </td>
+
+                  {/* PANEL REVIEW */}
+                  <td>
+                    {round.panelReview ? (
+                      <button
+                        className="details-btn"
+                        onClick={() => setSelectedReview(round)}
+                      >
+                        View Review
+                      </button>
+                    ) : (
+                      <span style={{ color: "#999" }}>Pending</span>
+                    )}
+                  </td>
                 </tr>
 
                 {/* INLINE SCHEDULE FORM */}
                 {selectedRoundId === round.id && !round.interviewScheduled && (
                   <tr>
-                    <td colSpan="5">
+                    <td colSpan="6">
                       <div
                         style={{
                           padding: "15px",
@@ -220,7 +235,7 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                           display: "flex",
                           gap: "10px",
                           alignItems: "center",
-                          flexWrap: "wrap"
+                          flexWrap: "wrap",
                         }}
                       >
                         <select
@@ -268,6 +283,33 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
             ))}
           </tbody>
         </table>
+      )}
+
+      {/* =============================
+         REVIEW MODAL CARD
+      ============================= */}
+
+      {selectedReview && (
+        <div className="review-modal">
+          <div className="review-card-large">
+
+            <span
+              className="close-review"
+              onClick={() => setSelectedReview(null)}
+            >
+              ❌
+            </span>
+
+            <h2 style={{ color: "green" }}>✔ Interview Completed</h2>
+
+            <h3>Panel Review</h3>
+
+            <p style={{ marginTop: "10px", lineHeight: "1.6" }}>
+              {selectedReview.panelReview}
+            </p>
+
+          </div>
+        </div>
       )}
     </div>
   );
