@@ -1,0 +1,267 @@
+/* ============================= */
+/* PAGE BACKGROUND */
+/* ============================= */
+
+.auth-page{
+    height:100vh;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(135deg,#eef2ff,#f8fafc,#e0e7ff);
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+}
+
+
+/* ============================= */
+/* MAIN AUTH BOX */
+/* ============================= */
+
+.auth-box{
+    width:70%;
+    height:70vh;
+    display:flex;
+
+    background:white;
+    border-radius:14px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.15),
+        0 5px 15px rgba(0,0,0,0.05);
+
+    overflow:hidden;
+    position:relative;
+
+    transition:all 0.6s ease;
+}
+
+
+/* ============================= */
+/* PANELS */
+/* ============================= */
+
+.auth-left,
+.auth-right{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:30px;
+
+    transition:transform 0.6s ease;
+}
+
+
+/* LEFT PANEL */
+
+.auth-left{
+    background:linear-gradient(160deg,#f1f5ff,#eef2ff);
+    border-right:1px solid #e5e7eb;
+}
+
+
+/* RIGHT PANEL */
+
+.auth-right{
+    background:white;
+}
+
+
+/* ============================= */
+/* BRAND SECTION */
+/* ============================= */
+
+.brand-box{
+    text-align:center;
+    animation:fadeIn 0.6s ease;
+}
+
+.brand-box h1{
+    font-size:42px;
+    font-weight:700;
+    color:#1f2937;
+}
+
+.brand-box p{
+    margin-top:10px;
+    font-size:16px;
+    color:#6b7280;
+}
+
+
+/* ============================= */
+/* FORM */
+/* ============================= */
+
+.form-box{
+    width:260px;
+    display:flex;
+    flex-direction:column;
+
+    animation:fadeIn 0.5s ease;
+}
+
+.form-box h2{
+    margin-bottom:12px;
+    font-weight:600;
+    color:#111827;
+}
+
+
+/* ============================= */
+/* INPUT FIELDS */
+/* ============================= */
+
+.form-box input,
+.form-box select{
+    padding:8px 10px;
+    margin-bottom:6px;
+
+    border:1px solid #d1d5db;
+    border-radius:6px;
+
+    font-size:14px;
+
+    transition:all 0.25s ease;
+}
+
+
+/* INPUT FOCUS */
+
+.form-box input:focus,
+.form-box select:focus{
+    outline:none;
+
+    border-color:#4c6ef5;
+
+    box-shadow:0 0 0 2px rgba(76,110,245,0.15);
+}
+
+
+/* ============================= */
+/* PASSWORD FIELD */
+/* ============================= */
+
+.password-wrapper{
+    position:relative;
+    width:80%;
+}
+
+
+.password-wrapper input{
+    width:100%;
+    padding-right:40px;   /* space for eye icon */
+}
+
+.eye-icon{
+    position:absolute;
+    right:-19%;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:16px;
+}
+
+
+/* ============================= */
+/* BUTTON */
+/* ============================= */
+
+button{
+    margin-top:6px;
+    padding:9px;
+
+    background:linear-gradient(135deg,#4c6ef5,#364fc7);
+
+    border:none;
+    border-radius:6px;
+
+    color:white;
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:all 0.25s ease;
+}
+
+
+/* BUTTON HOVER */
+
+button:hover{
+    transform:translateY(-1px);
+
+    box-shadow:0 5px 12px rgba(76,110,245,0.35);
+}
+
+
+/* ============================= */
+/* TEXT LINKS */
+/* ============================= */
+
+.switch-text{
+    margin-top:8px;
+    font-size:13px;
+    color:#6b7280;
+}
+
+.switch-text span{
+    color:#4c6ef5;
+    cursor:pointer;
+    font-weight:600;
+}
+
+
+/* ============================= */
+/* ERROR & SUCCESS */
+/* ============================= */
+
+.error-text{
+    color:#ef4444;
+    font-size:13px;
+    margin-top:4px;
+}
+
+.success-text{
+    color:#22c55e;
+    font-size:13px;
+    margin-top:4px;
+}
+
+
+/* ============================= */
+/* SLIDE ANIMATION */
+/* ============================= */
+
+.login-mode .auth-left{
+    transform:translateX(0);
+}
+
+.login-mode .auth-right{
+    transform:translateX(0);
+}
+
+.register-mode .auth-left{
+    transform:translateX(100%);
+}
+
+.register-mode .auth-right{
+    transform:translateX(-100%);
+}
+
+
+/* ============================= */
+/* FADE ANIMATION */
+/* ============================= */
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}

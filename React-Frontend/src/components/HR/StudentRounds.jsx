@@ -296,6 +296,7 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
             <span
               className="close-review"
               onClick={() => setSelectedReview(null)}
+              style={{ float: "right", cursor: "pointer", fontSize: "12px",  opacity:2}}
             >
               ❌
             </span>
@@ -307,6 +308,7 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
             <p style={{ marginTop: "10px", lineHeight: "1.6" }}>
               {selectedReview.panelReview}
             </p>
+            <button>Summarize the review with AI</button>
 
           </div>
         </div>

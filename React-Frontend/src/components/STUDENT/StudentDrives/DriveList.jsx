@@ -7,7 +7,7 @@ const DriveList = ({
   return (
     <>
       <h2>Available Drives</h2>
-
+      <div className="drives-grid">
       {drives.map((drive) => (
         <div key={drive.id} className="drive-card">
           <div className="drive-title">{drive.driveName}</div>
@@ -34,6 +34,7 @@ const DriveList = ({
           )}
         </div>
       ))}
+      </div>
     </>
   );
 };

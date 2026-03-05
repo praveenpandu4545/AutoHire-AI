@@ -17,14 +17,14 @@ function Opening() {
       <div className="button-group">
         <button 
           className="role-button student-btn"
-          onClick={() => navigate("/student-login")}
+          onClick={() => navigate("/Student-Auth")}
         >
           🎓 Student
         </button>
 
         <button 
           className="role-button panel-btn"
-          onClick={() => navigate("/panel-login")}
+          onClick={() => navigate("/Panel-Auth")}
         >
           👨‍💼 Panel
         </button>
