@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HrProfile from "../HR/HrProfile";
 import PanelInterviews from "./PanelInterviews";
+import ContactHR from "../STUDENT/ContactHR"
 import "../../css/PanelDashboard.css";
 
 function PanelDashboard() {
@@ -34,12 +35,20 @@ function PanelDashboard() {
           Scheduled Interviews 
         </button>
 
+        <button
+          className={activeTab === "ContactHR" ? "active-btn" : ""}
+          onClick={() => setActiveTab("ContactHR")}
+        >
+          Contact HR 
+        </button>
+
       </div>
 
       {/* Main Content */}
       <div className="panel-main-content">
         {activeTab === "profile" && <HrProfile />}
         {activeTab === "interviews" && <PanelInterviews/>}
+        {activeTab === "ContactHR" && <ContactHR/>}
       </div>
 
     </div>

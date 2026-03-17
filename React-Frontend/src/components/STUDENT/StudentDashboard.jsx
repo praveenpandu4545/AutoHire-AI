@@ -2,6 +2,7 @@ import { useState } from "react";
 import StudentProfile from "./StudentProfile";
 import StudentResume from "./StudentResume";
 import StudentDrives from "./StudentDrives/StudentDrives";
+import ContactHR from "./ContactHR";
 import "../../css/StudentDashboard.css";
 
 function StudentDashboard() {
@@ -34,6 +35,14 @@ function StudentDashboard() {
         >
           Resume
         </button>
+
+        <button
+          className={activeTab === "hr" ? "active-btn" : ""}
+          onClick={() => setActiveTab("hr")}
+        >
+          Contact HR
+        </button>
+
       </div>
 
       {/* Main Content */}
@@ -41,6 +50,7 @@ function StudentDashboard() {
         {activeTab === "profile" && <StudentProfile />}
         {activeTab === "resume" && <StudentResume />}
         {activeTab === "drives" && <StudentDrives />}
+        {activeTab === "hr" && <ContactHR />}
 
       </div>
 

@@ -6,6 +6,7 @@ import AddCollege from "./AddCollege";
 import AllColleges from "./AllColleges";
 import AllDrives from "./AllDrives";
 import ScheduledInterviews from "./ScheduledInterviews";
+import ChatMessages from "./ChatMessages";
 import "../../css/Dashboard.css";
 
 const HrDashboard = () => {
@@ -33,6 +34,8 @@ const HrDashboard = () => {
         return <AllDrives/>;  
       case "scheduledInterviews":
         return <ScheduledInterviews/>  
+      case "chatMessages":
+        return <ChatMessages/>
       default:
         return <div>Select an option</div>;
     }
@@ -67,7 +70,9 @@ const HrDashboard = () => {
           Scheduled Interviews
         </button>
 
-        
+        <button onClick={() => setActiveTab("chatMessages")}>
+          Messages
+        </button>
 
         
 

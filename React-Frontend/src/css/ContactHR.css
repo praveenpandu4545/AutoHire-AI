@@ -1,0 +1,231 @@
+/* MAIN CONTAINER */
+
+.chatContainer{
+  display:flex;
+  width:100%;
+  height:78vh;
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,0.05);
+}
+
+
+/* HR LIST SIDEBAR */
+
+.hrList{
+  width:280px;
+  min-width:280px;
+  border-right:1px solid #e6e8f0;
+  padding:18px;
+  background:#fafbff;
+  display:flex;
+  flex-direction:column;
+}
+
+.hrList h3{
+  font-size:16px;
+  margin-bottom:12px;
+}
+
+
+/* SEARCH BAR */
+
+.hrList input{
+  padding:9px 12px;
+  border-radius:8px;
+  border:1px solid #d9deea;
+  outline:none;
+  font-size:13px;
+  margin-bottom:15px;
+}
+
+.hrList input:focus{
+  border-color:#4f6ef7;
+}
+
+
+/* HR CARD */
+
+.hrCard{
+  padding:12px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  margin-bottom:6px;
+  transition:all .2s ease;
+  border:1px solid transparent;
+}
+
+.hrCard:hover{
+  background:#f2f4ff;
+  border:1px solid #e5e9ff;
+}
+
+.activeHR{
+  background:linear-gradient(135deg,#4a67ff,#5f79ff);
+  color:white;
+  box-shadow:0 4px 10px rgba(74,103,255,0.3);
+}
+
+.hrName{
+  font-weight:600;
+  font-size:14px;
+}
+
+.hrDept{
+  font-size:12px;
+  opacity:.8;
+  margin-top:2px;
+}
+
+
+/* CHAT SECTION */
+
+.chatSection{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  background:#ffffff;
+}
+
+
+/* CHAT HEADER */
+
+.chatHeader{
+  padding:16px 22px;
+  border-bottom:1px solid #e6e8f0;
+  font-weight:600;
+  background:#fafbff;
+  font-size:15px;
+}
+
+
+/* MESSAGE AREA */
+
+.chatMessages{
+  flex:1;
+  overflow-y:auto;
+  padding:22px;
+  background:#f7f8fd;
+}
+
+
+/* MESSAGE BUBBLES */
+
+.messageLeft{
+  background:#eef1ff;
+  padding:10px 14px;
+  border-radius:14px;
+  margin-bottom:12px;
+  max-width:50%;
+  width:fit-content;
+  font-size:14px;
+}
+
+.messageRight{
+  background:linear-gradient(135deg,#4a67ff,#5f79ff);
+  color:white;
+  padding:10px 14px;
+  border-radius:14px;
+  margin-bottom:12px;
+  margin-left:auto;
+  max-width:50%;
+  width:fit-content;
+  font-size:14px;
+  box-shadow:0 3px 8px rgba(74,103,255,0.2);
+}
+
+
+/* FILE MESSAGE */
+
+.fileMessage{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-weight:500;
+}
+
+.fileMessage:hover{
+  text-decoration:underline;
+}
+
+
+/* INPUT AREA */
+
+.chatInput{
+  display:flex;
+  align-items:center;
+  padding:14px 18px;
+  border-top:1px solid #e6e8f0;
+  background:white;
+  gap:8px;
+}
+
+
+/* ATTACHMENT PIN */
+
+.pinIcon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  background:#f3f5fb;
+  border:1px solid #e6e8f0;
+  cursor:pointer;
+  font-size:18px;
+  transition:.2s ease;
+}
+
+.pinIcon:hover{
+  background:#e9edff;
+  transform:scale(1.05);
+}
+
+
+/* MESSAGE INPUT */
+
+.chatInput input{
+  flex:1;
+  padding:11px 14px;
+  border-radius:8px;
+  border:1px solid #d9deea;
+  outline:none;
+  font-size:14px;
+}
+
+.chatInput input:focus{
+  border-color:#4f6ef7;
+}
+
+
+/* SEND BUTTON */
+
+.chatInput button{
+  padding:11px 18px;
+  background:linear-gradient(135deg,#4a67ff,#5f79ff);
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s ease;
+}
+
+.chatInput button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(74,103,255,0.25);
+}
+
+
+/* SCROLLBAR */
+
+.chatMessages::-webkit-scrollbar{
+  width:6px;
+}
+
+.chatMessages::-webkit-scrollbar-thumb{
+  background:#d8dcf0;
+  border-radius:4px;
+}
