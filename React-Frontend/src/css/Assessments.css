@@ -1,0 +1,72 @@
+/* 🔹 Container */
+.assessments-container {
+  padding: 40px;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 🔹 Header */
+.assessments-container h2 {
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* 🔹 Card Wrapper (main box) */
+.assessments-container .content-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 14px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  max-width: 500px;
+}
+
+/* 🔹 Button Group */
+.btn-group {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* 🔹 Common Button Style */
+.btn {
+  padding: 12px 22px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 🔹 Add Question Button */
+.add-question-btn {
+  background: linear-gradient(135deg, #4CAF50, #43a047);
+  color: white;
+}
+
+.add-question-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(76, 175, 80, 0.3);
+}
+
+/* 🔹 View Questions Button */
+.view-question-btn {
+  background: linear-gradient(135deg, #673ab7, #5e35b1);
+  color: white;
+}
+
+.view-question-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(103, 58, 183, 0.3);
+}
+
+/* 🔹 Button Active Click */
+.btn:active {
+  transform: scale(0.97);
+}
