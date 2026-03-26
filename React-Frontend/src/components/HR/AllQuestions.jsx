@@ -165,7 +165,9 @@ const AllQuestions = ({ onBack }) => {
                 <li key={i}>{opt}</li>
               ))}
             </ul>
-
+            <p className="correct-answer">
+              <strong>Answer:</strong> {q.correctAnswer}
+            </p>
             <p><strong>Domain:</strong> {q.domain}</p>
             <p><strong>Difficulty:</strong> {q.difficulty}</p>
           </div>
