@@ -1,0 +1,64 @@
+.assessments-container {
+  padding: 40px;
+  min-height: 100vh;
+  background: #f1f5f9;
+}
+
+.title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #1e293b;
+}
+
+.status-text {
+  text-align: center;
+  font-size: 16px;
+  color: #64748b;
+}
+
+.error-text {
+  text-align: center;
+  color: red;
+  font-weight: 500;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.card h3 {
+  font-size: 18px;
+  color: #2563eb;
+  margin-bottom: 15px;
+}
+
+.view-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.view-btn:hover {
+  background: #1d4ed8;
+}
