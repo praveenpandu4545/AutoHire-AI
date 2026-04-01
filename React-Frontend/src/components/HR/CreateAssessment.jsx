@@ -115,7 +115,8 @@ const CreateAssessment = ({ onBack, editData }) => {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const token = localStorage.getItem("token");
+  console.log("🔥 handleSubmit triggered");
+  console.log("📤 Form Data:", formData);
 
   try {
     const response = await fetch(
@@ -126,25 +127,31 @@ const CreateAssessment = ({ onBack, editData }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          driveId: Number(formData.driveId),   // ✅ FIX HERE
+          roundId: Number(formData.roundId),   // ✅ FIX HERE
+        }),
       }
     );
 
-    const data = await response.json();
+    console.log("📥 Response status:", response.status);
+
+    const text = await response.text();
+    console.log("📥 Raw response:", text);
 
     if (!response.ok) {
-      throw new Error(data);
+      throw new Error(text);
     }
 
-    alert("Assessment created successfully ✅");
-    console.log("Saved:", data);
+    const data = JSON.parse(text);
+    console.log("✅ Success:", data);
 
-    // Optional: reset form
-    // setFormData({...});
+    alert("Assessment Created Successfully!");
 
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Failed to create assessment ❌");
+  } catch (err) {
+    console.error("❌ Error:", err);
+    alert("Error: " + err.message);
   }
 };
 
@@ -155,7 +162,21 @@ const CreateAssessment = ({ onBack, editData }) => {
 
         {/* HEADER */}
         <div className="header">
-          <button className="back-btn" onClick={onBack}>← Back</button>
+          <button 
+  className="back-btn" 
+  onClick={onBack}
+  style={{ 
+    backgroundColor: 'blue', 
+    color: 'white', 
+    padding: '10px 20px', 
+    border: 'none', 
+    borderRadius: '5px',
+    cursor: 'pointer' 
+  }}
+>
+  ⬅ Back
+</button>
+
           <h2>Create Assessment</h2>
         </div>
 

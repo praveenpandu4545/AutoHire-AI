@@ -1,0 +1,177 @@
+/* ================= ROOT ================= */
+:root {
+  --primary: #4f46e5;
+  --primary-light: #6366f1;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  --bg-main: #f6f8fc;
+  --bg-card: rgba(255, 255, 255, 0.75);
+
+  --text-main: #1e293b;
+  --text-sub: #64748b;
+
+  --radius: 14px;
+  --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.12);
+
+  --blur: blur(12px);
+}
+
+/* ================= PAGE ================= */
+.assessments-page {
+  padding: 40px;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 30px;
+}
+
+/* ================= STACK ================= */
+.assessment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+/* ================= CARD ================= */
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 24px;
+  border-radius: var(--radius);
+
+  background: var(--bg-card);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--shadow-soft);
+
+  transition: all 0.3s ease;
+
+  flex: 1 1 350px;   /* 🔥 responsive width */
+  max-width: 420px;  /* optional limit */
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* ================= LEFT ================= */
+.card-left {
+  flex: 2;
+}
+
+.card-left h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.desc {
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+/* ================= MIDDLE ================= */
+.card-middle {
+  flex: 1;
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.badge.ACTIVE {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--success);
+}
+
+.badge.NOT_STARTED {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+}
+
+.badge.ENDED {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+}
+
+.timer {
+  font-size: 13px;
+  color: var(--warning);
+  margin-top: 6px;
+}
+
+.attempt-box {
+  margin-top: 8px;
+}
+
+.done {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.progress {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.not {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* ================= RIGHT ================= */
+.card-right {
+  flex: 0.6;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ================= BUTTON ================= */
+.start-btn {
+  width: 140px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+.start-btn:disabled {
+  background: #cbd5f5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ================= LOADING ================= */
+.assessments-page p {
+  color: var(--text-sub);
+}

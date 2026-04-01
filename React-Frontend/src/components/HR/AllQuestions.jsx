@@ -92,7 +92,21 @@ const AllQuestions = ({ onBack }) => {
   return (
     <div className="all-questions-container">
 
-      <button className="back-btn" onClick={onBack}>⬅ Back</button>
+      <button 
+  className="back-btn" 
+  onClick={onBack}
+  style={{ 
+    backgroundColor: 'blue', 
+    color: 'white', 
+    padding: '10px 20px', 
+    border: 'none', 
+    borderRadius: '5px',
+    cursor: 'pointer' 
+  }}
+>
+  ⬅ Back
+</button>
+
 
       <h2>All Questions</h2>
 

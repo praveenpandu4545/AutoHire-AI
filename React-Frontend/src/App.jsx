@@ -5,6 +5,7 @@ import HrDashboard from "./components/HR/HrDashboard";
 import PanelDashboard from "./components/PANEL/PanelDashboard";
 import PanelAuth from "./components/PANEL/PanelAuth";
 import StudentAuth from "./components/STUDENT/StudentAuth";
+import ExamScreen from "./components/STUDENT/ExamScreen";
 
 function App() {
   return (
@@ -15,8 +16,7 @@ function App() {
       <Route path="/hr-dashboard" element={<HrDashboard />} />
       <Route path="/Panel-Auth" element={<PanelAuth />} /> 
       <Route path="/Student-Auth" element={<StudentAuth />} /> 
-
-
+      <Route path="/exam" element={<ExamScreen />} />
     </Routes>
   );
 }
