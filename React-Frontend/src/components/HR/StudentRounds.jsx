@@ -13,8 +13,12 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
-  // NEW STATE FOR REVIEW MODAL
+  // REVIEW MODAL
   const [selectedReview, setSelectedReview] = useState(null);
+
+  // 🔥 NEW AI STATES
+  const [aiSummary, setAiSummary] = useState(null);
+  const [loadingAI, setLoadingAI] = useState(false);
 
   useEffect(() => {
     fetchRounds();
@@ -138,11 +142,54 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
     }
   };
 
+  // =============================
+  // 🔥 AI SUMMARIZE REVIEW
+  // =============================
+  const handleSummarizeReview = async () => {
+    try {
+      setLoadingAI(true);
+
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${BASE_URL}/springApi/ai/summarize-review/${driveId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            review: selectedReview.panelReview,
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+
+      setAiSummary(result.data);
+    } catch (error) {
+      console.error(error);
+      alert("AI analysis failed");
+    } finally {
+      setLoadingAI(false);
+    }
+  };
+
   return (
     <div className="all-drives-container">
       <h2>Student Round Details</h2>
 
-      <button className="back-btn" onClick={onBack}>
+      <button
+        className="back-btn"
+        onClick={onBack}
+        style={{ backgroundColor: "#007bff", color: "white" }}
+      >
         ← Back to Students
       </button>
 
@@ -169,7 +216,6 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                   <td>{round.roundName}</td>
                   <td>{round.status}</td>
 
-                  {/* STATUS UPDATE */}
                   <td>
                     <select
                       value={round.status}
@@ -183,17 +229,12 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                     </select>
                   </td>
 
-                  {/* INTERVIEW */}
                   <td>
                     {round.interviewScheduled ? (
                       <div style={{ color: "green", fontWeight: "bold" }}>
                         Scheduled
                         <div style={{ fontSize: "12px", color: "#555" }}>
-                          {round.panelName && (
-                            <>
-                              Panel: {round.panelName} <br />
-                            </>
-                          )}
+                          {round.panelName && <>Panel: {round.panelName}<br /></>}
                           {round.interviewStartTime &&
                             round.interviewStartTime.replace("T", " ")}
                         </div>
@@ -208,17 +249,30 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                     )}
                   </td>
 
-                  {/* PANEL REVIEW */}
                   <td>
                     {round.panelReview ? (
                       <button
                         className="details-btn"
-                        onClick={() => setSelectedReview(round)}
+                        onClick={() => {
+                          setSelectedReview(round);
+                          setAiSummary(null); // reset previous AI result
+                        }}
                       >
                         View Review
                       </button>
                     ) : (
-                      <span style={{ color: "#999" }}>Pending</span>
+                      <button
+                        style={{
+                          backgroundColor: "black",
+                          color: "#bdee2b",
+                          border: "1px solid #bdee2b",
+                          padding: "6px 14px",
+                          borderRadius: "8px",
+                          cursor: "default",
+                        }}
+                      >
+                        🟡 Pending
+                      </button>
                     )}
                   </td>
                 </tr>
@@ -234,7 +288,6 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                           borderRadius: "8px",
                           display: "flex",
                           gap: "10px",
-                          alignItems: "center",
                           flexWrap: "wrap",
                         }}
                       >
@@ -286,9 +339,8 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
       )}
 
       {/* =============================
-         REVIEW MODAL CARD
+         REVIEW MODAL
       ============================= */}
-
       {selectedReview && (
         <div className="review-modal">
           <div className="review-card-large">
@@ -296,7 +348,7 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
             <span
               className="close-review"
               onClick={() => setSelectedReview(null)}
-              style={{ float: "right", cursor: "pointer", fontSize: "12px",  opacity:2}}
+              style={{ float: "right", cursor: "pointer" }}
             >
               ❌
             </span>
@@ -308,7 +360,49 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
             <p style={{ marginTop: "10px", lineHeight: "1.6" }}>
               {selectedReview.panelReview}
             </p>
-            <button>Summarize the review with AI</button>
+
+            {/* 🔥 BUTTON */}
+            <button
+              className="details-btn"
+              onClick={handleSummarizeReview}
+            >
+              Summarize with AI
+            </button>
+
+            {/* 🔥 LOADING */}
+            {loadingAI && <p>Analyzing with AI...</p>}
+
+            {/* 🔥 RESULT */}
+            {aiSummary && (
+              <div
+                style={{
+                  marginTop: "15px",
+                  background: "#f1f3f6",
+                  padding: "12px",
+                  borderRadius: "8px",
+                }}
+              >
+                <h4>AI Analysis</h4>
+
+                <p><strong>Summary:</strong> {aiSummary.summary}</p>
+
+                <p><strong>Alignment Score:</strong> {aiSummary.alignment_score}%</p>
+
+                <p><strong>Matched Skills:</strong></p>
+                <ul>
+                  {aiSummary.matched_skills?.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ul>
+
+                <p><strong>Missing Skills:</strong></p>
+                <ul>
+                  {aiSummary.missing_skills?.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
           </div>
         </div>

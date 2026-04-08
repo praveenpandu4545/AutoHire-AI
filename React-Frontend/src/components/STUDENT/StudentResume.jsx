@@ -10,7 +10,7 @@ function StudentResume() {
   const [loading, setLoading] = useState(true);
 
   const [showATS, setShowATS] = useState(false);
-  const [atsResult, setAtsResult] = useState("");
+  const [atsResult, setAtsResult] = useState(null); // 🔥 changed to object
 
   useEffect(() => {
     checkResume();
@@ -109,11 +109,18 @@ function StudentResume() {
         }
       );
 
-      const data = await response.text();
-      setAtsResult(data);
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+
+      setAtsResult(result.data);
       setShowATS(true);
     } catch (error) {
       console.error(error);
+      alert("Failed to fetch ATS result");
     }
   };
 
@@ -148,13 +155,35 @@ function StudentResume() {
           {showATS ? (
             <div className="ats-result-container">
               <h3>ATS Analysis Result</h3>
-              <p className="ats-result-text">{atsResult}</p>
 
-              <button
-                className="back-btn"
+              {atsResult ? (
+                <>
+                  <h2>Score: {atsResult.ats_score}/100</h2>
+
+                  <h4>✅ Strengths</h4>
+                  <ul>
+                    {atsResult.strengths?.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+
+                  <h4>⚠ Improvements</h4>
+                  <ul>
+                    {atsResult.improvements?.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <p>No data available</p>
+              )}
+
+              <button 
+                className="back-btn" 
                 onClick={handleBackToResume}
-              >
-                Back to Resume
+                style={{ backgroundColor: '#007bff', color: 'white' }}
+              > 
+                Back to Resume 
               </button>
             </div>
           ) : (
@@ -191,7 +220,7 @@ function StudentResume() {
                   Delete
                 </button>
 
-                {/* NEW CHECK ATS BUTTON */}
+                {/* CHECK ATS BUTTON */}
                 <button
                   className="ats-btn"
                   onClick={handleCheckATS}
