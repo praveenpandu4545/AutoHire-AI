@@ -18,6 +18,7 @@ const ScheduledInterviews = () => {
   const [driveFilter, setDriveFilter] = useState("");
   const [panelFilter, setPanelFilter] = useState("");
   const [roundFilter, setRoundFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   // 📅 Date Range Filter
   const [startRange, setStartRange] = useState("");
@@ -50,6 +51,7 @@ const ScheduledInterviews = () => {
       }
 
       const data = await response.json();
+      console.log("API DATA 👉", data);
       setInterviews(data);
     } catch (err) {
       console.error(err);
@@ -166,6 +168,12 @@ const ScheduledInterviews = () => {
     [interviews]
   );
 
+  const uniqueStatuses = useMemo(
+  () =>
+    [...new Set(interviews.map((i) => i.status?.trim()))].filter(Boolean),
+  [interviews]
+);
+
   // 🔥 Enterprise filtering logic
   const filteredInterviews = interviews.filter((interview) => {
     const searchLower = search.toLowerCase().trim();
@@ -207,12 +215,19 @@ const ScheduledInterviews = () => {
     const matchesEndRange =
       !endRange || interviewDate <= new Date(endRange);
 
+    const statusValue = interview.status?.toLowerCase().trim() || "";
+
+    const matchesStatus =
+      !statusFilter ||
+      statusValue === statusFilter.toLowerCase().trim();  
+
     return (
       matchesSearch &&
       matchesCollege &&
       matchesDrive &&
       matchesPanel &&
       matchesRound &&
+      matchesStatus &&   
       matchesStartRange &&
       matchesEndRange
     );
@@ -320,6 +335,20 @@ const ScheduledInterviews = () => {
               </th>
 
               <th>Date & Time</th>
+              <th>
+                Status
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <option value="">All</option>
+                  {uniqueStatuses.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </th>
               <th>Action</th>
             </tr>
           </thead>
@@ -343,6 +372,51 @@ const ScheduledInterviews = () => {
                     <td>{interview.panelMemberName}</td>
                     <td>{formatDateTime(interview.startTime)}</td>
                     <td>
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          fontWeight: "600"
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            borderRadius: "50%",
+
+                            // 🎨 Color logic
+                            backgroundColor:
+                              interview.status === "SELECTED"
+                                ? "green"
+                                : interview.status === "REJECTED"
+                                ? "red"
+                                : "orange",   // PENDING / IN PROGRESS
+
+                            // ✨ Blinking only for pending/in-progress
+                            animation:
+                              interview.status === "PENDING" ||
+                              interview.status === "IN PROGRESS"
+                                ? "blink 1s infinite"
+                                : "none"
+                          }}
+                        ></span>
+
+                        {interview.status}
+                      </span>
+
+                      <style>
+                        {`
+                          @keyframes blink {
+                            0% { opacity: 1; }
+                            50% { opacity: 0.2; }
+                            100% { opacity: 1; }
+                          }
+                        `}
+                      </style>
+                    </td>
+                    <td>
                       <button
                         className="reschedule-btn"
                         onClick={() => {
@@ -364,7 +438,7 @@ const ScheduledInterviews = () => {
 
                   {rescheduleId === interview.interviewId && (
                     <tr>
-                      <td colSpan="8">
+                      <td colSpan="9">
                         <div className="reschedule-form">
                           <select
                             value={newPanelMemberId}

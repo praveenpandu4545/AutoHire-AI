@@ -4,6 +4,7 @@ import StudentResume from "./StudentResume";
 import StudentDrives from "./StudentDrives/StudentDrives";
 import ContactHR from "./ContactHR";
 import Assessments from "./Assessments";
+import StudentVC from "./StudentVC";
 import "../../css/StudentDashboard.css";
 
 function StudentDashboard() {
@@ -51,6 +52,13 @@ function StudentDashboard() {
           My Assessments
         </button>
 
+        <button
+          className={activeTab === "videoCall" ? "active-btn" : ""}
+          onClick={() => setActiveTab("videoCall")}
+        >
+          Interview Calls
+        </button>
+
       </div>
 
       {/* Main Content */}
@@ -60,6 +68,8 @@ function StudentDashboard() {
         {activeTab === "drives" && <StudentDrives />}
         {activeTab === "hr" && <ContactHR />}
         {activeTab === "assessments" && <Assessments />}
+        {activeTab === "videoCall" && <StudentVC />}
+
 
       </div>
 

@@ -48,6 +48,24 @@ const PanelInterviews = () => {
     }
   };
 
+  const startCall = async (interview) => {
+      const token = localStorage.getItem("token");
+      console.log("Interview object:", interview);
+      await fetch(`${BASE_URL}/springApi/interviews/start`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          interviewId: interview.id,
+          receiverId: interview.studentId, // dynamic
+        }),
+      });
+
+      alert("Calling student...");
+    };
+
   const drives = ["All", ...new Set(interviews.map((i) => i.driveName))];
   const rounds = ["All", ...new Set(interviews.map((i) => i.roundNumber))];
 
@@ -253,6 +271,7 @@ const PanelInterviews = () => {
                 <th>Date & Time</th>
                 <th>Status</th>
                 <th>Drop Your Review</th>
+                <th>Action</th>
               </tr>
             </thead>
 
@@ -270,15 +289,37 @@ const PanelInterviews = () => {
 
                     {/* STATUS COLUMN */}
                     <td>
-                      <span
-                        style={{
-                          color: status === "Completed" ? "green" : "#999",
-                          fontWeight: "600"
-                        }}
-                      >
-                        {status}
-                      </span>
-                    </td>
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  fontWeight: "600"
+                }}
+              >
+                <span
+                  style={{
+                    width: "10px",
+                    height: "10px",
+                    borderRadius: "50%",
+                    backgroundColor: status === "Completed" ? "green" : "orange",
+                    animation: status === "Completed" ? "none" : "blink 1s infinite"
+                  }}
+                ></span>
+                {status}
+              </span>
+
+              {/* Inline keyframes (must be included once in your component) */}
+              <style>
+                {`
+                  @keyframes blink {
+                    0% { opacity: 1; }
+                    50% { opacity: 0.2; }
+                    100% { opacity: 1; }
+                  }
+                `}
+              </style>
+            </td>
 
                     <td>
                       <button
@@ -287,6 +328,10 @@ const PanelInterviews = () => {
                       >
                         {interview.review ? "Update" : "Review"}
                       </button>
+                    </td>
+
+                    <td>
+                      <button onClick={() => startCall(interview)}>Call</button>
                     </td>
                   </tr>
                 );
