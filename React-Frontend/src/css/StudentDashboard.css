@@ -22,12 +22,14 @@
   background-color: #5d4037;
   color: white;
   border: none;
-  padding: 12px;
-  margin-bottom: 20px;
-  border-radius: 8px;
+  padding: 6px 10px;   /* reduced from 12px */
+  margin-bottom: 10px; /* optional */
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;     /* slightly smaller text */
   transition: 0.3s;
+  height: 35px;
+  width: 250px;
 }
 
 .student-sidebar button:hover {
