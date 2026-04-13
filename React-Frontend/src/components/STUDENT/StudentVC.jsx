@@ -69,27 +69,64 @@ const StudentVC = () => {
   };
 
   return (
-    <div>
-      <h2>Interview Calls</h2>
+      <div>
 
-      {!callStarted && incomingCall && (
-        <div style={{ border: "2px solid black", padding: "20px" }}>
-          <h3>📞 Incoming Interview Call</h3>
+        {/* 🔥 INCOMING CALL */}
+        {!callStarted && incomingCall && (
+          <div className="call-overlay">
+            <div className="call-card">
+              <div className="call-avatar">📞</div>
+              <h2 style={{ color: "white" }}>Incoming Interview Call</h2>
+              <p>Please join your interview</p>
 
-          <button onClick={acceptCall}>Accept</button>
-          <button onClick={rejectCall}>Reject</button>
-        </div>
-      )}
+              <div className="call-actions">
+                <button className="accept-btn" onClick={acceptCall}>
+                  Accept
+                </button>
+                <button className="reject-btn" onClick={rejectCall}>
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
-      {callStarted && (
-        <VideoCall
-          channelName={incomingCall.channelName}
-          callId={incomingCall.id}
-          onEnd={handleEnd}
-        />
-      )}
-    </div>
-  );
+        {/* 🔥 WAITING SCREEN */}
+        {!callStarted && !incomingCall && (
+          <div className="waiting-container">
+
+            <div className="waiting-card">
+
+              <h1>⏳ Waiting for your Interview Call</h1>
+              <p className="subtitle">
+                Kindly wait for the panel to start your interview
+              </p>
+
+              <div className="instructions">
+                <ul>
+                  <li>📶 Ensure stable internet connection</li>
+                  <li>🎥 Keep your camera ready</li>
+                  <li>🎙 Check microphone before joining</li>
+                  <li>🔕 Stay in this page</li>
+                </ul>
+              </div>
+
+            </div>
+
+          </div>
+        )}
+
+        {/* 🔥 VIDEO CALL */}
+        {callStarted && incomingCall && (
+          <VideoCall
+            channelName={incomingCall.channelName}
+            callId={incomingCall.id}
+            onEnd={handleEnd}
+          />
+        )}
+
+      </div>
+    );
 };
 
 export default StudentVC;

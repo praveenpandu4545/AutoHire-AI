@@ -1,10 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AgoraRTC from "agora-rtc-sdk-ng";
+import "../../css/VideoCall.css";
 
 const APP_ID = "babae1f9a55346b0839ac7f5f55232f3";
 const TOKEN = null;
 
 const VideoCall = ({ channelName, callId, onEnd }) => {
+
+  const [audioTrack, setAudioTrack] = useState(null);
+  const [isMuted, setIsMuted] = useState(false);
+  const [remoteJoined, setRemoteJoined] = useState(false);
 
   useEffect(() => {
     let client = null;
@@ -12,19 +17,18 @@ const VideoCall = ({ channelName, callId, onEnd }) => {
     let localVideoTrack = null;
     let isActive = true;
 
-    // 🔥 SAFE VIDEO PLAY FUNCTION
     const playVideo = (track) => {
       const container = document.getElementById("remote-player");
       if (!container) return;
 
-      container.innerHTML = "";
+      // ✅ prevent destroying video on re-render
+      if (container.childNodes.length > 0) return;
 
       const videoDiv = document.createElement("div");
       videoDiv.style.width = "100%";
       videoDiv.style.height = "100%";
 
       container.appendChild(videoDiv);
-
       track.play(videoDiv);
     };
 
@@ -46,6 +50,9 @@ const VideoCall = ({ channelName, callId, onEnd }) => {
             if (mediaType === "audio") {
               user.audioTrack.play();
             }
+            if (mediaType === "video") {
+              setRemoteJoined(true);
+            }
 
           } catch (err) {
             console.error("Subscribe error:", err);
@@ -59,6 +66,7 @@ const VideoCall = ({ channelName, callId, onEnd }) => {
         if (!isActive) return;
 
         localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+        setAudioTrack(localAudioTrack);
         localVideoTrack = await AgoraRTC.createCameraVideoTrack();
 
         if (!isActive) return;
@@ -100,6 +108,7 @@ const VideoCall = ({ channelName, callId, onEnd }) => {
         });
 
         client.on("user-left", () => {
+          setRemoteJoined(false);
           const container = document.getElementById("remote-player");
           if (container) container.innerHTML = "";
         });
@@ -199,36 +208,42 @@ const VideoCall = ({ channelName, callId, onEnd }) => {
     }
   };
 
+  const toggleMute = async () => {
+    if (!audioTrack) return;
+
+    if (isMuted) {
+      await audioTrack.setMuted(false);   // 🔊 Unmute
+      setIsMuted(false);
+    } else {
+      await audioTrack.setMuted(true);    // 🔇 Mute
+      setIsMuted(true);
+    }
+  };
+
   return (
-    <div>
-      <h2>Video Call</h2>
+      <div className="video-container">
 
-      <div style={{ display: "flex", gap: "20px" }}>
-        <div>
-          <h4>My Video</h4>
-          <div
-            id="local-player"
-            style={{ width: "300px", height: "200px", background: "black" }}
-          />
-        </div>
+        {/* 🔥 MAIN VIDEO */}
+        {!remoteJoined && (
+          <div className="waiting-overlay">
+            <h2 className="waiting-text">Waiting for others to join...</h2>
+          </div>
+        )}
+        <div className="main-video" id="remote-player" />
 
-        <div>
-          <h4>Remote Video</h4>
-          <div
-            id="remote-player"
-            style={{ width: "300px", height: "200px", background: "black" }}
-          />
-        </div>
+        {/* 🔥 SMALL VIDEO */}
+        <div className="small-video" id="local-player" />
+
+        <button className="end-btn" onClick={endCall}>
+          End Call
+        </button>
+
+        {/* <button className="mute-btn" onClick={toggleMute}>
+          {isMuted ? "Unmute" : "Mute"}
+        </button> */}
+
       </div>
-
-      <button
-        onClick={endCall}
-        style={{ marginTop: "20px", background: "red", color: "white" }}
-      >
-        End Call
-      </button>
-    </div>
-  );
+    );
 };
 
 export default VideoCall;
