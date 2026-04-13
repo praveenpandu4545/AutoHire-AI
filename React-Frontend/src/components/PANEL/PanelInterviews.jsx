@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "../../css/PanelInterviews.css";
+import VideoCall from "./VideoCall"; 
 
 const PanelInterviews = () => {
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;
@@ -17,6 +18,10 @@ const PanelInterviews = () => {
 
   const [selectedInterview, setSelectedInterview] = useState(null);
   const [reviewText, setReviewText] = useState("");
+
+  const [callStarted, setCallStarted] = useState(false);
+  const [channelName, setChannelName] = useState("");
+  const [callId, setCallId] = useState(null);
 
   useEffect(() => {
     fetchInterviews();
@@ -49,22 +54,34 @@ const PanelInterviews = () => {
   };
 
   const startCall = async (interview) => {
-      const token = localStorage.getItem("token");
-      console.log("Interview object:", interview);
-      await fetch(`${BASE_URL}/springApi/interviews/start`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          interviewId: interview.id,
-          receiverId: interview.studentId, // dynamic
-        }),
-      });
+    const token = localStorage.getItem("token");
 
-      alert("Calling student...");
-    };
+    const channel = "interview_" + interview.id;
+
+    const res = await fetch(`${BASE_URL}/springApi/interviews/start`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        interviewId: interview.id,
+        receiverId: interview.studentId,
+      }),
+    });
+
+    const data = await res.json();
+
+    setCallId(data.id);        // 🔥 important
+    setChannelName(channel);
+    setCallStarted(true);
+  };
+
+  const handleEnd = () => {
+    setCallStarted(false);
+    setChannelName("");
+    setCallId(null);
+  };
 
   const drives = ["All", ...new Set(interviews.map((i) => i.driveName))];
   const rounds = ["All", ...new Set(interviews.map((i) => i.roundNumber))];
@@ -170,7 +187,15 @@ const PanelInterviews = () => {
       alert("Error submitting review");
     }
   };
-
+  if (callStarted) {
+    return (
+      <VideoCall
+        channelName={channelName}
+        callId={callId}
+        onEnd={handleEnd}
+      />
+    );
+  }
   return (
     <div className="panel-container">
 
@@ -388,6 +413,13 @@ const PanelInterviews = () => {
           </div>
 
         </div>
+      )}
+      {callStarted && (
+        <VideoCall
+          channelName={channelName}
+          callId={callId}
+          onEnd={handleEnd}
+        />
       )}
 
     </div>
