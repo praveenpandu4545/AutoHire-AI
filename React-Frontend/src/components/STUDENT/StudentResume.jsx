@@ -116,7 +116,7 @@ function StudentResume() {
         return;
       }
 
-      setAtsResult(result.data);
+      setAtsResult(JSON.parse(result.data));
       setShowATS(true);
     } catch (error) {
       console.error(error);
@@ -225,7 +225,7 @@ function StudentResume() {
                   className="ats-btn"
                   onClick={handleCheckATS}
                 >
-                  Check ATS
+                  Resume Analyzer ✨✨
                 </button>
               </div>
             </>

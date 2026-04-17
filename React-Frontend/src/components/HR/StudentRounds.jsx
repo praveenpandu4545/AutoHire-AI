@@ -172,7 +172,7 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
         return;
       }
 
-      setAiSummary(result.data);
+      setAiSummary(JSON.parse(result.data));
     } catch (error) {
       console.error(error);
       alert("AI analysis failed");
