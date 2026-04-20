@@ -141,6 +141,7 @@ function StudentResume() {
           <label htmlFor="upload" className="upload-label">
             ⬆ Upload Resume
           </label>
+
           <input
             id="upload"
             type="file"
@@ -151,25 +152,52 @@ function StudentResume() {
         </div>
       ) : (
         <>
-          {/* ===== ATS SCREEN ===== */}
+          {/* ===== ANALYZER SCREEN ===== */}
           {showATS ? (
             <div className="ats-result-container">
-              <h3>ATS Analysis Result</h3>
+              <h3>Resume Intelligence Report ✨</h3>
 
               {atsResult ? (
                 <>
-                  <h2>Score: {atsResult.ats_score}/100</h2>
+                  <h2>Score: {atsResult.resume_score}/100</h2>
 
-                  <h4>✅ Strengths</h4>
+                  <p
+                    style={{
+                      marginTop: "15px",
+                      fontSize: "16px",
+                      lineHeight: "1.6",
+                      color: "#333",
+                    }}
+                  >
+                    <strong>Summary:</strong> {atsResult.summary}
+                  </p>
+
+                  {/* Strengths */}
+                  <h4 style={{ marginTop: "20px", color: "green" }}>
+                    ✅ Strengths
+                  </h4>
                   <ul>
                     {atsResult.strengths?.map((item, index) => (
                       <li key={index}>{item}</li>
                     ))}
                   </ul>
 
-                  <h4>⚠ Improvements</h4>
+                  {/* Weaknesses */}
+                  <h4 style={{ marginTop: "20px", color: "#e67e22" }}>
+                    ⚠ Weaknesses
+                  </h4>
                   <ul>
-                    {atsResult.improvements?.map((item, index) => (
+                    {atsResult.weaknesses?.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+
+                  {/* Suggestions */}
+                  <h4 style={{ marginTop: "20px", color: "#007bff" }}>
+                    🚀 Suggestions
+                  </h4>
+                  <ul>
+                    {atsResult.suggestions?.map((item, index) => (
                       <li key={index}>{item}</li>
                     ))}
                   </ul>
@@ -178,17 +206,21 @@ function StudentResume() {
                 <p>No data available</p>
               )}
 
-              <button 
-                className="back-btn" 
+              <button
+                className="back-btn"
                 onClick={handleBackToResume}
-                style={{ backgroundColor: '#007bff', color: 'white' }}
-              > 
-                Back to Resume 
+                style={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  marginTop: "20px",
+                }}
+              >
+                Back to Resume
               </button>
             </div>
           ) : (
             <>
-              {/* ===== PDF Viewer ===== */}
+              {/* ===== PDF VIEWER ===== */}
               <div className="viewer-container">
                 {resumeURL && (
                   <iframe
@@ -207,9 +239,7 @@ function StudentResume() {
                     type="file"
                     accept="application/pdf"
                     hidden
-                    onChange={(e) =>
-                      handleUpload(e.target.files[0])
-                    }
+                    onChange={(e) => handleUpload(e.target.files[0])}
                   />
                 </label>
 
@@ -220,12 +250,11 @@ function StudentResume() {
                   Delete
                 </button>
 
-                {/* CHECK ATS BUTTON */}
                 <button
                   className="ats-btn"
                   onClick={handleCheckATS}
                 >
-                  Resume Analyzer ✨✨
+                  Resume Intelligence Analyzer ✨✨
                 </button>
               </div>
             </>
