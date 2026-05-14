@@ -185,11 +185,7 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
     <div className="all-drives-container">
       <h2>Student Round Details</h2>
 
-      <button
-        className="back-btn"
-        onClick={onBack}
-        style={{ backgroundColor: "#007bff", color: "white" }}
-      >
+      <button className="back-btn" onClick={onBack}>
         ← Back to Students
       </button>
 
@@ -231,9 +227,9 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
 
                   <td>
                     {round.interviewScheduled ? (
-                      <div style={{ color: "green", fontWeight: "bold" }}>
+                      <div style={{ color: "var(--success)", fontWeight: "bold" }}>
                         Scheduled
-                        <div style={{ fontSize: "12px", color: "#555" }}>
+                        <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
                           {round.panelName && <>Panel: {round.panelName}<br /></>}
                           {round.interviewStartTime &&
                             round.interviewStartTime.replace("T", " ")}
@@ -263,9 +259,9 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                     ) : (
                       <button
                         style={{
-                          backgroundColor: "black",
-                          color: "#bdee2b",
-                          border: "1px solid #bdee2b",
+                          backgroundColor: "var(--surface-light)",
+                          color: "var(--warning)",
+                          border: "1px solid rgba(245, 158, 11, 0.35)",
                           padding: "6px 14px",
                           borderRadius: "8px",
                           cursor: "default",
@@ -284,7 +280,8 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                       <div
                         style={{
                           padding: "15px",
-                          background: "#f4f6f9",
+                          background: "var(--surface-light)",
+                          border: "1px solid var(--border)",
                           borderRadius: "8px",
                           display: "flex",
                           gap: "10px",
@@ -353,11 +350,11 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
               ❌
             </span>
 
-            <h2 style={{ color: "green" }}>✔ Interview Completed</h2>
+            <h2 style={{ color: "var(--success)" }}>✔ Interview Completed</h2>
 
             <h3>Panel Review</h3>
 
-            <p style={{ marginTop: "10px", lineHeight: "1.6" }}>
+            <p style={{ marginTop: "10px", lineHeight: "1.6", color: "var(--text-secondary)" }}>
               {selectedReview.panelReview}
             </p>
 
@@ -377,7 +374,8 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
               <div
                 style={{
                   marginTop: "15px",
-                  background: "#f1f3f6",
+                  background: "var(--surface-light)",
+                  border: "1px solid var(--border)",
                   padding: "12px",
                   borderRadius: "8px",
                 }}

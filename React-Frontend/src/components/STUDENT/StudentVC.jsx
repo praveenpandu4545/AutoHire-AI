@@ -76,7 +76,7 @@ const StudentVC = () => {
           <div className="call-overlay">
             <div className="call-card">
               <div className="call-avatar">📞</div>
-              <h2 style={{ color: "white" }}>Incoming Interview Call</h2>
+              <h2 style={{ color: "var(--text-primary)" }}>Incoming Interview Call</h2>
               <p>Please join your interview</p>
 
               <div className="call-actions">

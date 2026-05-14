@@ -177,6 +177,8 @@ const ContactHR = () => {
 
   return (
 
+    <div className="wa-chat-student">
+
     <div className="chatContainer">
 
       <div className="hrList">
@@ -233,7 +235,6 @@ const ContactHR = () => {
                 <span
                   className="fileMessage"
                   onClick={() => downloadFile(m.fileId, m.content)}
-                  style={{ cursor: "pointer" }}
                 >
                   {getFileIcon(m.content)} {m.content}
                 </span>
@@ -274,6 +275,8 @@ const ContactHR = () => {
         )}
 
       </div>
+
+    </div>
 
     </div>
 

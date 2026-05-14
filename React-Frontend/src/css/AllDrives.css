@@ -1,230 +1,216 @@
-/* =============================== */
-/* MAIN CONTAINER */
-/* =============================== */
-
 .all-drives-container {
-  background: #ffffff;
-  padding: 22px;
-  border-radius: 10px;
+  background: var(--surface);
+  padding: clamp(var(--space-4), 2.6vw, var(--space-6));
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
   width: 100%;
   max-width: 1050px;
   margin: 10px auto;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-  font-family: "Inter", "Segoe UI", sans-serif;
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-sans);
 }
-
-
-/* =============================== */
-/* HEADER */
-/* =============================== */
 
 .students-header {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
 }
 
 .students-header h2 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #222;
+  font-size: 1.24rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
   margin: 0;
 }
 
-
-/* =============================== */
-/* SEARCH INPUT */
-/* =============================== */
-
 .drive-search-input {
-  padding: 7px 12px;
-  border-radius: 6px;
-  border: 1px solid #dcdcdc;
-  font-size: 13px;
-  background: #fafafa;
+  padding: 10px var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  font-size: 0.88rem;
+  background: var(--surface-light);
+  color: var(--text-primary);
   min-width: 220px;
-  transition: 0.2s;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease,
+    background-color var(--duration-fast) ease;
 }
 
 .drive-search-input::placeholder {
-  color: #999;
+  color: var(--text-muted);
 }
 
 .drive-search-input:focus {
   outline: none;
-  border-color: #2196f3;
-  background: #fff;
-  box-shadow: 0 0 0 2px rgba(33,150,243,0.12);
+  border-color: rgba(124, 58, 237, 0.55);
+  background: var(--surface);
+  box-shadow: var(--focus-ring);
 }
-
-
-/* =============================== */
-/* ACTION BUTTONS */
-/* =============================== */
 
 .students-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .back-btn,
 .upload-btn {
-  padding: 6px 12px;
-  font-size: 12.5px;
-  border-radius: 6px;
+  padding: 9px 14px;
+  font-size: 0.82rem;
+  border-radius: var(--radius-md);
   border: none;
   cursor: pointer;
+  font-weight: 600;
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease,
+    filter var(--duration-fast) ease;
 }
 
 .back-btn {
-  background: #444;
-  color: white;
+  background: linear-gradient(135deg, #475569, #334155);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
 }
 
 .back-btn:hover {
-  background: #2e2e2e;
+  transform: translateY(-1px);
+  filter: brightness(1.08);
 }
 
 .upload-btn {
-  background: #2ecc71;
-  color: white;
+  background: var(--gradient-primary-btn);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-glow-primary);
 }
 
 .upload-btn:hover {
-  background: #27ae60;
+  transform: translateY(-1px);
+  filter: brightness(1.05);
 }
 
 .upload-btn:disabled {
-  background: #b5b5b5;
+  background: var(--surface-light);
+  color: var(--text-muted);
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
-
-
-/* =============================== */
-/* COLLEGE SECTION */
-/* =============================== */
 
 .college-name {
-  background: #f1f5f9;
-  padding: 9px 14px;
-  border-radius: 6px;
-  font-size: 13.5px;
+  background: linear-gradient(135deg, var(--surface-light), rgba(124, 58, 237, 0.12));
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
   font-weight: 600;
-  color: #2c3e50;
-  margin-top: 12px;
-  border-left: 4px solid #3498db;
+  color: var(--text-primary);
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
 }
-
-
-/* =============================== */
-/* DRIVE TITLES */
-/* =============================== */
 
 .drive-title {
   cursor: pointer;
-  padding: 6px 4px;
-  font-size: 13px;
-  color: #333;
-  border-bottom: 1px solid #f1f1f1;
+  padding: 10px var(--space-2);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) ease, background-color var(--duration-fast) ease;
 }
 
 .drive-title:hover {
-  color: #1976d2;
-  background: #f8fbff;
+  color: var(--primary-hover);
+  background: rgba(124, 58, 237, 0.1);
 }
-
-
-/* =============================== */
-/* DETAILS SECTION */
-/* =============================== */
 
 .details-section {
-  margin-top: 8px;
-  background: #fafafa;
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #eee;
+  margin-top: 10px;
+  background: var(--bg-secondary);
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
 }
-
-
-/* =============================== */
-/* TABLE */
-/* =============================== */
 
 .students-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
-  font-size: 13px;
+  font-size: 0.84rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 .students-table thead {
-  background: #f5f7fa;
-  border-bottom: 1px solid #e2e6ea;
+  background: var(--surface-light);
+  border-bottom: 1px solid var(--border);
 }
 
 .students-table th {
-  padding: 10px;
+  padding: 11px 10px;
   font-weight: 600;
-  color: #444;
+  color: var(--text-primary);
   text-align: left;
 }
 
 .students-table td {
-  padding: 9px;
-  border-bottom: 1px solid #f0f0f0;
-  color: #555;
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
 }
 
 .students-table tbody tr:hover {
-  background: #fafcff;
+  background: rgba(124, 58, 237, 0.08);
 }
 
+.students-table select,
+.students-table input[type="datetime-local"] {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-light);
+  color: var(--text-primary);
+  font-size: 0.84rem;
+}
 
-/* =============================== */
-/* STATUS BADGES */
-/* =============================== */
+.students-table select:focus,
+.students-table input[type="datetime-local"]:focus {
+  outline: none;
+  border-color: rgba(124, 58, 237, 0.55);
+  box-shadow: var(--focus-ring);
+}
 
 .status-selected {
-  color: #2ecc71;
+  color: var(--success);
   font-weight: 600;
 }
 
 .status-rejected {
-  color: #e74c3c;
+  color: var(--danger);
   font-weight: 600;
 }
 
-
-/* =============================== */
-/* DETAILS BUTTON */
-/* =============================== */
-
 .details-btn {
-  padding: 5px 10px;
-  font-size: 12px;
-  border-radius: 6px;
+  padding: 7px var(--space-3);
+  font-size: 0.78rem;
+  border-radius: var(--radius-sm);
   border: none;
-  background: #3498db;
-  color: white;
+  background: var(--gradient-primary-btn);
+  color: var(--text-primary);
+  font-weight: 600;
   cursor: pointer;
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+  box-shadow: var(--shadow-glow-primary);
 }
 
 .details-btn:hover {
-  background: #2d83c5;
+  transform: translateY(-1px);
 }
 
-
-/* =============================== */
-/* LOADER */
-/* =============================== */
-
 .loader {
-  margin-top: 12px;
-  border: 3px solid #eee;
-  border-top: 3px solid #3498db;
+  margin-top: var(--space-3);
+  border: 3px solid var(--surface-light);
+  border-top: 3px solid var(--primary);
   border-radius: 50%;
   width: 22px;
   height: 22px;
@@ -232,6 +218,71 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .students-actions {
+    gap: var(--space-2);
+  }
+
+  .back-btn,
+  .upload-btn {
+    width: 100%;
+  }
+
+  .students-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* StudentRounds review modal (shared import) */
+.review-modal {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-scrim);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: var(--space-4);
+}
+
+.review-card-large {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  max-width: 560px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  color: var(--text-secondary);
+}
+
+.review-card-large h2,
+.review-card-large h3,
+.review-card-large h4 {
+  color: var(--text-primary);
+}
+
+.close-review {
+  font-size: 1.25rem;
+  opacity: 0.85;
+  cursor: pointer;
+  float: right;
+  color: var(--text-muted);
+}
+
+.close-review:hover {
+  color: var(--text-primary);
 }

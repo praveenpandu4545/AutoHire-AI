@@ -188,6 +188,8 @@ const ChatMessages = () => {
 
   return (
 
+    <div className="wa-chat-hr">
+
     <div className="chatWrapper">
 
       <div className="conversationSidebar">
@@ -277,7 +279,6 @@ const ChatMessages = () => {
                 <span
                   className="fileMessage"
                   onClick={() => downloadFile(m.fileId, m.content)}
-                  style={{ cursor: "pointer" }}
                 >
                   {getFileIcon(m.content)} {m.content}
                 </span>
@@ -320,6 +321,8 @@ const ChatMessages = () => {
         )}
 
       </div>
+
+    </div>
 
     </div>
 

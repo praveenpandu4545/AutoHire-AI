@@ -46,43 +46,68 @@ const HrDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="sidebar">
-        <h2 className="logo">HR Dashboard</h2>
+      <aside className="sidebar">
+        <div className="sidebar-header">
+          <p className="sidebar-kicker">Operations</p>
+          <h2 className="logo">HR Dashboard</h2>
+        </div>
 
-        <button onClick={() => setActiveTab("profile")}>
+        <button
+          className={activeTab === "profile" ? "active" : ""}
+          onClick={() => setActiveTab("profile")}
+        >
           Profile
         </button>
 
-        <button onClick={() => setActiveTab("showDrives")}>
+        <button
+          className={activeTab === "showDrives" ? "active" : ""}
+          onClick={() => setActiveTab("showDrives")}
+        >
           Drive's
         </button>
 
-        <button onClick={() => setActiveTab("createDrive")}>
+        <button
+          className={activeTab === "createDrive" ? "active" : ""}
+          onClick={() => setActiveTab("createDrive")}
+        >
           Set up a Drive
         </button>
 
-        <button onClick={() => setActiveTab("addCollege")}>
+        <button
+          className={activeTab === "addCollege" ? "active" : ""}
+          onClick={() => setActiveTab("addCollege")}
+        >
           Add New College
         </button>
 
-        <button onClick={() => setActiveTab("showClgs")}>
+        <button
+          className={activeTab === "showClgs" ? "active" : ""}
+          onClick={() => setActiveTab("showClgs")}
+        >
           College's
         </button>
 
-        <button onClick={() => setActiveTab("scheduledInterviews")}>
+        <button
+          className={activeTab === "scheduledInterviews" ? "active" : ""}
+          onClick={() => setActiveTab("scheduledInterviews")}
+        >
           Scheduled Interviews
         </button>
 
-        <button onClick={() => setActiveTab("chatMessages")}>
+        <button
+          className={activeTab === "chatMessages" ? "active" : ""}
+          onClick={() => setActiveTab("chatMessages")}
+        >
           Messages
         </button>
 
-        <button onClick={() => setActiveTab("Assesments")}>
+        <button
+          className={activeTab === "Assesments" ? "active" : ""}
+          onClick={() => setActiveTab("Assesments")}
+        >
           Assesments
-        </button>  
-
-        
-      </div>
+        </button>
+      </aside>
 
       <div className="content">
         {renderContent()}

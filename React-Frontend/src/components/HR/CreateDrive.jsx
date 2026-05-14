@@ -128,6 +128,7 @@ const fetchColleges = async () => {
     <div className="create-drive-container">
       <h2>Create Drive</h2>
 
+      <div className="create-drive-field">
       <select
             name="collegeName"
             value={form.collegeName}
@@ -140,7 +141,9 @@ const fetchColleges = async () => {
                 </option>
             ))}
         </select>
+      </div>
 
+      <div className="create-drive-field">
       <input
         type="text"
         name="driveName"
@@ -148,7 +151,9 @@ const fetchColleges = async () => {
         value={form.driveName}
         onChange={handleChange}
       />
+      </div>
       <h3>No.Of Rounds</h3>
+      <div className="create-drive-field">
       <input
         type="number"
         name="noOfRounds"
@@ -156,7 +161,8 @@ const fetchColleges = async () => {
         min="1"
         value={form.noOfRounds}
         onChange={handleRoundsChange}
-      />  
+      />
+      </div>
 
       <h3>Rounds</h3>
       {form.rounds.map((round, index) => (

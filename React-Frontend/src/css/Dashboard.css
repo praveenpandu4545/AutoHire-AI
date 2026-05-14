@@ -1,82 +1,126 @@
 /* ================================ */
-/* DASHBOARD LAYOUT */
+/* DASHBOARD LAYOUT (HR) */
 /* ================================ */
 
 .dashboard-container {
   display: flex;
-  height: 100vh;
-  background: #f4f7fb;
-  font-family: "Inter", "Segoe UI", sans-serif;
+  min-height: 100vh;
+  background: var(--gradient-page);
+  background-color: var(--bg-primary);
+  font-family: var(--font-sans);
 }
-
-
-/* ================================ */
-/* SIDEBAR */
-/* ================================ */
 
 .sidebar {
-  width: 240px;
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
-  padding: 26px 18px;
+  width: 272px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(36, 28, 70, 0.55) 0%, rgba(30, 41, 59, 0.88) 45%, rgba(17, 24, 39, 0.92) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-right: 1px solid rgba(124, 58, 237, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 4px 0 32px rgba(0, 0, 0, 0.25), var(--shadow-md);
+  padding: var(--space-6) var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
+.sidebar-header {
+  margin-bottom: 10px;
+  padding-top: 0;
+  padding-right: var(--space-2);
+  padding-bottom: var(--space-2);
+  padding-left: var(--space-2);
+}
 
-/* ================================ */
-/* LOGO */
-/* ================================ */
+.sidebar-kicker {
+  margin: 0 0 6px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
 
 .logo {
-  font-size: 20px;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #111827;
-  margin-bottom: 28px;
-  letter-spacing: 0.4px;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: var(--leading-tight);
 }
-
-
-/* ================================ */
-/* MENU BUTTONS */
-/* ================================ */
 
 .sidebar button {
-  padding: 11px 14px;
-  border-radius: 10px;
-  border: none;
+  width: 100%;
+  padding: 11px var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
   cursor: pointer;
-  font-size: 13.5px;
-  font-weight: 500;
-  background: #3358a3;   /* soft blue background */
-  color: rgb(252, 251, 251);
-  transition: all 0.25s ease;
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  background: var(--surface-light);
+  transition: transform var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
 }
-
-/* Hover */
 
 .sidebar button:hover {
-  background: #dbeafe;
-  transform: translateX(4px);
+  background: rgba(124, 58, 237, 0.15);
+  border-color: rgba(124, 58, 237, 0.25);
+  transform: translateX(3px);
 }
-
-/* Active button */
 
 .sidebar button.active {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: white;
-  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+  background: var(--gradient-primary-btn);
+  color: var(--text-primary);
+  border-color: rgba(124, 58, 237, 0.4);
+  box-shadow: var(--shadow-glow-primary);
 }
-
-
-/* ================================ */
-/* CONTENT AREA */
-/* ================================ */
 
 .content {
   flex: 1;
-  padding: 28px 32px;
+  padding: 28px;
   overflow-y: auto;
-  background: #f4f7fb;
+  background: transparent;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 236px;
+  }
+
+  .content {
+    padding: var(--space-5);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    box-shadow: none;
+    padding: var(--space-4) 14px;
+  }
+
+  .sidebar button {
+    text-align: center;
+    transform: none;
+  }
+
+  .sidebar button:hover {
+    transform: none;
+  }
+
+  .content {
+    padding: var(--space-4);
+  }
 }

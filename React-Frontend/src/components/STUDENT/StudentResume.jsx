@@ -130,7 +130,13 @@ function StudentResume() {
 
   /* ================================================= */
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="resume-container">
+        <div className="resume-empty-state">Loading resume...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="resume-container">
@@ -159,21 +165,14 @@ function StudentResume() {
 
               {atsResult ? (
                 <>
-                  <h2>Score: {atsResult.resume_score}/100</h2>
+                  <h2 className="ats-score">Score: {atsResult.resume_score}/100</h2>
 
-                  <p
-                    style={{
-                      marginTop: "15px",
-                      fontSize: "16px",
-                      lineHeight: "1.6",
-                      color: "#333",
-                    }}
-                  >
+                  <p className="ats-summary">
                     <strong>Summary:</strong> {atsResult.summary}
                   </p>
 
                   {/* Strengths */}
-                  <h4 style={{ marginTop: "20px", color: "green" }}>
+                  <h4 className="ats-section-title strengths">
                     ✅ Strengths
                   </h4>
                   <ul>
@@ -183,7 +182,7 @@ function StudentResume() {
                   </ul>
 
                   {/* Weaknesses */}
-                  <h4 style={{ marginTop: "20px", color: "#e67e22" }}>
+                  <h4 className="ats-section-title weaknesses">
                     ⚠ Weaknesses
                   </h4>
                   <ul>
@@ -193,7 +192,7 @@ function StudentResume() {
                   </ul>
 
                   {/* Suggestions */}
-                  <h4 style={{ marginTop: "20px", color: "#007bff" }}>
+                  <h4 className="ats-section-title suggestions">
                     🚀 Suggestions
                   </h4>
                   <ul>
@@ -203,17 +202,12 @@ function StudentResume() {
                   </ul>
                 </>
               ) : (
-                <p>No data available</p>
+                <p className="resume-empty-state">No data available</p>
               )}
 
               <button
                 className="back-btn"
                 onClick={handleBackToResume}
-                style={{
-                  backgroundColor: "#007bff",
-                  color: "white",
-                  marginTop: "20px",
-                }}
               >
                 Back to Resume
               </button>

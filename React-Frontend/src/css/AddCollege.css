@@ -1,33 +1,47 @@
 .add-college-container {
-  background: white;
+  background: var(--surface);
   padding: 30px;
-  border-radius: 10px;
-  width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-lg);
+  width: min(400px, 100%);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
 }
 
 .add-college-container input {
   width: 100%;
-  padding: 8px;
+  padding: 10px var(--space-2);
   margin-bottom: 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-light);
+  color: var(--text-primary);
+}
+
+.add-college-container input:focus {
+  outline: none;
+  border-color: rgba(124, 58, 237, 0.55);
+  box-shadow: var(--focus-ring);
 }
 
 .add-college-container button {
-  padding: 8px 15px;
-  border-radius: 6px;
+  padding: 10px 15px;
+  border-radius: var(--radius-md);
   border: none;
-  background-color: #4caf50;
-  color: white;
+  background: linear-gradient(135deg, var(--success), #059669);
+  color: var(--text-primary);
   cursor: pointer;
+  font-weight: 600;
+  transition: transform var(--duration-fast) ease, filter var(--duration-fast) ease;
+  box-shadow: 0 8px 22px rgba(16, 185, 129, 0.3);
 }
 
 .add-college-container button:hover {
-  background-color: #45a049;
+  transform: translateY(-1px);
+  filter: brightness(1.06);
 }
 
 .message {
   margin-top: 10px;
-  font-weight: bold;
+  font-weight: 600;
+  color: var(--text-secondary);
 }

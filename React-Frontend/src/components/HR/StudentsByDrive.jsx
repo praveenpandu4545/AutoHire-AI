@@ -258,8 +258,7 @@ if (showAutomation) {
         </div>
 
         <div className="students-actions">
-          <button className="back-btn" onClick={onBack}
-          style={{ backgroundColor: '#007bff', color: 'white' }}>
+          <button className="back-btn" onClick={onBack}>
             ← Back to Drives
           </button>
 

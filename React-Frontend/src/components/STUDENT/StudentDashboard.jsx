@@ -12,54 +12,56 @@ function StudentDashboard() {
 
   return (
     <div className="student-dashboard-container">
-      
-      {/* Sidebar */}
-      <div className="student-sidebar">
-        <h2>Student Dashboard</h2>
+      <aside className="student-sidebar">
+        <div className="student-sidebar-header">
+          <p className="student-sidebar-kicker">Workspace</p>
+          <h2>Student Dashboard</h2>
+        </div>
 
+        <nav className="student-sidebar-nav">
         <button
           className={activeTab === "profile" ? "active-btn" : ""}
           onClick={() => setActiveTab("profile")}
         >
-          Profile
+          <span>Profile</span>
         </button>
 
         <button
           className={activeTab === "drives" ? "active-btn" : ""}
           onClick={() => setActiveTab("drives")}
         >
-          Drives
+          <span>Drives</span>
         </button>
 
         <button
           className={activeTab === "resume" ? "active-btn" : ""}
           onClick={() => setActiveTab("resume")}
         >
-          Resume
+          <span>Resume</span>
         </button>
 
         <button
           className={activeTab === "hr" ? "active-btn" : ""}
           onClick={() => setActiveTab("hr")}
         >
-          Contact HR
+          <span>Contact HR</span>
         </button>
 
         <button
           className={activeTab === "assessments" ? "active-btn" : ""}
           onClick={() => setActiveTab("assessments")}
         >
-          My Assessments
+          <span>My Assessments</span>
         </button>
 
         <button
           className={activeTab === "videoCall" ? "active-btn" : ""}
           onClick={() => setActiveTab("videoCall")}
         >
-          Interview Calls
+          <span>Interview Calls</span>
         </button>
-
-      </div>
+        </nav>
+      </aside>
 
       {/* Main Content */}
       <div className="student-main-content">

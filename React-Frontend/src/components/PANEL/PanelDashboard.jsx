@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import HrProfile from "../HR/HrProfile";
 import PanelInterviews from "./PanelInterviews";
 import ContactHR from "../STUDENT/ContactHR"
@@ -7,19 +6,16 @@ import "../../css/PanelDashboard.css";
 
 function PanelDashboard() {
   const [activeTab, setActiveTab] = useState("profile");
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
 
   return (
     <div className="panel-dashboard-container">
 
       {/* Sidebar */}
-      <div className="panel-sidebar">
-        <h2>Panel Dashboard</h2>
+      <aside className="panel-sidebar">
+        <div className="panel-sidebar-header">
+          <p className="panel-sidebar-kicker">Workspace</p>
+          <h2>Panel Dashboard</h2>
+        </div>
 
         <button
           className={activeTab === "profile" ? "active-btn" : ""}
@@ -42,7 +38,7 @@ function PanelDashboard() {
           Contact HR 
         </button>
 
-      </div>
+      </aside>
 
       {/* Main Content */}
       <div className="panel-main-content">

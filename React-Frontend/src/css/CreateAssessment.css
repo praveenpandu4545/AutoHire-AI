@@ -1,59 +1,88 @@
 .assessment-wrapper {
-  padding: 30px;
-  background: #f5f7fb;
+  padding: 22px;
+  background: transparent;
   min-height: 100vh;
+  font-family: var(--font-sans);
 }
 
 .assessment-card {
-  max-width: 900px;
+  max-width: 980px;
   margin: auto;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 25px 30px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  padding: 22px;
+  box-shadow: var(--shadow-lg);
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-h2 {
-  margin: 0;
-  font-weight: 600;
-  color: #1e293b;
+  margin-bottom: var(--space-5);
+  gap: var(--space-3);
 }
 
 .back-btn {
-  background: #e2e8f0;
+  background: linear-gradient(135deg, #475569, #334155);
+  color: var(--text-primary);
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 9px 14px;
+  border-radius: var(--radius-md);
   cursor: pointer;
+  font-weight: 600;
+  font-size: 0.84rem;
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+  box-shadow: var(--shadow-sm);
 }
 
-form {
+.back-btn:hover {
+  transform: translateY(-1px);
+}
+
+.assessment-card h2 {
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1.24rem;
+  letter-spacing: -0.01em;
+}
+
+.assessment-card form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--space-3);
 }
 
-label {
+.assessment-card label {
   font-size: 14px;
-  font-weight: 500;
-  color: #475569;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
-input, select, textarea {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #cbd5e1;
-  font-size: 14px;
+.assessment-card input,
+.assessment-card select,
+.assessment-card textarea {
+  padding: 10px var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  font-size: 0.9rem;
+  background: var(--surface-light);
+  color: var(--text-primary);
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease,
+    background-color var(--duration-fast) ease;
 }
 
-textarea {
+.assessment-card input:focus,
+.assessment-card select:focus,
+.assessment-card textarea:focus {
+  outline: none;
+  border-color: rgba(124, 58, 237, 0.55);
+  background: var(--surface);
+  box-shadow: var(--focus-ring);
+}
+
+.assessment-card textarea {
   resize: none;
   height: 80px;
 }
@@ -61,20 +90,26 @@ textarea {
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .domain-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
 }
 
 .domain-item {
-  background: #f1f5f9;
+  background: var(--surface-light);
+  border: 1px solid var(--border);
   padding: 8px 10px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.86rem;
+  color: var(--text-secondary);
 }
 
 .checkbox-row {
@@ -83,17 +118,48 @@ textarea {
   gap: 10px;
 }
 
+.checkbox-row label {
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 .submit-btn {
   margin-top: 10px;
-  padding: 12px;
-  background: #2563eb;
-  color: white;
+  padding: var(--space-3) 14px;
+  background: var(--gradient-primary-btn);
+  color: var(--text-primary);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-weight: 600;
   cursor: pointer;
+  box-shadow: var(--shadow-glow-primary);
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease,
+    filter var(--duration-fast) ease;
 }
 
 .submit-btn:hover {
-  background: #1d4ed8;
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+@media (max-width: 860px) {
+  .assessment-wrapper {
+    padding: var(--space-3);
+  }
+
+  .grid-2,
+  .domain-grid,
+  .checkbox-row {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

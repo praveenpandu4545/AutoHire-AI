@@ -1,73 +1,108 @@
 .profile-card {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  width: 600px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: var(--surface);
+  padding: clamp(20px, 3vw, 30px);
+  border-radius: var(--radius-xl);
+  width: min(760px, 100%);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-sans);
 }
 
 .profile-card h2 {
-  margin-bottom: 25px;
-  font-size: 28px;
+  margin: 0 0 18px;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 .profile-card p {
-  margin-bottom: 12px;
-  font-size: 17px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
 }
 
 .button-group {
-  margin-top: 25px;
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .reset-btn {
-  background-color: #4caf50;
-  color: white;
+  background: linear-gradient(135deg, var(--success), #059669);
+  color: var(--text-primary);
   border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  margin-right: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+  box-shadow: 0 8px 22px rgba(16, 185, 129, 0.28);
 }
 
 .logout-btn {
-  background-color: #f44336;
-  color: white;
+  background: linear-gradient(135deg, var(--danger), #b91c1c);
+  color: var(--text-primary);
   border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+  box-shadow: 0 8px 22px rgba(239, 68, 68, 0.28);
 }
 
 .reset-btn:hover,
 .logout-btn:hover,
 .submit-btn:hover {
-  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-/* Reset Password Section */
 .reset-section {
-  margin-top: 25px;
+  margin-top: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 }
 
 .reset-section input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+  padding: 11px var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  font-size: 0.86rem;
+  background: var(--surface-light);
+  color: var(--text-primary);
+}
+
+.reset-section input:focus {
+  outline: none;
+  border-color: rgba(124, 58, 237, 0.55);
+  box-shadow: var(--focus-ring);
 }
 
 .submit-btn {
-  width: 150px;
-  background-color: #5d4037;
-  color: white;
+  width: fit-content;
+  min-width: 130px;
+  background: var(--gradient-primary-btn);
+  color: var(--text-primary);
   border: none;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
   cursor: pointer;
+  font-weight: 600;
+  box-shadow: var(--shadow-glow-primary);
+}
+
+@media (max-width: 640px) {
+  .profile-card {
+    padding: 14px;
+  }
+
+  .reset-btn,
+  .logout-btn,
+  .submit-btn {
+    width: 100%;
+  }
 }

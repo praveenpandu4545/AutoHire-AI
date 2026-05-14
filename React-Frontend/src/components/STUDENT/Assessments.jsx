@@ -73,7 +73,7 @@ const Assessments = () => {
       <h2 className="page-title">My Assessments</h2>
 
       {loading ? (
-        <p>Loading...</p>
+        <p className="assessments-empty-state">Loading assessments...</p>
       ) : (
         <div className="assessment-grid">
           {assessments.map((item) => {

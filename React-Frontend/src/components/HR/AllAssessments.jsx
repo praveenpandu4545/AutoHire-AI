@@ -116,19 +116,11 @@ const AllAssessments = ({ onBack }) => {
 
         <div className="top-bar">
           <button
-  className="back-btn"
-  onClick={() => setShowResults(false)}
-  style={{
-    backgroundColor: "blue",
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer"
-  }}
->
-  ← Back
-</button>
+            className="back-btn primary-back-btn"
+            onClick={() => setShowResults(false)}
+          >
+            ← Back
+          </button>
           <h2>Assessment Results</h2>
         </div>
 
@@ -194,20 +186,9 @@ const AllAssessments = ({ onBack }) => {
     <div className="all-assessments">
 
       <div className="top-bar">
-        <button 
-  className="back-btn" 
-  onClick={onBack}
-  style={{ 
-    backgroundColor: 'blue', 
-    color: 'white', 
-    padding: '10px 20px', 
-    border: 'none', 
-    borderRadius: '5px',
-    cursor: 'pointer' 
-  }}
->
-  ⬅ Back
-</button>
+        <button className="back-btn primary-back-btn" onClick={onBack}>
+          ⬅ Back
+        </button>
 
         <h2>Assessments</h2>
       </div>

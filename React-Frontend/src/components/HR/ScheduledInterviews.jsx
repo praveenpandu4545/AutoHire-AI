@@ -235,7 +235,11 @@ const ScheduledInterviews = () => {
   });
 
   if (loading) {
-    return <div className="scheduled-container">Loading interviews...</div>;
+    return (
+      <div className="scheduled-container">
+        <div className="loading-state">Loading interviews...</div>
+      </div>
+    );
   }
 
   return (
@@ -372,49 +376,18 @@ const ScheduledInterviews = () => {
                     <td>{interview.panelMemberName}</td>
                     <td>{formatDateTime(interview.startTime)}</td>
                     <td>
-                      <span
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "6px",
-                          fontWeight: "600"
-                        }}
-                      >
+                      <span className="status-pill">
                         <span
-                          style={{
-                            width: "10px",
-                            height: "10px",
-                            borderRadius: "50%",
-
-                            // 🎨 Color logic
-                            backgroundColor:
-                              interview.status === "SELECTED"
-                                ? "green"
-                                : interview.status === "REJECTED"
-                                ? "red"
-                                : "orange",   // PENDING / IN PROGRESS
-
-                            // ✨ Blinking only for pending/in-progress
-                            animation:
-                              interview.status === "PENDING" ||
-                              interview.status === "IN PROGRESS"
-                                ? "blink 1s infinite"
-                                : "none"
-                          }}
-                        ></span>
-
+                          className={`status-dot ${
+                            interview.status === "SELECTED"
+                              ? "selected"
+                              : interview.status === "REJECTED"
+                              ? "rejected"
+                              : "pending"
+                          }`}
+                        />
                         {interview.status}
                       </span>
-
-                      <style>
-                        {`
-                          @keyframes blink {
-                            0% { opacity: 1; }
-                            50% { opacity: 0.2; }
-                            100% { opacity: 1; }
-                          }
-                        `}
-                      </style>
                     </td>
                     <td>
                       <button

@@ -52,7 +52,9 @@ const AllDrives = () => {
 
   return (
     <div className="all-drives-container">
-      <h2>All Drives</h2>
+      <div className="students-header">
+        <h2>All Drives</h2>
+      </div>
 
       {/* ✅ SEARCH BOX */}
       <input
@@ -64,7 +66,7 @@ const AllDrives = () => {
       />
 
       {Object.keys(groupedDrives).length === 0 && (
-        <p style={{ marginTop: "20px" }}>No drives found.</p>
+        <p className="no-data">No drives found.</p>
       )}
 
       {Object.keys(groupedDrives).map((college) => (

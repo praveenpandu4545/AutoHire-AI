@@ -4,39 +4,42 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #1f2937;
-  color: white;
+  background: var(--gradient-page);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  padding: var(--space-4);
 }
 
 .error-text {
-  color: #ef4444;
+  color: var(--danger);
   margin-top: 10px;
   text-align: center;
 }
 
 .success-text {
-  color: #22c55e;
+  color: var(--success);
   margin-top: 10px;
   text-align: center;
 }
 
 .select {
   width: 100%;
-  padding: 10px 12px;
+  padding: 10px var(--space-3);
   font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-light);
+  color: var(--text-primary);
   outline: none;
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .select:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+  border-color: rgba(124, 58, 237, 0.55);
+  box-shadow: var(--focus-ring);
 }
 
 .select:hover {
-  border-color: #4a90e2;
+  border-color: rgba(124, 58, 237, 0.35);
 }

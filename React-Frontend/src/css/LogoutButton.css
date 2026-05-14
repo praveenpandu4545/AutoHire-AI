@@ -2,15 +2,18 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  padding: 8px 16px;
-  background-color: #ef4444;
-  color: white;
+  padding: 8px var(--space-4);
+  background: linear-gradient(135deg, var(--danger), #b91c1c);
+  color: var(--text-primary);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
+  box-shadow: 0 8px 22px rgba(239, 68, 68, 0.35);
+  transition: transform var(--duration-fast) ease, filter var(--duration-fast) ease;
 }
 
 .logout-btn:hover {
-  background-color: #dc2626;
+  transform: translateY(-1px);
+  filter: brightness(1.06);
 }

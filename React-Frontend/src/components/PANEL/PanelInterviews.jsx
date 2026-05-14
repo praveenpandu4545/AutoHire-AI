@@ -314,37 +314,15 @@ const PanelInterviews = () => {
 
                     {/* STATUS COLUMN */}
                     <td>
-              <span
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  fontWeight: "600"
-                }}
-              >
-                <span
-                  style={{
-                    width: "10px",
-                    height: "10px",
-                    borderRadius: "50%",
-                    backgroundColor: status === "Completed" ? "green" : "orange",
-                    animation: status === "Completed" ? "none" : "blink 1s infinite"
-                  }}
-                ></span>
-                {status}
-              </span>
-
-              {/* Inline keyframes (must be included once in your component) */}
-              <style>
-                {`
-                  @keyframes blink {
-                    0% { opacity: 1; }
-                    50% { opacity: 0.2; }
-                    100% { opacity: 1; }
-                  }
-                `}
-              </style>
-            </td>
+                      <span className="status-pill">
+                        <span
+                          className={`status-dot ${
+                            status === "Completed" ? "completed" : "pending"
+                          }`}
+                        />
+                        {status}
+                      </span>
+                    </td>
 
                     <td>
                       <button
@@ -356,7 +334,12 @@ const PanelInterviews = () => {
                     </td>
 
                     <td>
-                      <button onClick={() => startCall(interview)}>Call</button>
+                      <button
+                        className="call-btn"
+                        onClick={() => startCall(interview)}
+                      >
+                        Call
+                      </button>
                     </td>
                   </tr>
                 );

@@ -127,7 +127,13 @@ const StudentDrives = () => {
     setCurrentStep(5);
   };
 
-  if (loading) return <div className="container">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="container">
+        <div className="drive-empty-state">Loading drives...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -141,8 +147,10 @@ const StudentDrives = () => {
       )}
 
       {(mode === "application" || mode === "confirm") && (
-        <div>
-          <h2>{selectedDrive.driveName} - Application Flow</h2>
+        <div className="drive-flow-wrapper">
+          <h2 className="drive-flow-title">
+            {selectedDrive.driveName} - Application Flow
+          </h2>
 
           <div className="stepper-container">
 

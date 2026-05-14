@@ -1,126 +1,127 @@
 /* =============================== */
-/* DASHBOARD LAYOUT */
+/* PANEL DASHBOARD LAYOUT */
 /* =============================== */
 
 .panel-dashboard-container {
   display: flex;
-  height: 100vh;
-  font-family: "Inter", "Segoe UI", sans-serif;
-  background: #f4f7fb;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background: var(--gradient-page);
+  background-color: var(--bg-primary);
 }
 
-
-/* =============================== */
-/* SIDEBAR */
-/* =============================== */
-
 .panel-sidebar {
-  width: 240px;
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
-  padding: 26px 18px;
+  width: 258px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(8, 70, 90, 0.35) 0%, rgba(30, 41, 59, 0.88) 40%, rgba(17, 24, 39, 0.92) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-right: 1px solid rgba(6, 182, 212, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 4px 0 32px rgba(0, 0, 0, 0.25), var(--shadow-md);
+  padding: var(--space-6) var(--space-4);
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.panel-sidebar-header {
+  margin-bottom: 10px;
+  padding-top: 0;
+  padding-right: var(--space-2);
+  padding-bottom: var(--space-2);
+  padding-left: var(--space-2);
+}
+
+.panel-sidebar-kicker {
+  margin: 0 0 6px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
 }
 
 .panel-sidebar h2 {
-  font-size: 20px;
+  font-size: 1.18rem;
   font-weight: 700;
-  color: #111827;
-  margin-bottom: 28px;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
 }
-
-
-/* =============================== */
-/* SIDEBAR BUTTONS */
-/* =============================== */
 
 .panel-sidebar button {
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: none;
+  width: 100%;
+  padding: 11px var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
   cursor: pointer;
-  font-size: 13.5px;
-  font-weight: 500;
-  background: #6194f3;   /* refreshing soft blue */
-  color: #ffffff;
-  margin-bottom: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--surface-light);
+  color: var(--text-secondary);
   text-align: left;
-  transition: all 0.2s ease;
+  transition: transform var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
 }
-
-/* Hover */
 
 .panel-sidebar button:hover {
-  background: #dbeafe;
-  transform: translateX(4px);
+  background: rgba(124, 58, 237, 0.18);
+  border-color: rgba(124, 58, 237, 0.28);
+  transform: translateX(3px);
 }
 
-
-/* Active Button */
-
-.active-btn {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
-  color: white !important;
-  font-weight: 600;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+.panel-sidebar .active-btn {
+  background: var(--gradient-primary-btn);
+  color: var(--text-primary);
+  border-color: rgba(124, 58, 237, 0.45);
+  box-shadow: var(--shadow-glow-primary);
 }
-
-
-/* =============================== */
-/* MAIN CONTENT */
-/* =============================== */
 
 .panel-main-content {
   flex: 1;
-  background: #f4f7fb;
-  padding: 28px 32px;
+  background: transparent;
+  padding: 28px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  overflow-x: auto;
 }
 
+@media (max-width: 1024px) {
+  .panel-sidebar {
+    width: 230px;
+  }
 
-/* =============================== */
-/* PROFILE CARD */
-/* =============================== */
-
-.profile-card {
-  background: white;
-  padding: 28px;
-  border-radius: 12px;
-  width: 420px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  .panel-main-content {
+    padding: var(--space-5);
+  }
 }
 
-.profile-card h2 {
-  margin-bottom: 16px;
-  font-size: 18px;
-}
+@media (max-width: 768px) {
+  .panel-dashboard-container {
+    flex-direction: column;
+  }
 
-.profile-card p {
-  margin-bottom: 8px;
-  font-size: 13.5px;
-  color: #374151;
-}
+  .panel-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    box-shadow: none;
+    padding: var(--space-4) 14px;
+  }
 
+  .panel-sidebar button {
+    text-align: center;
+    transform: none;
+  }
 
-/* =============================== */
-/* LOGOUT BUTTON */
-/* =============================== */
+  .panel-sidebar button:hover {
+    transform: none;
+  }
 
-.logout-btn {
-  background: #ef4444 !important;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: auto;
-  font-size: 13px;
-  transition: 0.2s;
-}
-
-.logout-btn:hover {
-  background: #dc2626 !important;
+  .panel-main-content {
+    padding: var(--space-4);
+  }
 }
