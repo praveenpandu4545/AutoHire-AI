@@ -110,6 +110,19 @@
   font-size: 0.86rem;
   color: var(--text-muted);
 }
+.reschedule-btn:disabled,
+.call-btn:disabled {
+
+  opacity: 0.45;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+
+  filter: grayscale(20%);
+}
 
 .loading-state {
   padding: 14px;
@@ -205,4 +218,37 @@
   100% {
     opacity: 1;
   }
+}
+
+
+.call-btn {
+
+  padding: 10px 16px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #16a34a 0%,
+      #22c55e 100%
+    );
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.call-btn:hover {
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 10px 24px rgba(34,197,94,0.25);
 }

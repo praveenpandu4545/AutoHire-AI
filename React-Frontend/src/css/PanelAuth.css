@@ -213,3 +213,15 @@
     border-bottom: 1px solid var(--border);
   }
 }
+
+.otp-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.form-box input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

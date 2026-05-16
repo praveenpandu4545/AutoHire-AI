@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../css/PanelAuth.css";
 
 function PanelAuth() {
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;
+
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpLoading, setOtpLoading] = useState(false);
 
   const [isLogin, setIsLogin] = useState(true);
 
@@ -73,6 +79,86 @@ function PanelAuth() {
       [e.target.name]: e.target.value,
     });
   };
+
+  const handleGenerateOTP = async () => {
+
+  setError("");
+  setSuccess("");
+
+  setOtpLoading(true);
+
+  try {
+
+    const response = await fetch(
+      `${BASE_URL}/api/generate-otp`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: registerData.email,
+          resetting : "false"
+        }),
+      }
+    );
+
+    const message = await response.text();
+    console.log(message);
+    if (!response.ok) {
+      throw new Error(message);
+    }
+
+    setOtpSent(true);
+
+    setSuccess("OTP sent successfully");
+
+  } catch (err) {
+
+    setError(err.message);
+
+  } finally {
+
+    setOtpLoading(false);
+  }
+};
+
+const handleValidateOTP = async () => {
+
+  setError("");
+  setSuccess("");
+
+  try {
+
+    const response = await fetch(
+      `${BASE_URL}/api/validate-otp`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: registerData.email,
+          otp: otp,
+        }),
+      }
+    );
+
+    const valid = await response.json();
+
+    if (!valid) {
+      throw new Error("Invalid OTP");
+    }
+
+    setOtpVerified(true);
+
+    setSuccess("Email verified successfully");
+
+  } catch (err) {
+
+    setError(err.message);
+  }
+};
 
   /* ---------------------------------- */
   /* LOGIN */
@@ -211,28 +297,76 @@ function PanelAuth() {
               />
 
               <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                onChange={handleRegisterChange}
-                required
-              />
+  type="email"
+  name="email"
+  placeholder="Email"
+  value={registerData.email}
+  onChange={handleRegisterChange}
+  required
+/>
 
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={handleRegisterChange}
-                required
-              />
+<div className="otp-container">
 
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                onChange={handleRegisterChange}
-                required
-              />
+  <button
+    type="button"
+    onClick={handleGenerateOTP}
+    disabled={
+      !registerData.email ||
+      otpLoading ||
+      otpSent
+    }
+  >
+    {
+      otpLoading
+        ? "Sending OTP..."
+        : otpSent
+        ? "OTP Sent"
+        : "Generate OTP"
+    }
+  </button>
+
+  {otpSent && (
+    <>
+      <input
+        type="text"
+        placeholder="Enter OTP"
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+      />
+
+      <button
+        type="button"
+        onClick={handleValidateOTP}
+        disabled={otpVerified}
+      >
+        {
+          otpVerified
+            ? "OTP Verified"
+            : "Verify OTP"
+        }
+      </button>
+    </>
+  )}
+
+</div>
+
+<input
+  type="password"
+  name="password"
+  placeholder="Password"
+  onChange={handleRegisterChange}
+  disabled={!otpVerified}
+  required
+/>
+
+<input
+  type="password"
+  name="confirmPassword"
+  placeholder="Confirm Password"
+  onChange={handleRegisterChange}
+  disabled={!otpVerified}
+  required
+/>
 
               <select
                 name="role"
@@ -243,7 +377,13 @@ function PanelAuth() {
                 <option value="HR">HR</option>
               </select>
 
-              <button disabled={loading}>
+              <button
+  disabled={
+    loading ||
+    !otpSent ||
+    !otpVerified
+  }
+>
                 {loading ? "Registering..." : "Register"}
               </button>
 
@@ -296,7 +436,7 @@ function PanelAuth() {
                 </span>
 
               </div>
-
+              <Link to = "/forgot-password">Forgot password ?</Link>
               <button disabled={loading}>
                 {loading ? "Logging in..." : "Login"}
               </button>

@@ -6,6 +6,7 @@ import PanelDashboard from "./components/PANEL/PanelDashboard";
 import PanelAuth from "./components/PANEL/PanelAuth";
 import StudentAuth from "./components/STUDENT/StudentAuth";
 import ExamScreen from "./components/STUDENT/ExamScreen";
+import ForgotPassword from "./components/forgotPassword";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/Panel-Auth" element={<PanelAuth />} /> 
       <Route path="/Student-Auth" element={<StudentAuth />} /> 
       <Route path="/exam" element={<ExamScreen />} />
+      <Route path="/forgot-password" element = {<ForgotPassword />} />
     </Routes>
   );
 }

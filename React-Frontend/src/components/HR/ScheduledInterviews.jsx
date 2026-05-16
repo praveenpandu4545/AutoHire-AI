@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import "../../css/ScheduledInterviews.css";
+import VideoCall from "../PANEL/VideoCall";
 
 const ScheduledInterviews = () => {
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;
@@ -30,6 +31,10 @@ const ScheduledInterviews = () => {
   const [newPanelMemberId, setNewPanelMemberId] = useState("");
   const [newStartTime, setNewStartTime] = useState("");
   const [newEndTime, setNewEndTime] = useState("");
+
+  const [callStarted, setCallStarted] = useState(false);
+  const [channelName, setChannelName] = useState("");
+  const [callId, setCallId] =  useState(null);
 
   useEffect(() => {
     fetchInterviews();
@@ -124,6 +129,126 @@ const ScheduledInterviews = () => {
       console.error(error);
     }
   };
+
+  const startCall = async (interview) => {
+
+  try {
+
+    /* ---------------------------------- */
+    /* FETCH STUDENT DETAILS */
+    /* ---------------------------------- */
+
+    const studentResponse = await fetch(
+
+      `${BASE_URL}/springApi/student/${interview.studentEmail}`,
+
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!studentResponse.ok) {
+
+      throw new Error(
+        "Failed to fetch student"
+      );
+    }
+
+    const student =
+      await studentResponse.json();
+
+    /* ---------------------------------- */
+    /* FETCH USER ID */
+    /* ---------------------------------- */
+
+    const userIdResponse = await fetch(
+
+      `${BASE_URL}/springApi/student/get-user-id/${student.id}`,
+
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!userIdResponse.ok) {
+
+      throw new Error(
+        "Failed to fetch user id"
+      );
+    }
+
+    const userId =
+      await userIdResponse.json();
+
+    /* ---------------------------------- */
+    /* START CALL */
+    /* ---------------------------------- */
+
+    const channel =
+      "interview_" + interview.interviewId;
+
+    const response = await fetch(
+
+      `${BASE_URL}/springApi/interviews/start`,
+
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+
+          Authorization: `Bearer ${token}`,
+        },
+
+        body: JSON.stringify({
+
+          interviewId:
+            interview.interviewId,
+
+          receiverId:
+            userId,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+
+      const errorText =
+        await response.text();
+
+      throw new Error(errorText);
+    }
+
+    const data =
+      await response.json();
+
+    setCallId(data.id);
+
+    setChannelName(channel);
+
+    setCallStarted(true);
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert(err.message);
+  }
+};
+
+
+const handleEnd = () => {
+
+  setCallStarted(false);
+
+  setChannelName("");
+
+  setCallId(null);
+};
 
   const formatDateTime = (dateTime) => {
     if (!dateTime) return "";
@@ -233,6 +358,18 @@ const ScheduledInterviews = () => {
     );
 
   });
+
+  if (callStarted) {
+
+  return (
+
+    <VideoCall
+      channelName={channelName}
+      callId={callId}
+      onEnd={handleEnd}
+    />
+  );
+}
 
   if (loading) {
     return (
@@ -354,6 +491,7 @@ const ScheduledInterviews = () => {
                 </select>
               </th>
               <th>Action</th>
+              <th>Call</th>
             </tr>
           </thead>
 
@@ -390,28 +528,96 @@ const ScheduledInterviews = () => {
                       </span>
                     </td>
                     <td>
-                      <button
-                        className="reschedule-btn"
-                        onClick={() => {
-                          if (rescheduleId === interview.interviewId) {
-                            setRescheduleId(null);
-                          } else {
-                            setRescheduleId(interview.interviewId);
-                            setNewStartTime(formatForInput(interview.startTime));
-                            setNewEndTime(formatForInput(interview.endTime));
-                          }
-                        }}
-                      >
-                        {rescheduleId === interview.interviewId
+
+                    <button
+                      className="reschedule-btn"
+
+                      disabled={
+                        interview.status
+                          ?.toLowerCase()
+                            !== "pending"
+                      }
+
+                      onClick={() => {
+
+                        if (
+                          interview.status
+                            ?.toLowerCase()
+                              !== "pending"
+                        ) return;
+
+                        if (
+                          rescheduleId ===
+                          interview.interviewId
+                        ) {
+
+                          setRescheduleId(null);
+
+                        } else {
+
+                          setRescheduleId(
+                            interview.interviewId
+                          );
+
+                          setNewStartTime(
+                            formatForInput(
+                              interview.startTime
+                            )
+                          );
+
+                          setNewEndTime(
+                            formatForInput(
+                              interview.endTime
+                            )
+                          );
+                        }
+                      }}
+                    >
+
+                      {
+                        rescheduleId ===
+                        interview.interviewId
+
                           ? "Close"
-                          : "Reschedule"}
-                      </button>
-                    </td>
+
+                          : "Reschedule"
+                      }
+
+                    </button>
+
+                  </td>
+
+                  <td>
+
+                    <button
+                      className="call-btn"
+
+                      disabled={
+                        interview.status
+                          ?.toLowerCase()
+                            !== "pending"
+                      }
+
+                      onClick={() => {
+
+                        if (
+                          interview.status
+                            ?.toLowerCase()
+                              !== "pending"
+                        ) return;
+
+                        startCall(interview);
+                      }}
+                    >
+                      Call
+                    </button>
+
+                  </td>
                   </tr>
 
                   {rescheduleId === interview.interviewId && (
                     <tr>
-                      <td colSpan="9">
+                      <td colSpan="10">
                         <div className="reschedule-form">
                           <select
                             value={newPanelMemberId}
