@@ -1,5 +1,6 @@
 node_modules/
 venv/
+autohireenv/
 __pycache__/
 .env
 

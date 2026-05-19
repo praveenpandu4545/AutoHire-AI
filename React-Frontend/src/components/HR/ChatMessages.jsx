@@ -10,6 +10,11 @@ const ChatMessages = () => {
   const user = getUser();
   const hrEmail = user.email;
 
+  const [allUsers, setAllUsers] = useState([]);
+  const [showUsersModal, setShowUsersModal] = useState(false);
+
+  const [modalSearch, setModalSearch] = useState("");
+
   const [roleFilter, setRoleFilter] = useState("STUDENT");
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
@@ -38,6 +43,38 @@ const ChatMessages = () => {
       setUsers(data);
       setSelectedUser(null);
       setMessages([]);
+
+    } catch (err) {
+      console.error(err);
+    }
+
+  };
+
+  const fetchAllUsers = async () => {
+
+    try {
+
+      const token = getToken();
+
+      const endpoint =
+        roleFilter === "STUDENT"
+          ? "/springApi/student/getAllStudents"
+          : "/springApi/student/getAllPanels";
+
+      const res = await fetch(
+        `${BASE_URL}${endpoint}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        }
+      );
+
+      const data = await res.json();
+
+      setAllUsers(data);
+
+      setShowUsersModal(true);
 
     } catch (err) {
       console.error(err);
@@ -186,6 +223,11 @@ const ChatMessages = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const filteredModalUsers = allUsers.filter((u) =>
+    u.name.toLowerCase().includes(modalSearch.toLowerCase()) ||
+    u.email.toLowerCase().includes(modalSearch.toLowerCase())
+  );
+
   return (
 
     <div className="wa-chat-hr">
@@ -211,6 +253,16 @@ const ChatMessages = () => {
             <option value="STUDENT">Students</option>
             <option value="PANEL">Panel Members</option>
           </select>
+          <button
+            className="show-all-btn"
+            onClick={fetchAllUsers}
+          >
+            + Show All {
+              roleFilter === "STUDENT"
+                ? "Students"
+                : "Panel Members"
+            }
+          </button>
 
         </div>
 
@@ -323,6 +375,103 @@ const ChatMessages = () => {
       </div>
 
     </div>
+
+    {showUsersModal && (
+
+      <div className="review-modal">
+
+        <div className="review-card-large">
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "15px",
+            }}
+          >
+            <h3>
+              All {
+                roleFilter === "STUDENT"
+                  ? "Students"
+                  : "Panel Members"
+              }
+            </h3>
+
+            <span
+              style={{
+                cursor: "pointer",
+                fontSize: "20px",
+              }}
+              onClick={() => setShowUsersModal(false)}
+            >
+              ❌
+            </span>
+                      </div>
+                      <input
+              type="text"
+              placeholder={`Search ${
+                roleFilter === "STUDENT"
+                  ? "students"
+                  : "panel members"
+              }...`}
+              value={modalSearch}
+              onChange={(e) => setModalSearch(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                borderRadius: "8px",
+                border: "1px solid #ccc",
+                marginBottom: "15px",
+                outline: "none",
+              }}
+            />
+
+          <div
+            style={{
+              maxHeight: "400px",
+              overflowY: "auto",
+            }}
+          >
+
+            {filteredModalUsers.map((student) => (
+
+              <div
+                key={student.id}
+                onClick={() => {
+                  loadHistory(student.email);
+                  setShowUsersModal(false);
+                }}
+                style={{
+                  padding: "12px",
+                  borderBottom: "1px solid #ddd",
+                  cursor: "pointer",
+                }}
+              >
+
+                <strong>{student.name}</strong>
+
+                <div
+                  style={{
+                    fontSize: "13px",
+                    color: "gray",
+                  }}
+                >
+                  {student.email}
+                </div>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </div>
+
+      </div>
+      
+
+    )}
 
     </div>
 

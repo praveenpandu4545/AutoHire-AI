@@ -39,7 +39,7 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
       );
 
       const data = await response.json();
-
+      // console.log("Rounds Response:", data);
       const uniqueRounds = Array.from(
         new Map(data.map((r) => [r.roundNumber, r])).values()
       );
@@ -199,7 +199,7 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
               <th>Round Name</th>
               <th>Status</th>
               <th>Update</th>
-              <th>Interview</th>
+              <th>Schedule Interview</th>
               <th>Panel Review</th>
             </tr>
           </thead>
@@ -226,24 +226,95 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                   </td>
 
                   <td>
-                    {round.interviewScheduled ? (
-                      <div style={{ color: "var(--success)", fontWeight: "bold" }}>
-                        Scheduled
-                        <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>
-                          {round.panelName && <>Panel: {round.panelName}<br /></>}
-                          {round.interviewStartTime &&
-                            round.interviewStartTime.replace("T", " ")}
+                      {round.interviewScheduled ? (
+
+                        <div style={{ color: "var(--success)", fontWeight: "bold" }}>
+                          Scheduled
+
+                          <div
+                            style={{
+                              fontSize: "12px",
+                              color: "var(--text-muted)",
+                            }}
+                          >
+                            {round.panelName && (
+                              <>
+                                Panel: {round.panelName}
+                                <br />
+                              </>
+                            )}
+
+                            {round.interviewStartTime &&
+                              round.interviewStartTime.replace("T", " ")}
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      <button
-                        className="details-btn"
-                        onClick={() => setSelectedRoundId(round.id)}
-                      >
-                        Schedule
-                      </button>
-                    )}
-                  </td>
+
+                      ) : round.status === "SELECTED" ? (
+
+                        <button
+                          disabled
+                          title="Candidate already selected, interview cannot be scheduled"
+                          style={{
+                            backgroundColor: "#d1fae5",
+                            color: "#065f46",
+                            cursor: "not-allowed",
+                            border: "none",
+                            padding: "8px 14px",
+                            borderRadius: "8px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Selected
+                        </button>
+
+                      ) : round.status === "REJECTED" ? (
+
+                        <button
+                          disabled
+                          title="Candidate already rejected, interview cannot be scheduled"
+                          style={{
+                            backgroundColor: "#fee2e2",
+                            color: "#991b1b",
+                            cursor: "not-allowed",
+                            border: "none",
+                            padding: "8px 14px",
+                            borderRadius: "8px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Rejected
+                        </button>
+
+                      ) : !round.canSchedule ? (
+
+                        <button
+                          disabled
+                          title="Scheduling is disabled for this round"
+                          style={{
+                            backgroundColor: "#e5e7eb",
+                            color: "#4b5563",
+                            cursor: "not-allowed",
+                            border: "none",
+                            padding: "8px 14px",
+                            borderRadius: "8px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Not Allowed
+                        </button>
+
+                      ) : (
+
+                        <button
+                          className="details-btn"
+                          onClick={() => setSelectedRoundId(round.id)}
+                          title="Schedule Interview"
+                        >
+                          Schedule
+                        </button>
+
+                      )}
+                    </td>
 
                   <td>
                     {round.panelReview ? (

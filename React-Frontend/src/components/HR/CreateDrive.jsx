@@ -8,7 +8,7 @@ const CreateDrive = () => {
     collegeName: "",
     driveName: "",
     noOfRounds: 1,
-    rounds: [{ roundNumber: 1, roundName: "" }],
+    rounds: [{ roundNumber: 1, roundName: "",canSchedule: false }],
     requiredSkills: [],
   });
 
@@ -27,17 +27,34 @@ const CreateDrive = () => {
     let newRounds = [];
 
     for (let i = 1; i <= count; i++) {
-      newRounds.push({ roundNumber: i, roundName: "" });
+      newRounds.push({
+      roundNumber: i,
+      roundName: "",
+      canSchedule: false,
+    });
     }
 
     setForm({ ...form, noOfRounds: count, rounds: newRounds });
   };
+
+
 
   // Handle round name change
   const handleRoundNameChange = (index, value) => {
     const updatedRounds = [...form.rounds];
     updatedRounds[index].roundName = value;
     setForm({ ...form, rounds: updatedRounds });
+  };
+
+  const handleScheduleChange = (index, checked) => {
+    const updatedRounds = [...form.rounds];
+
+    updatedRounds[index].canSchedule = checked;
+
+    setForm({
+      ...form,
+      rounds: updatedRounds,
+    });
   };
 
   // Add skill
@@ -89,7 +106,13 @@ const CreateDrive = () => {
         collegeName: "",
         driveName: "",
         noOfRounds: 1,
-        rounds: [{ roundNumber: 1, roundName: "" }],
+        rounds: [
+          {
+            roundNumber: 1,
+            roundName: "",
+            canSchedule: false,
+          },
+        ],
         requiredSkills: [],
       });
 
@@ -166,18 +189,38 @@ const fetchColleges = async () => {
 
       <h3>Rounds</h3>
       {form.rounds.map((round, index) => (
-        <div key={index} className="round-input">
-          <span>Round {round.roundNumber}</span>
+      <div key={index} className="round-input">
+        <span>Round {round.roundNumber}</span>
+
+        <input
+          type="text"
+          placeholder="Round Name"
+          value={round.roundName}
+          onChange={(e) =>
+            handleRoundNameChange(index, e.target.value)
+          }
+        />
+
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            marginTop: "8px",
+          }}
+        >
           <input
-            type="text"
-            placeholder="Round Name"
-            value={round.roundName}
+            type="checkbox"
+            checked={Boolean(round.canSchedule)}
             onChange={(e) =>
-              handleRoundNameChange(index, e.target.value)
+              handleScheduleChange(index, e.target.checked)
             }
           />
-        </div>
-      ))}
+
+          Can Schedule Interview
+        </label>
+      </div>
+    ))}
 
       <h3>Required Qualifications or Skills</h3>
       <div className="skill-section">
