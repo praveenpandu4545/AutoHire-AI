@@ -2,6 +2,7 @@ import { useState } from "react";
 import HrProfile from "../HR/HrProfile";
 import PanelInterviews from "./PanelInterviews";
 import ContactHR from "../STUDENT/ContactHR"
+import NoticeBoard from "../NoticeBoard";
 import "../../css/PanelDashboard.css";
 
 function PanelDashboard() {
@@ -38,6 +39,13 @@ function PanelDashboard() {
           Contact HR 
         </button>
 
+        <button
+          className={activeTab === "NoticeBoard" ? "active-btn" : ""}
+          onClick={() => setActiveTab("NoticeBoard")}
+        >
+          Notice Board
+        </button>
+
       </aside>
 
       {/* Main Content */}
@@ -45,6 +53,7 @@ function PanelDashboard() {
         {activeTab === "profile" && <HrProfile />}
         {activeTab === "interviews" && <PanelInterviews/>}
         {activeTab === "ContactHR" && <ContactHR/>}
+        {activeTab === "NoticeBoard" && <NoticeBoard/>}
       </div>
 
     </div>

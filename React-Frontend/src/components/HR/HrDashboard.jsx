@@ -8,6 +8,7 @@ import AllDrives from "./AllDrives";
 import ScheduledInterviews from "./ScheduledInterviews";
 import ChatMessages from "./ChatMessages";
 import Assesments from "./Assesments";
+import CreateNotice from "./CreateNotice";
 import "../../css/Dashboard.css";
 
 const HrDashboard = () => {
@@ -39,6 +40,8 @@ const HrDashboard = () => {
         return <ChatMessages/>
       case "Assesments":
         return <Assesments/>  
+      case "CreateNotice":
+        return <CreateNotice/>  
       default:
         return <div>Select an option</div>;
     }
@@ -106,6 +109,13 @@ const HrDashboard = () => {
           onClick={() => setActiveTab("Assesments")}
         >
           Assesments
+        </button>
+
+        <button
+          className={activeTab === "CreateNotice" ? "active" : ""}
+          onClick={() => setActiveTab("CreateNotice")}
+        >
+          Create Notice
         </button>
       </aside>
 

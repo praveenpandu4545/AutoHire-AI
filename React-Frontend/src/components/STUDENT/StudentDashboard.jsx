@@ -5,6 +5,7 @@ import StudentDrives from "./StudentDrives/StudentDrives";
 import ContactHR from "./ContactHR";
 import Assessments from "./Assessments";
 import StudentVC from "./StudentVC";
+import NoticeBoard from "../NoticeBoard";
 import "../../css/StudentDashboard.css";
 
 function StudentDashboard() {
@@ -60,6 +61,14 @@ function StudentDashboard() {
         >
           <span>Interview Calls</span>
         </button>
+
+        <button
+          className={activeTab === "NoticeBoard" ? "active-btn" : ""}
+          onClick={() => setActiveTab("NoticeBoard")}
+        >
+          <span>Notice Board</span>
+        </button>
+        
         </nav>
       </aside>
 
@@ -71,6 +80,7 @@ function StudentDashboard() {
         {activeTab === "hr" && <ContactHR />}
         {activeTab === "assessments" && <Assessments />}
         {activeTab === "videoCall" && <StudentVC />}
+        {activeTab === "NoticeBoard" && <NoticeBoard />}
 
 
       </div>
