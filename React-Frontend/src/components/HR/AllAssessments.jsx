@@ -63,6 +63,65 @@ const AllAssessments = ({ onBack }) => {
     }
   };
 
+  const handleDeleteAssessment =
+  async (assessmentId) => {
+
+    const confirmDelete =
+      window.confirm(
+        "Are you sure you want to delete this assessment?"
+      );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+
+      const response =
+        await fetch(
+          `${BASE_URL}/springApi/delete/assessment/${assessmentId}`,
+          {
+            method:
+              "DELETE",
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+        );
+
+      const msg =
+        await response.text();
+
+      if (!response.ok) {
+        alert(msg);
+        return;
+      }
+
+      alert(msg);
+
+      // remove instantly from UI
+      setAssessments(
+        (prev) =>
+          prev.filter(
+            (
+              assessment
+            ) =>
+              assessment.id !==
+              assessmentId
+          )
+      );
+
+    } catch (err) {
+
+      console.error(err);
+
+      alert(
+        "Failed to delete assessment"
+      );
+    }
+  };
+
   // ================= DOWNLOAD EXCEL =================
   const downloadExcel = () => {
     const formatted = filteredResults.map((r) => ({
@@ -246,13 +305,38 @@ const AllAssessments = ({ onBack }) => {
                 <td>{new Date(a.startTime).toLocaleString()}</td>
 
                 <td>
-                  <button
-                    className="results-btn"
-                    onClick={() => handleViewResults(a.id)}
-                  >
-                    📊 Results
-                  </button>
-                </td>
+  <div
+    style={{
+      display:
+        "flex",
+      gap: "8px",
+      alignItems:
+        "center",
+    }}
+  >
+    <button
+      className="results-btn"
+      onClick={() =>
+        handleViewResults(
+          a.id
+        )
+      }
+    >
+      📊 Results
+    </button>
+
+    <button
+      className="delete-btn"
+      onClick={() =>
+        handleDeleteAssessment(
+          a.id
+        )
+      }
+    >
+      🗑 Delete
+    </button>
+  </div>
+</td>
 
               </tr>
             ))}
