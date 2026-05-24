@@ -259,6 +259,9 @@ const AllAssessments = ({ onBack }) => {
           placeholder="Search by title, college, drive, round..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          style = {{
+            width : "700px"
+          }}
         />
 
         <select value={roundFilter} onChange={(e) => setRoundFilter(e.target.value)}>
@@ -332,6 +335,16 @@ const AllAssessments = ({ onBack }) => {
           a.id
         )
       }
+      style={{
+    background: "#d61010",
+    color: "#000",
+    borderRadius: "10px",
+    padding: "8px 14px",
+    fontSize: "14px",
+    fontWeight: "500",
+    cursor: "pointer",
+    marginLeft : "10px"
+  }}
     >
       🗑 Delete
     </button>

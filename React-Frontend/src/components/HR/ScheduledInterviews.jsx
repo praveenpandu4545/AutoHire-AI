@@ -27,6 +27,7 @@ const ScheduledInterviews = () => {
 
   // 🔁 Reschedule States
   const [panelMembers, setPanelMembers] = useState([]);
+  const [confirmingId, setConfirmingId] = useState(null);
   const [rescheduleId, setRescheduleId] = useState(null);
   const [newPanelMemberId, setNewPanelMemberId] = useState("");
   const [newStartTime, setNewStartTime] = useState("");
@@ -86,49 +87,57 @@ const ScheduledInterviews = () => {
   // RESCHEDULE
   // =============================
   const rescheduleInterview = async (interviewId) => {
+
+  setConfirmingId(interviewId);
+
+  try {
+
+    const response = await fetch(
+      `${BASE_URL}/springApi/interviews/${interviewId}/reschedule`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          panelMemberId: newPanelMemberId,
+          startTime: newStartTime,
+          endTime: newEndTime,
+        }),
+      }
+    );
+
+    const text = await response.text();
+    let result;
+
     try {
-      const response = await fetch(
-        `${BASE_URL}/springApi/interviews/${interviewId}/reschedule`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            panelMemberId: newPanelMemberId,
-            startTime: newStartTime,
-            endTime: newEndTime,
-          }),
-        }
-      );
-
-      const text = await response.text();
-      let result;
-
-      try {
-        result = JSON.parse(text);
-      } catch {
-        result = { message: text };
-      }
-
-      if (!response.ok) {
-        alert(result.message || "Rescheduling failed ❌");
-        return;
-      }
-
-      alert("Interview Rescheduled Successfully ✅");
-
-      setRescheduleId(null);
-      setNewPanelMemberId("");
-      setNewStartTime("");
-      setNewEndTime("");
-
-      fetchInterviews();
-    } catch (error) {
-      console.error(error);
+      result = JSON.parse(text);
+    } catch {
+      result = { message: text };
     }
-  };
+
+    if (!response.ok) {
+      alert(result.message || "Rescheduling failed ❌");
+      return;
+    }
+
+    alert("Interview Rescheduled Successfully ✅");
+
+    setRescheduleId(null);
+    setNewPanelMemberId("");
+    setNewStartTime("");
+    setNewEndTime("");
+
+    await fetchInterviews();
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+
+    setConfirmingId(null);
+  }
+};
 
   const startCall = async (interview) => {
 
@@ -390,6 +399,10 @@ const handleEnd = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="global-search"
+          style={{ 
+              width : "500px",
+              height : "40px"
+            }}
         />
       </div>
 
@@ -645,11 +658,14 @@ const handleEnd = () => {
 
                           <button
                             className="confirm-btn"
+                            disabled={confirmingId === interview.interviewId}
                             onClick={() =>
                               rescheduleInterview(interview.interviewId)
                             }
                           >
-                            Confirm
+                            {confirmingId === interview.interviewId
+                              ? "Confirming......"
+                              : "Confirm"}
                           </button>
 
                           <button

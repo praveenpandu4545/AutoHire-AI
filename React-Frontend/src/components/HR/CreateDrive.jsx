@@ -244,7 +244,11 @@ const fetchColleges = async () => {
         ))}
       </ul>
 
-      <button className="submit-btn" onClick={handleSubmit}>
+      <button className="submit-btn" onClick={handleSubmit}
+        style = {{
+          width : "300px"
+        }}
+      >
         Create Drive
       </button>
 

@@ -251,6 +251,16 @@ const NoticeBoard = () => {
                   !showDeleteBox
                 )
               }
+                style={{
+    background: "#c81f1f",
+    color: "#000",
+    borderRadius: "6px",
+    padding: "8px 14px",
+    fontSize: "14px",
+    fontWeight: "1500",
+    cursor: "pointer",
+  }}
+              
             >
               Delete Notice
             </button>
@@ -313,6 +323,16 @@ const NoticeBoard = () => {
               onClick={
                 handleDeleteNotice
               }
+              style={{
+    background: "#6dadee",
+    color: "#000",
+    border: "1px solid #cfcfcf",
+    borderRadius: "6px",
+    padding: "8px 14px",
+    fontSize: "14px",
+    fontWeight: "500",
+    cursor: "pointer",
+  }}
             >
               Submit
             </button>

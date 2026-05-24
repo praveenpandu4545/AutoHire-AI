@@ -169,31 +169,48 @@
   padding: 12px 14px 8px;
   overflow-y: auto;
   background: transparent;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .wa-chat-hr .messageBubble {
-  padding: 8px 12px 9px;
-  border-radius: 12px;
-  margin-bottom: 6px;
+  display: inline-block; /* important */
+  width: fit-content; /* fit text length */
   max-width: 72%;
+  padding: 8px 12px 9px;
+  margin-bottom: 8px;
+  border-radius: 12px;
   font-size: 0.875rem;
   line-height: 1.45;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .wa-chat-hr .incoming {
   background: #fff;
   color: #111b21;
-  border: none;
-  box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+
   border-radius: 0 8px 8px 8px;
+
+  box-shadow:
+    0 1px 0.5px rgba(11,20,26,0.13);
+
+  align-self: flex-start;
 }
 
 .wa-chat-hr .outgoing {
   background: #d9fdd3;
   color: #111b21;
+
   margin-left: auto;
+
   border-radius: 8px 0 8px 8px;
-  box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+
+  box-shadow:
+    0 1px 0.5px rgba(11,20,26,0.13);
+
+  align-self: flex-end;
 }
 
 .wa-chat-hr .messageInputArea {

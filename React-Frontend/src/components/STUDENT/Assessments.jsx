@@ -120,6 +120,7 @@ const Assessments = () => {
                     className="start-btn"
                     disabled={examStatus !== "ACTIVE" || isAttempted}
                     onClick={async () => {
+                      console.log("START BUTTON CLICKED");
                       try {
                         const response = await fetch(
                           `${BASE_URL}/springApi/assessment/${item.assessmentId}`,

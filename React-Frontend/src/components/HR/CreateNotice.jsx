@@ -170,6 +170,19 @@ const CreateNotice = () => {
             type="file"
             multiple
             onChange={handleFileChange}
+            style = {{
+              width: "100%",
+              padding: "12px 14px",
+              borderRadius: "12px",
+              border: "1px solid rgba(255,255,255,0.08)",
+              background:
+                "linear-gradient(180deg, rgba(39,51,73,0.95), rgba(29,40,60,0.95))",
+              color: "#fff",
+              fontSize: "14px",
+              cursor: "pointer",
+              boxSizing: "border-box",
+              outline: "none",
+            }}
           />
 
         </div>

@@ -204,6 +204,7 @@ const AllDrives = () => {
         className="drive-search-input"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        style={{width: "1000px"}}
       />
 
       {Object.keys(groupedDrives).length === 0 && (
@@ -232,13 +233,22 @@ const AllDrives = () => {
               {expandedDrive === drive.id && (
                 <div className="students-section">
                   <button
-                    className="registered-btn"
-                    onClick={() =>
-                      setSelectedDrive(drive)
-                    }
-                  >
-                    Registered Students
-                  </button>
+  className="registered-btn"
+  onClick={() => setSelectedDrive(drive)}
+  style={{
+    background: "#ffffff",
+    color: "#000",
+    border: "1px solid #cfcfcf",
+    borderRadius: "6px",
+    padding: "8px 14px",
+    fontSize: "14px",
+    fontWeight: "500",
+    cursor: "pointer",
+    marginRight: "10px", // gap between buttons
+  }}
+>
+  Registered Students
+</button>
 
                   <button
                     className="details-btn"
@@ -292,31 +302,49 @@ const AllDrives = () => {
                         }}
                       >
                         <button
-                          className="rename-btn"
-                          onClick={() => {
-                            setRenamingDriveId(
-                              renamingDriveId ===
-                                drive.id
-                                ? null
-                                : drive.id
-                            );
+  className="rename-btn"
+  onClick={() => {
+    setRenamingDriveId(
+      renamingDriveId === drive.id
+        ? null
+        : drive.id
+    );
 
-                            setNewDriveName("");
-                          }}
-                        >
-                          Rename
-                        </button>
+    setNewDriveName("");
+  }}
+  style={{
+    background: "#6d28d9",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    padding: "8px 14px",
+    fontSize: "14px",
+    fontWeight: "600",
+    cursor: "pointer",
+    marginRight: "10px", // gap between buttons
+  }}
+>
+  Rename
+</button>
 
                         <button
-                          className="delete-btn"
-                          onClick={() =>
-                            handleDeleteDrive(
-                              drive.id
-                            )
-                          }
-                        >
-                          Delete
-                        </button>
+  className="delete-btn"
+  onClick={() =>
+    handleDeleteDrive(drive.id)
+  }
+  style={{
+    background: "#d61212",
+    color: "#f1eded",
+    border: "1px solid #cfcfcf",
+    borderRadius: "6px",
+    padding: "8px 14px",
+    fontSize: "14px",
+    fontWeight: "1000",
+    cursor: "pointer",
+  }}
+>
+  Delete
+</button>
                       </div>
 
                       {/* Rename Input */}
@@ -338,6 +366,17 @@ const AllDrives = () => {
                                 e.target.value
                               )
                             }
+                            style={{
+                                padding: "10px 14px",
+                                borderRadius: "6px",
+                                border: "1px solid #cfcfcf",
+                                outline: "none",
+                                fontSize: "14px",
+                                width: "220px",
+                                marginRight: "10px", // gap before button
+                                background: "#fff",
+                                color: "#000",
+                              }}
                           />
 
                           <button
@@ -347,9 +386,16 @@ const AllDrives = () => {
                               )
                             }
                             style={{
-                              marginLeft:
-                                "10px",
-                            }}
+                                background: "#6d28d9",
+                                color: "#fff",
+                                border: "none",
+                                borderRadius: "6px",
+                                padding: "8px 14px",
+                                fontSize: "14px",
+                                fontWeight: "600",
+                                cursor: "pointer",
+                                marginLeft: "10px", // gap between buttons
+                              }}
                           >
                             Save
                           </button>

@@ -8,6 +8,7 @@ function StudentProfile() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [resetting, setResetting] = useState(false);
 
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;
@@ -60,46 +61,54 @@ function StudentProfile() {
   };
 
   const handleResetPassword = async () => {
-    try {
-      if (!oldPassword || !newPassword || !confirmPassword) {
-        alert("All fields are required");
-        return;
-      }
+  try {
 
-      const response = await fetch(
-        `${BASE_URL}/api/reset-password`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            oldPassword,
-            newPassword,
-            confirmPassword,
-          }),
-        }
-      );
-
-      const message = await response.text();
-
-      if (!response.ok) {
-        alert(message);
-        return;
-      }
-
-      alert(message);
-
-      setShowReset(false);
-      setOldPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-
-    } catch (error) {
-      alert("Password reset failed");
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      alert("All fields are required");
+      return;
     }
-  };
+
+    setResetting(true);
+
+    const response = await fetch(
+      `${BASE_URL}/api/reset-password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          oldPassword,
+          newPassword,
+          confirmPassword,
+        }),
+      }
+    );
+
+    const message = await response.text();
+
+    if (!response.ok) {
+      alert(message);
+      return;
+    }
+
+    alert(message);
+
+    setShowReset(false);
+    setOldPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+
+  } catch (error) {
+
+    alert("Password reset failed");
+
+  } finally {
+
+    setResetting(false);
+  }
+};
 
   const handleLogout = () => {
     localStorage.clear();
@@ -158,9 +167,13 @@ function StudentProfile() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
 
-          <button className="submit-btn" onClick={handleResetPassword}>
-            Submit
-          </button>
+          <button
+  className="submit-btn"
+  onClick={handleResetPassword}
+  disabled={resetting}
+>
+  {resetting ? "Resetting......" : "Submit"}
+</button>
         </div>
       )}
     </div>

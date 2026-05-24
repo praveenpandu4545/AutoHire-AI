@@ -13,6 +13,8 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
+  const [scheduling, setScheduling] = useState(false);
+
   // REVIEW MODAL
   const [selectedReview, setSelectedReview] = useState(null);
 
@@ -101,46 +103,53 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
   // SCHEDULE INTERVIEW
   // =============================
   const scheduleInterview = async () => {
-    try {
-      const token = localStorage.getItem("token");
+  try {
 
-      const response = await fetch(
-        `${BASE_URL}/springApi/interviews/schedule`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            studentId,
-            roundId: selectedRoundId,
-            panelMemberId,
-            startTime,
-            endTime,
-          }),
-        }
-      );
+    setScheduling(true);
 
-      const result = await response.json();
+    const token = localStorage.getItem("token");
 
-      if (!response.ok) {
-        alert(result.message || "Scheduling failed ❌");
-        return;
+    const response = await fetch(
+      `${BASE_URL}/springApi/interviews/schedule`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          studentId,
+          roundId: selectedRoundId,
+          panelMemberId,
+          startTime,
+          endTime,
+        }),
       }
+    );
 
-      alert("Interview Scheduled Successfully ✅");
+    const result = await response.json();
 
-      setSelectedRoundId(null);
-      setPanelMemberId("");
-      setStartTime("");
-      setEndTime("");
-
-      fetchRounds();
-    } catch (error) {
-      console.error(error);
+    if (!response.ok) {
+      alert(result.message || "Scheduling failed ❌");
+      return;
     }
-  };
+
+    alert("Interview Scheduled Successfully ✅");
+
+    setSelectedRoundId(null);
+    setPanelMemberId("");
+    setStartTime("");
+    setEndTime("");
+
+    await fetchRounds();
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+
+    setScheduling(false);
+  }
+};
 
   // =============================
   // 🔥 AI SUMMARIZE REVIEW
@@ -386,8 +395,9 @@ const StudentRounds = ({ studentId, driveId, onBack, refreshStudents }) => {
                         <button
                           className="upload-btn"
                           onClick={scheduleInterview}
+                          disabled={scheduling}
                         >
-                          Confirm
+                          {scheduling ? "Confirming......" : "Confirm"}
                         </button>
 
                         <button

@@ -11,6 +11,7 @@ const HrProfile = () => {
     confirmPassword: "",
   });
   const [message, setMessage] = useState("");
+  const [resetting, setResetting] = useState(false);
 
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_SPRING_API_BASE_URL;
@@ -40,22 +41,29 @@ const HrProfile = () => {
   };
 
   const handleResetPassword = async () => {
+
   if (form.newPassword !== form.confirmPassword) {
     setMessage("New passwords do not match");
     return;
   }
 
   try {
+
+    setResetting(true);
+
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`${BASE_URL}/api/reset-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(form),
-    });
+    const response = await fetch(
+      `${BASE_URL}/api/reset-password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(form),
+      }
+    );
 
     const data = await response.text();
 
@@ -64,7 +72,7 @@ const HrProfile = () => {
       return;
     }
 
-    // ✅ Show success
+    // Success
     setMessage("Password updated successfully");
 
     // Clear form
@@ -74,20 +82,26 @@ const HrProfile = () => {
       confirmPassword: "",
     });
 
-    // Hide reset section after 2 seconds
+    // Hide section after 2 sec
     setTimeout(() => {
       setShowReset(false);
       setMessage("");
     }, 2000);
 
   } catch (error) {
+
     console.error(error);
+
+  } finally {
+
+    setResetting(false);
   }
 };
 
   if (!user) return <div>Loading...</div>;
 
   return (
+  <div className="profile-wrapper">
     <div className="profile-card">
       <h2>User Profile</h2>
 
@@ -147,23 +161,30 @@ const HrProfile = () => {
             onChange={handleChange}
           />
 
-          <button className="confirm-btn" onClick={handleResetPassword}>
-            Confirm Reset
+          <button
+            className="confirm-btn"
+            onClick={handleResetPassword}
+            disabled={resetting}
+          >
+            {resetting ? "Resetting......" : "Confirm Reset"}
           </button>
 
           {message && (
-                <p
-                    className={`message ${
-                    message.includes("successfully") ? "success" : "error"
-                    }`}
-                >
-                    {message}
-                </p>
-                )}
+            <p
+              className={`message ${
+                message.includes("successfully")
+                  ? "success"
+                  : "error"
+              }`}
+            >
+              {message}
+            </p>
+          )}
         </div>
       )}
     </div>
-  );
+  </div>
+);
 };
 
 export default HrProfile;

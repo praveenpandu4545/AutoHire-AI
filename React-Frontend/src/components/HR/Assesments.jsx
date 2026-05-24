@@ -48,21 +48,38 @@ const Assessments = () => {
             <div className="card-grid">
 
               <div className="card" onClick={() => setView("add")}>
-                <button>➕ Add Question</button>
+  <button>
+    ➕ Add Question
+  </button>
+</div>
 
-              </div>
+<div className="card" onClick={() => setView("view")}>
+  <button>
+    👁 View Questions
+  </button>
+</div>
 
-              <div className="card" onClick={() => setView("view")}>
-                <button>👁 View Questions</button>
-              </div>
+<div
+  className="card"
+  onClick={() =>
+    setView("createAssessment")
+  }
+>
+  <button>
+    📝 Create Assessment
+  </button>
+</div>
 
-              <div className="card" onClick={() => setView("createAssessment")}>
-                <button>📝 Create Assessment</button>
-              </div>
-
-              <div className="card highlight" onClick={() => setView("allAssessments")}>
-                <button>📊 View Assessments</button>
-              </div>
+<div
+  className="card highlight"
+  onClick={() =>
+    setView("allAssessments")
+  }
+>
+  <button>
+    📊 View Assessments
+  </button>
+</div>
 
             </div>
           </div>
