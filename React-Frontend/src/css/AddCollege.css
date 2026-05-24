@@ -45,3 +45,9 @@
   font-weight: 600;
   color: var(--text-secondary);
 }
+
+.add-college-wrapper {
+  display: flex;
+  justify-content: center; /* horizontal center */
+  width: 100%;
+}

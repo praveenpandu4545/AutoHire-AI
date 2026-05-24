@@ -45,6 +45,7 @@ const AddCollege = () => {
   };
 
   return (
+  <div className="add-college-wrapper">
     <div className="add-college-container">
       <h2>Add College</h2>
 
@@ -55,11 +56,16 @@ const AddCollege = () => {
         onChange={(e) => setCollegeName(e.target.value)}
       />
 
-      <button onClick={handleSubmit}>Add College</button>
+      <button onClick={handleSubmit}>
+        Add College
+      </button>
 
-      {message && <p className="message">{message}</p>}
+      {message && (
+        <p className="message">{message}</p>
+      )}
     </div>
-  );
+  </div>
+);
 };
 
 export default AddCollege;
